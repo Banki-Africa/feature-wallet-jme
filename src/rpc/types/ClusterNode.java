@@ -1,6 +1,6 @@
 package rpc.types;
 
-import com.squareup.moshi.Json;
+import moshi.Json;
 import core.PublicKey;
 
 import java.util.AbstractMap;

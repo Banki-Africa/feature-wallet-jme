@@ -2,7 +2,7 @@ package rpc.types;
 
 import java.util.List;
 
-import com.squareup.moshi.Json;
+import moshi.Json;
 
 import rpc.types.RpcSendTransactionConfig.Encoding;
 

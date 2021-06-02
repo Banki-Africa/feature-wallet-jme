@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.squareup.moshi.internal;
+package moshi.internal;
 
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.JsonDataException;
-import com.squareup.moshi.JsonReader;
-import com.squareup.moshi.JsonWriter;
+import moshi.JsonAdapter;
+import moshi.JsonDataException;
+import moshi.JsonReader;
+import moshi.JsonWriter;
 import java.io.IOException;
 import javax.annotation.Nullable;
 

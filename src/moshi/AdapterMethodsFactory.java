@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.squareup.moshi;
+package moshi;
 
-import static com.squareup.moshi.internal.Util.canonicalize;
-import static com.squareup.moshi.internal.Util.jsonAnnotations;
-import static com.squareup.moshi.internal.Util.typeAnnotatedWithAnnotations;
+import static moshi.internal.Util.canonicalize;
+import static moshi.internal.Util.jsonAnnotations;
+import static moshi.internal.Util.typeAnnotatedWithAnnotations;
 
-import com.squareup.moshi.internal.Util;
+import moshi.internal.Util;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;

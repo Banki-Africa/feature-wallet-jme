@@ -3,7 +3,7 @@ package rpc.types;
 import java.util.List;
 import java.util.UUID;
 
-import com.squareup.moshi.Json;
+import moshi.Json;
 
 public class RpcRequest {
     @Json(name = "jsonrpc")

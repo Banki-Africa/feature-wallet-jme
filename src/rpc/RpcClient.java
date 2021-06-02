@@ -10,9 +10,9 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.Moshi;
-import com.squareup.moshi.Types;
+import moshi.JsonAdapter;
+import moshi.Moshi;
+import moshi.Types;
 
 import rpc.types.RpcRequest;
 import rpc.types.RpcResponse;

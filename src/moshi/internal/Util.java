@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.squareup.moshi.internal;
+package moshi.internal;
 
-import static com.squareup.moshi.Types.arrayOf;
-import static com.squareup.moshi.Types.subtypeOf;
-import static com.squareup.moshi.Types.supertypeOf;
+import static moshi.Types.arrayOf;
+import static moshi.Types.subtypeOf;
+import static moshi.Types.supertypeOf;
 
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.JsonClass;
-import com.squareup.moshi.JsonDataException;
-import com.squareup.moshi.JsonQualifier;
-import com.squareup.moshi.JsonReader;
-import com.squareup.moshi.Moshi;
-import com.squareup.moshi.Types;
+import moshi.JsonAdapter;
+import moshi.JsonClass;
+import moshi.JsonDataException;
+import moshi.JsonQualifier;
+import moshi.JsonReader;
+import moshi.Moshi;
+import moshi.Types;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Constructor;

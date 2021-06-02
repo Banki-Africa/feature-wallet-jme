@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.squareup.moshi;
+package moshi;
 
-import static com.squareup.moshi.internal.Util.EMPTY_TYPE_ARRAY;
-import static com.squareup.moshi.internal.Util.getGenericSupertype;
-import static com.squareup.moshi.internal.Util.resolve;
+import static moshi.internal.Util.EMPTY_TYPE_ARRAY;
+import static moshi.internal.Util.getGenericSupertype;
+import static moshi.internal.Util.resolve;
 
-import com.squareup.moshi.internal.Util.GenericArrayTypeImpl;
-import com.squareup.moshi.internal.Util.ParameterizedTypeImpl;
-import com.squareup.moshi.internal.Util.WildcardTypeImpl;
+import moshi.internal.Util.GenericArrayTypeImpl;
+import moshi.internal.Util.ParameterizedTypeImpl;
+import moshi.internal.Util.WildcardTypeImpl;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;

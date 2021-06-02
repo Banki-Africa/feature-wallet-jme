@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.squareup.moshi;
+package moshi;
 
-import static com.squareup.moshi.internal.Util.resolve;
+import static moshi.internal.Util.resolve;
 
-import com.squareup.moshi.internal.Util;
+import moshi.internal.Util;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;

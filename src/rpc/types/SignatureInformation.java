@@ -2,7 +2,7 @@ package rpc.types;
 
 import java.util.AbstractMap;
 
-import com.squareup.moshi.Json;
+import moshi.Json;
 
 public class SignatureInformation {
     @Json(name = "err")

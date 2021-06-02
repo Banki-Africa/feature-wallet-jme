@@ -1,6 +1,6 @@
 package rpc.types;
 
-import com.squareup.moshi.Json;
+import moshi.Json;
 
 public class RpcResultObject {
     public static class Context {

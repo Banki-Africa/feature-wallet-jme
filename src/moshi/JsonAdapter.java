@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.squareup.moshi;
+package moshi;
 
-import com.squareup.moshi.internal.NonNullJsonAdapter;
-import com.squareup.moshi.internal.NullSafeJsonAdapter;
+import moshi.internal.NonNullJsonAdapter;
+import moshi.internal.NullSafeJsonAdapter;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;

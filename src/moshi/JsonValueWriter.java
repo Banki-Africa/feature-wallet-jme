@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.squareup.moshi;
+package moshi;
 
-import static com.squareup.moshi.JsonScope.EMPTY_ARRAY;
-import static com.squareup.moshi.JsonScope.EMPTY_DOCUMENT;
-import static com.squareup.moshi.JsonScope.EMPTY_OBJECT;
-import static com.squareup.moshi.JsonScope.NONEMPTY_DOCUMENT;
-import static com.squareup.moshi.JsonScope.STREAMING_VALUE;
+import static moshi.JsonScope.EMPTY_ARRAY;
+import static moshi.JsonScope.EMPTY_DOCUMENT;
+import static moshi.JsonScope.EMPTY_OBJECT;
+import static moshi.JsonScope.NONEMPTY_DOCUMENT;
+import static moshi.JsonScope.STREAMING_VALUE;
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
 

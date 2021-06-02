@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.crypto;
+package bitcoinj.crypto;
 
 import java.util.Arrays;
 import java.util.Objects;

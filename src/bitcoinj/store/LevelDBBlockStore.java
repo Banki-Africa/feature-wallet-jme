@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.store;
+package bitcoinj.store;
 
-import org.bitcoinj.core.*;
+import bitcoinj.core.*;
 import org.fusesource.leveldbjni.*;
 import org.iq80.leveldb.*;
 

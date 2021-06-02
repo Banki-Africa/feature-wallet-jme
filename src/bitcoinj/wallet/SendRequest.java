@@ -15,21 +15,21 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.wallet;
+package bitcoinj.wallet;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.bitcoin.protocols.payments.Protos.PaymentDetails;
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.core.Context;
-import org.bitcoinj.core.ECKey;
-import org.bitcoinj.core.NetworkParameters;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.core.TransactionOutput;
-import org.bitcoinj.utils.ExchangeRate;
-import org.bitcoinj.wallet.KeyChain.KeyPurpose;
-import org.bitcoinj.wallet.Wallet.MissingSigsMode;
+import bitcoinj.core.Address;
+import bitcoinj.core.Coin;
+import bitcoinj.core.Context;
+import bitcoinj.core.ECKey;
+import bitcoinj.core.NetworkParameters;
+import bitcoinj.core.Transaction;
+import bitcoinj.core.TransactionOutput;
+import bitcoinj.utils.ExchangeRate;
+import bitcoinj.wallet.KeyChain.KeyPurpose;
+import bitcoinj.wallet.Wallet.MissingSigsMode;
 import org.bouncycastle.crypto.params.KeyParameter;
 
 import com.google.common.base.MoreObjects;

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
 import com.google.common.io.BaseEncoding;
 import org.bouncycastle.jcajce.provider.digest.SHA3;

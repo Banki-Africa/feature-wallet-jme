@@ -8,7 +8,7 @@ import com.squareup.moshi.Json;
 
 import rpc.types.RpcSendTransactionConfig.Encoding;
 
-import org.bitcoinj.core.Base58;
+import bitcoinj.core.Base58;
 
 public class ProgramAccount {
 

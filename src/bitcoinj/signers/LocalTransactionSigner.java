@@ -15,26 +15,26 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.signers;
+package bitcoinj.signers;
 
 import java.util.EnumSet;
 
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.core.ECKey;
-import org.bitcoinj.core.LegacyAddress;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.core.TransactionInput;
-import org.bitcoinj.core.TransactionOutput;
-import org.bitcoinj.core.TransactionWitness;
-import org.bitcoinj.crypto.DeterministicKey;
-import org.bitcoinj.crypto.TransactionSignature;
-import org.bitcoinj.script.Script;
-import org.bitcoinj.script.ScriptBuilder;
-import org.bitcoinj.script.ScriptException;
-import org.bitcoinj.script.ScriptPattern;
-import org.bitcoinj.script.Script.VerifyFlag;
-import org.bitcoinj.wallet.KeyBag;
-import org.bitcoinj.wallet.RedeemData;
+import bitcoinj.core.Coin;
+import bitcoinj.core.ECKey;
+import bitcoinj.core.LegacyAddress;
+import bitcoinj.core.Transaction;
+import bitcoinj.core.TransactionInput;
+import bitcoinj.core.TransactionOutput;
+import bitcoinj.core.TransactionWitness;
+import bitcoinj.crypto.DeterministicKey;
+import bitcoinj.crypto.TransactionSignature;
+import bitcoinj.script.Script;
+import bitcoinj.script.ScriptBuilder;
+import bitcoinj.script.ScriptException;
+import bitcoinj.script.ScriptPattern;
+import bitcoinj.script.Script.VerifyFlag;
+import bitcoinj.wallet.KeyBag;
+import bitcoinj.wallet.RedeemData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

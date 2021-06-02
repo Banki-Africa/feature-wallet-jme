@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.wallet;
+package bitcoinj.wallet;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.protobuf.ByteString;
 
-import org.bitcoinj.core.BloomFilter;
-import org.bitcoinj.core.ECKey;
-import org.bitcoinj.core.NetworkParameters;
-import org.bitcoinj.core.Utils;
-import org.bitcoinj.crypto.ChildNumber;
-import org.bitcoinj.crypto.DeterministicKey;
-import org.bitcoinj.crypto.KeyCrypter;
-import org.bitcoinj.script.Script;
-import org.bitcoinj.script.ScriptBuilder;
+import bitcoinj.core.BloomFilter;
+import bitcoinj.core.ECKey;
+import bitcoinj.core.NetworkParameters;
+import bitcoinj.core.Utils;
+import bitcoinj.crypto.ChildNumber;
+import bitcoinj.crypto.DeterministicKey;
+import bitcoinj.crypto.KeyCrypter;
+import bitcoinj.script.Script;
+import bitcoinj.script.ScriptBuilder;
 import org.bouncycastle.crypto.params.KeyParameter;
 
 import java.util.ArrayList;

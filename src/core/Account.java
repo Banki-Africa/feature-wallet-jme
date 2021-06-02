@@ -4,11 +4,11 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.List;
 
-import org.bitcoinj.crypto.DeterministicHierarchy;
-import org.bitcoinj.crypto.DeterministicKey;
-import org.bitcoinj.crypto.HDKeyDerivation;
-import org.bitcoinj.crypto.HDUtils;
-import org.bitcoinj.crypto.MnemonicCode;
+import bitcoinj.crypto.DeterministicHierarchy;
+import bitcoinj.crypto.DeterministicKey;
+import bitcoinj.crypto.HDKeyDerivation;
+import bitcoinj.crypto.HDUtils;
+import bitcoinj.crypto.MnemonicCode;
 import utils.TweetNaclFast;
 
 public class Account {

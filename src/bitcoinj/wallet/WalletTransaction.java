@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.wallet;
+package bitcoinj.wallet;
 
-import org.bitcoinj.core.Transaction;
+import bitcoinj.core.Transaction;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

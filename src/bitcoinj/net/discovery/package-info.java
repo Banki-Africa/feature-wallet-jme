@@ -17,4 +17,4 @@
 /**
  * Classes that know how to discover peers in the P2P network using DNS or HTTP.
  */
-package org.bitcoinj.net.discovery;
+package bitcoinj.net.discovery;

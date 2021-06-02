@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.utils;
+package bitcoinj.utils;
 
 import com.google.protobuf.ByteString;
 

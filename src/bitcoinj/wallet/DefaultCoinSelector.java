@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.wallet;
+package bitcoinj.wallet;
 
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.core.NetworkParameters;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.core.TransactionConfidence;
-import org.bitcoinj.core.TransactionOutput;
+import bitcoinj.core.Coin;
+import bitcoinj.core.NetworkParameters;
+import bitcoinj.core.Transaction;
+import bitcoinj.core.TransactionConfidence;
+import bitcoinj.core.TransactionOutput;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.math.BigInteger;

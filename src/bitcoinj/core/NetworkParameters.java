@@ -15,26 +15,26 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
-import org.bitcoinj.core.Block;
-import org.bitcoinj.core.StoredBlock;
-import org.bitcoinj.core.VerificationException;
-import org.bitcoinj.net.discovery.*;
-import org.bitcoinj.params.*;
-import org.bitcoinj.script.*;
-import org.bitcoinj.store.BlockStore;
-import org.bitcoinj.store.BlockStoreException;
+import bitcoinj.core.Block;
+import bitcoinj.core.StoredBlock;
+import bitcoinj.core.VerificationException;
+import bitcoinj.net.discovery.*;
+import bitcoinj.params.*;
+import bitcoinj.script.*;
+import bitcoinj.store.BlockStore;
+import bitcoinj.store.BlockStoreException;
 
-import org.bitcoinj.utils.MonetaryFormat;
+import bitcoinj.utils.MonetaryFormat;
 
 import javax.annotation.*;
 import java.io.*;
 import java.math.*;
 import java.util.*;
 
-import static org.bitcoinj.core.Coin.*;
-import org.bitcoinj.utils.VersionTally;
+import static bitcoinj.core.Coin.*;
+import bitcoinj.utils.VersionTally;
 
 /**
  * <p>NetworkParameters contains the data needed for working with an instantiation of a Bitcoin chain.</p>
@@ -52,7 +52,7 @@ public abstract class NetworkParameters {
     /** The string returned by getId() for regtest mode. */
     public static final String ID_REGTEST = "org.bitcoin.regtest";
     /** Unit test network. */
-    public static final String ID_UNITTESTNET = "org.bitcoinj.unittest";
+    public static final String ID_UNITTESTNET = "bitcoinj.unittest";
 
     /** The string used by the payment protocol to represent the main net. */
     public static final String PAYMENT_PROTOCOL_ID_MAINNET = "main";

@@ -16,17 +16,17 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.script;
+package bitcoinj.script;
 
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.LegacyAddress;
-import org.bitcoinj.core.ECKey;
-import org.bitcoinj.core.SegwitAddress;
-import org.bitcoinj.core.Sha256Hash;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.core.Utils;
-import org.bitcoinj.crypto.TransactionSignature;
-import org.bitcoinj.script.Script.ScriptType;
+import bitcoinj.core.Address;
+import bitcoinj.core.LegacyAddress;
+import bitcoinj.core.ECKey;
+import bitcoinj.core.SegwitAddress;
+import bitcoinj.core.Sha256Hash;
+import bitcoinj.core.Transaction;
+import bitcoinj.core.Utils;
+import bitcoinj.crypto.TransactionSignature;
+import bitcoinj.script.Script.ScriptType;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ import java.util.Stack;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
-import static org.bitcoinj.script.ScriptOpCodes.*;
+import static bitcoinj.script.ScriptOpCodes.*;
 
 /**
  * <p>Tools for the construction of commonly used script types. You don't normally need this as it's hidden behind

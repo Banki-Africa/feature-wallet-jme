@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.script;
+package bitcoinj.script;
 
-import org.bitcoinj.core.Utils;
+import bitcoinj.core.Utils;
 
 import javax.annotation.Nullable;
 
@@ -28,7 +28,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import static com.google.common.base.Preconditions.checkState;
-import static org.bitcoinj.script.ScriptOpCodes.*;
+import static bitcoinj.script.ScriptOpCodes.*;
 
 /**
  * A script element that is either a data push (signature, pubkey, etc) or a non-push (logic, numeric, etc) operation.

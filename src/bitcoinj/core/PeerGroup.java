@@ -15,24 +15,24 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
 import com.google.common.annotations.*;
 import com.google.common.base.*;
 import com.google.common.collect.*;
 import com.google.common.util.concurrent.*;
 import net.jcip.annotations.*;
-import org.bitcoinj.core.listeners.*;
-import org.bitcoinj.net.*;
-import org.bitcoinj.net.discovery.*;
-import org.bitcoinj.script.*;
-import org.bitcoinj.utils.*;
-import org.bitcoinj.utils.Threading;
-import org.bitcoinj.wallet.Wallet;
-import org.bitcoinj.wallet.listeners.KeyChainEventListener;
-import org.bitcoinj.wallet.listeners.ScriptsChangeEventListener;
-import org.bitcoinj.wallet.listeners.WalletCoinsReceivedEventListener;
-import org.bitcoinj.wallet.listeners.WalletCoinsSentEventListener;
+import bitcoinj.core.listeners.*;
+import bitcoinj.net.*;
+import bitcoinj.net.discovery.*;
+import bitcoinj.script.*;
+import bitcoinj.utils.*;
+import bitcoinj.utils.Threading;
+import bitcoinj.wallet.Wallet;
+import bitcoinj.wallet.listeners.KeyChainEventListener;
+import bitcoinj.wallet.listeners.ScriptsChangeEventListener;
+import bitcoinj.wallet.listeners.WalletCoinsReceivedEventListener;
+import bitcoinj.wallet.listeners.WalletCoinsSentEventListener;
 import org.slf4j.*;
 
 import javax.annotation.*;

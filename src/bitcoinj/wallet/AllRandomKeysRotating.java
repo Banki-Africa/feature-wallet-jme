@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.wallet;
+package bitcoinj.wallet;
 
 /**
  * Indicates that an attempt was made to upgrade a random wallet to deterministic, but there were no non-rotating

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.store;
+package bitcoinj.store;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,22 +28,22 @@ import java.util.concurrent.TimeUnit;
 import java.io.*;
 import java.nio.ByteBuffer;
 
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.AddressFormatException;
-import org.bitcoinj.core.ECKey;
-import org.bitcoinj.core.LegacyAddress;
-import org.bitcoinj.core.NetworkParameters;
-import org.bitcoinj.core.Sha256Hash;
-import org.bitcoinj.core.StoredBlock;
-import org.bitcoinj.core.StoredUndoableBlock;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.core.TransactionOutputChanges;
-import org.bitcoinj.core.UTXO;
-import org.bitcoinj.core.UTXOProviderException;
-import org.bitcoinj.core.Utils;
-import org.bitcoinj.core.VerificationException;
-import org.bitcoinj.script.Script;
-import org.bitcoinj.script.ScriptException;
+import bitcoinj.core.Address;
+import bitcoinj.core.AddressFormatException;
+import bitcoinj.core.ECKey;
+import bitcoinj.core.LegacyAddress;
+import bitcoinj.core.NetworkParameters;
+import bitcoinj.core.Sha256Hash;
+import bitcoinj.core.StoredBlock;
+import bitcoinj.core.StoredUndoableBlock;
+import bitcoinj.core.Transaction;
+import bitcoinj.core.TransactionOutputChanges;
+import bitcoinj.core.UTXO;
+import bitcoinj.core.UTXOProviderException;
+import bitcoinj.core.Utils;
+import bitcoinj.core.VerificationException;
+import bitcoinj.script.Script;
+import bitcoinj.script.ScriptException;
 import org.iq80.leveldb.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

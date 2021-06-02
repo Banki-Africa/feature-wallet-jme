@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
 import com.google.common.collect.*;
 import com.google.common.util.concurrent.*;
 
-import org.bitcoinj.utils.*;
-import org.bitcoinj.wallet.CoinSelector;
-import org.bitcoinj.wallet.Wallet;
+import bitcoinj.utils.*;
+import bitcoinj.wallet.CoinSelector;
+import bitcoinj.wallet.Wallet;
 
 import javax.annotation.*;
 import java.util.*;
@@ -224,7 +224,7 @@ public class TransactionConfidence {
      * <p>Note that this is NOT called when every block arrives. Instead it is called when the transaction
      * transitions between confidence states, ie, from not being seen in the chain to being seen (not necessarily in
      * the best chain). If you want to know when the transaction gets buried under another block, implement
-     * {@link org.bitcoinj.core.listeners.NewBestBlockListener} and related listeners, attach them to a
+     * {@link bitcoinj.core.listeners.NewBestBlockListener} and related listeners, attach them to a
      * {@link BlockChain} and then use the getters on the confidence object to determine the new depth.</p>
      */
     public void addEventListener(Listener listener) {

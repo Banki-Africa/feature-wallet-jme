@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.net;
+package bitcoinj.net;
 
 import java.net.InetAddress;
 import javax.annotation.Nullable;

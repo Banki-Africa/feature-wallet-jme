@@ -21,7 +21,7 @@
  * 
  */
 
-package org.bitcoinj.crypto;
+package bitcoinj.crypto;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;

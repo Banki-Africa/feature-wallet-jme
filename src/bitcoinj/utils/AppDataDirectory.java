@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.utils;
+package bitcoinj.utils;
 
-import org.bitcoinj.core.Utils;
+import bitcoinj.core.Utils;
 
 import java.io.IOException;
 import java.nio.file.FileSystems;

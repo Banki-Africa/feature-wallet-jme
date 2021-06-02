@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.utils;
+package bitcoinj.utils;
 
-import org.bitcoinj.core.Utils;
+import bitcoinj.core.Utils;
 
 import static com.google.common.base.Preconditions.checkArgument;
 

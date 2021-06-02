@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
 @SuppressWarnings("serial")
 public class VerificationException extends RuntimeException {

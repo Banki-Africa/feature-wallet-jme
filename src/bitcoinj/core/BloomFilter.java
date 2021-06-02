@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
-import org.bitcoinj.script.Script;
-import org.bitcoinj.script.ScriptChunk;
-import org.bitcoinj.script.ScriptPattern;
+import bitcoinj.script.Script;
+import bitcoinj.script.ScriptChunk;
+import bitcoinj.script.ScriptPattern;
 
 import com.google.common.base.MoreObjects;
 

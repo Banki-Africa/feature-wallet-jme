@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import org.bitcoinj.store.BlockStore;
-import org.bitcoinj.store.BlockStoreException;
-import org.bitcoinj.store.MemoryBlockStore;
-import org.bitcoinj.store.SPVBlockStore;
-import org.bitcoinj.wallet.Wallet;
-import org.bitcoinj.wallet.WalletExtension;
+import bitcoinj.store.BlockStore;
+import bitcoinj.store.BlockStoreException;
+import bitcoinj.store.MemoryBlockStore;
+import bitcoinj.store.SPVBlockStore;
+import bitcoinj.wallet.Wallet;
+import bitcoinj.wallet.WalletExtension;
 
 import java.io.File;
 import java.util.ArrayList;

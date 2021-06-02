@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.wallet;
+package bitcoinj.wallet;
 
-import org.bitcoinj.crypto.*;
-import org.bitcoinj.script.Script;
+import bitcoinj.crypto.*;
+import bitcoinj.script.Script;
 
 import java.util.List;
 

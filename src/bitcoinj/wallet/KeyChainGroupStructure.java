@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.wallet;
+package bitcoinj.wallet;
 
-import org.bitcoinj.crypto.HDPath;
-import org.bitcoinj.script.Script;
+import bitcoinj.crypto.HDPath;
+import bitcoinj.script.Script;
 
 /** Defines a structure for hierarchical deterministic wallets. */
 public interface KeyChainGroupStructure {

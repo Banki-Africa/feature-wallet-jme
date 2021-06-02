@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.crypto;
+package bitcoinj.crypto;
 
-import org.bitcoinj.core.ECKey;
+import bitcoinj.core.ECKey;
 import org.bouncycastle.crypto.digests.SHA512Digest;
 import org.bouncycastle.crypto.macs.HMac;
 import org.bouncycastle.crypto.params.KeyParameter;

@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.bitcoinj.core.Base58;
-import org.bitcoinj.core.Sha256Hash;
+import bitcoinj.core.Base58;
+import bitcoinj.core.Sha256Hash;
 import utils.ByteUtils;
 import utils.TweetNaclFast;
 

@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
-import org.bitcoinj.script.*;
-import org.bitcoinj.wallet.Wallet;
+import bitcoinj.script.*;
+import bitcoinj.wallet.Wallet;
 import org.slf4j.*;
 
 import javax.annotation.*;

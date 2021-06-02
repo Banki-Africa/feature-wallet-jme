@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.wallet;
+package bitcoinj.wallet;
 
-import org.bitcoinj.core.Utils;
-import org.bitcoinj.crypto.*;
+import bitcoinj.core.Utils;
+import bitcoinj.crypto.*;
 
 import com.google.common.base.MoreObjects;
 import java.util.Objects;
@@ -32,7 +32,7 @@ import java.security.SecureRandom;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static org.bitcoinj.core.Utils.HEX;
+import static bitcoinj.core.Utils.HEX;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
@@ -230,7 +230,7 @@ public class DeterministicSeed implements EncryptableItem {
      * Check if our mnemonic is a valid mnemonic phrase for our word list.
      * Does nothing if we are encrypted.
      *
-     * @throws org.bitcoinj.crypto.MnemonicException if check fails
+     * @throws bitcoinj.crypto.MnemonicException if check fails
      */
     public void check() throws MnemonicException {
         if (mnemonicCode != null)

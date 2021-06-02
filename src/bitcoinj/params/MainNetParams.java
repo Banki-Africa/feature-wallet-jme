@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.params;
+package bitcoinj.params;
 
-import org.bitcoinj.core.*;
-import org.bitcoinj.net.discovery.*;
+import bitcoinj.core.*;
+import bitcoinj.net.discovery.*;
 
 import java.net.*;
 

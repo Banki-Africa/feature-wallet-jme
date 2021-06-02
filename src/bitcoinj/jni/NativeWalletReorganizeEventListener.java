@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.jni;
+package bitcoinj.jni;
 
-import org.bitcoinj.wallet.Wallet;
-import org.bitcoinj.wallet.listeners.WalletReorganizeEventListener;
+import bitcoinj.wallet.Wallet;
+import bitcoinj.wallet.listeners.WalletReorganizeEventListener;
 
 /**
  * An event listener that relays events to a native C++ object. A pointer to that object is stored in

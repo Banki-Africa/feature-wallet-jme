@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -24,8 +24,8 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import org.bitcoinj.crypto.TransactionSignature;
-import org.bitcoinj.script.Script;
+import bitcoinj.crypto.TransactionSignature;
+import bitcoinj.script.Script;
 
 public class TransactionWitness {
     public static final TransactionWitness EMPTY = new TransactionWitness(0);

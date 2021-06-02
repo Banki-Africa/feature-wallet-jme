@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
 /**
  * A general interface which declares the ability to broadcast transactions. This is implemented

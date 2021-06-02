@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.utils;
+package bitcoinj.utils;
 
-import org.bitcoinj.utils.BtcAutoFormat.Style;
-import static org.bitcoinj.utils.BtcAutoFormat.Style.*;
+import bitcoinj.utils.BtcAutoFormat.Style;
+import static bitcoinj.utils.BtcAutoFormat.Style.*;
 
-import org.bitcoinj.core.Coin;
+import bitcoinj.core.Coin;
 import java.util.Objects;
 import com.google.common.collect.ImmutableList;
 import static com.google.common.base.Preconditions.checkArgument;

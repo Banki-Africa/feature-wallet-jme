@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.crypto;
+package bitcoinj.crypto;
 
 /**
  * Exceptions thrown by the MnemonicCode module.

@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.protocols.payments;
+package bitcoinj.protocols.payments;
 
-import org.bitcoinj.core.*;
-import org.bitcoinj.crypto.X509Utils;
-import org.bitcoinj.script.ScriptBuilder;
+import bitcoinj.core.*;
+import bitcoinj.crypto.X509Utils;
+import bitcoinj.script.ScriptBuilder;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;

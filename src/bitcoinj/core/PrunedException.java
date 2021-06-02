@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
 // TODO: Rename PrunedException to something like RequiredDataWasPrunedException
 

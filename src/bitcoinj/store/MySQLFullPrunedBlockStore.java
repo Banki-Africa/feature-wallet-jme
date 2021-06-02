@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.store;
+package bitcoinj.store;
 
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.NetworkParameters;
+import bitcoinj.core.Address;
+import bitcoinj.core.NetworkParameters;
 
 import java.util.ArrayList;
 import java.util.Collections;

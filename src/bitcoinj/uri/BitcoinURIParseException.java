@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.uri;
+package bitcoinj.uri;
 
 /**
  * <p>Exception to provide the following to {@link BitcoinURI}:</p>

@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.wallet.listeners;
+package bitcoinj.wallet.listeners;
 
-import org.bitcoinj.script.Script;
-import org.bitcoinj.wallet.Wallet;
+import bitcoinj.script.Script;
+import bitcoinj.wallet.Wallet;
 
 import java.util.List;
 

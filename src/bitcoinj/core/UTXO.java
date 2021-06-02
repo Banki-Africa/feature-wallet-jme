@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
-import org.bitcoinj.script.*;
+import bitcoinj.script.*;
 
 import java.io.*;
 import java.math.*;

@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core.listeners;
+package bitcoinj.core.listeners;
 
-import org.bitcoinj.core.AbstractBlockChain;
-import org.bitcoinj.core.Sha256Hash;
-import org.bitcoinj.core.StoredBlock;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.core.VerificationException;
+import bitcoinj.core.AbstractBlockChain;
+import bitcoinj.core.Sha256Hash;
+import bitcoinj.core.StoredBlock;
+import bitcoinj.core.Transaction;
+import bitcoinj.core.VerificationException;
 
 /**
  * Listener interface for when a new block on the best chain is seen.

@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
-import org.bitcoinj.core.listeners.*;
-import org.bitcoinj.net.AbstractTimeoutHandler;
-import org.bitcoinj.net.NioClient;
-import org.bitcoinj.net.NioClientManager;
-import org.bitcoinj.net.StreamConnection;
-import org.bitcoinj.store.BlockStore;
-import org.bitcoinj.store.BlockStoreException;
-import org.bitcoinj.utils.ListenerRegistration;
-import org.bitcoinj.utils.Threading;
-import org.bitcoinj.wallet.Wallet;
+import bitcoinj.core.listeners.*;
+import bitcoinj.net.AbstractTimeoutHandler;
+import bitcoinj.net.NioClient;
+import bitcoinj.net.NioClientManager;
+import bitcoinj.net.StreamConnection;
+import bitcoinj.store.BlockStore;
+import bitcoinj.store.BlockStoreException;
+import bitcoinj.utils.ListenerRegistration;
+import bitcoinj.utils.Threading;
+import bitcoinj.wallet.Wallet;
 
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;

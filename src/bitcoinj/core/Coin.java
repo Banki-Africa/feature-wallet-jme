@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
-import org.bitcoinj.utils.MonetaryFormat;
+import bitcoinj.utils.MonetaryFormat;
 import com.google.common.math.LongMath;
 
 import java.io.Serializable;

@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.protocols.payments;
+package bitcoinj.protocols.payments;
 
-import org.bitcoinj.core.*;
-import org.bitcoinj.crypto.TrustStoreLoader;
-import org.bitcoinj.params.MainNetParams;
-import org.bitcoinj.protocols.payments.PaymentProtocol.PkiVerificationData;
-import org.bitcoinj.uri.BitcoinURI;
-import org.bitcoinj.utils.Threading;
-import org.bitcoinj.wallet.SendRequest;
+import bitcoinj.core.*;
+import bitcoinj.crypto.TrustStoreLoader;
+import bitcoinj.params.MainNetParams;
+import bitcoinj.protocols.payments.PaymentProtocol.PkiVerificationData;
+import bitcoinj.uri.BitcoinURI;
+import bitcoinj.utils.Threading;
+import bitcoinj.wallet.SendRequest;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.util.concurrent.ListenableFuture;

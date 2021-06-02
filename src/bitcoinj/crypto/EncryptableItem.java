@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.crypto;
+package bitcoinj.crypto;
 
-import org.bitcoinj.wallet.Protos;
+import bitcoinj.wallet.Protos;
 
 import javax.annotation.Nullable;
 

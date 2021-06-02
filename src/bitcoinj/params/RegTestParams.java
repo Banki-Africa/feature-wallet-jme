@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.params;
+package bitcoinj.params;
 
-import org.bitcoinj.core.Block;
+import bitcoinj.core.Block;
 
 import java.math.BigInteger;
 

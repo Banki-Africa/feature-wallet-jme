@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.wallet;
+package bitcoinj.wallet;
 
-import org.bitcoinj.core.BloomFilter;
-import org.bitcoinj.core.ECKey;
-import org.bitcoinj.core.NetworkParameters;
-import org.bitcoinj.core.Utils;
-import org.bitcoinj.crypto.*;
-import org.bitcoinj.script.Script;
-import org.bitcoinj.utils.ListenerRegistration;
-import org.bitcoinj.utils.Threading;
-import org.bitcoinj.wallet.listeners.KeyChainEventListener;
+import bitcoinj.core.BloomFilter;
+import bitcoinj.core.ECKey;
+import bitcoinj.core.NetworkParameters;
+import bitcoinj.core.Utils;
+import bitcoinj.crypto.*;
+import bitcoinj.script.Script;
+import bitcoinj.utils.ListenerRegistration;
+import bitcoinj.utils.Threading;
+import bitcoinj.wallet.listeners.KeyChainEventListener;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Stopwatch;
@@ -1353,7 +1353,7 @@ public class DeterministicKeyChain implements EncryptableKeyChain {
     /**
      * Whether the keychain is married.  A keychain is married when it vends P2SH addresses
      * from multiple keychains in a multisig relationship.
-     * @see org.bitcoinj.wallet.MarriedKeyChain
+     * @see bitcoinj.wallet.MarriedKeyChain
      */
     public boolean isMarried() {
         return false;

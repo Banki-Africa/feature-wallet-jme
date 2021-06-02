@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.crypto;
+package bitcoinj.crypto;
 
 import com.google.common.base.Stopwatch;
 import com.google.protobuf.ByteString;
-import org.bitcoinj.core.Utils;
-import org.bitcoinj.wallet.Protos;
-import org.bitcoinj.wallet.Protos.ScryptParameters;
-import org.bitcoinj.wallet.Protos.Wallet.EncryptionType;
+import bitcoinj.core.Utils;
+import bitcoinj.wallet.Protos;
+import bitcoinj.wallet.Protos.ScryptParameters;
+import bitcoinj.wallet.Protos.Wallet.EncryptionType;
 import org.bouncycastle.crypto.engines.AESEngine;
 import org.bouncycastle.crypto.generators.SCrypt;
 import org.slf4j.Logger;

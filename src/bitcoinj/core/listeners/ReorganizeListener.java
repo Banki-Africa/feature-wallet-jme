@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core.listeners;
+package bitcoinj.core.listeners;
 
 import java.util.List;
 
-import org.bitcoinj.core.BlockChain;
-import org.bitcoinj.core.StoredBlock;
-import org.bitcoinj.core.VerificationException;
+import bitcoinj.core.BlockChain;
+import bitcoinj.core.StoredBlock;
+import bitcoinj.core.VerificationException;
 
 /**
  * Listener interface for when the best chain has changed.

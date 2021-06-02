@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
-import org.bitcoinj.script.Script;
-import org.bitcoinj.script.Script.VerifyFlag;
-import org.bitcoinj.script.ScriptPattern;
-import org.bitcoinj.store.BlockStoreException;
-import org.bitcoinj.store.FullPrunedBlockStore;
-import org.bitcoinj.utils.*;
-import org.bitcoinj.wallet.Wallet;
-import org.bitcoinj.wallet.WalletExtension;
+import bitcoinj.script.Script;
+import bitcoinj.script.Script.VerifyFlag;
+import bitcoinj.script.ScriptPattern;
+import bitcoinj.store.BlockStoreException;
+import bitcoinj.store.FullPrunedBlockStore;
+import bitcoinj.utils.*;
+import bitcoinj.wallet.Wallet;
+import bitcoinj.wallet.WalletExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

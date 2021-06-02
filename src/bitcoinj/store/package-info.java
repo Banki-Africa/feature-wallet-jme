@@ -20,4 +20,4 @@
  * can calculate a full indexed UTXO set (i.e. it can query address balances), a store that's backed by the embedded H2
  * database, and a memory only store useful for unit tests.
  */
-package org.bitcoinj.store;
+package bitcoinj.store;

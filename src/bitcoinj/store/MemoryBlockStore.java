@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.store;
+package bitcoinj.store;
 
-import org.bitcoinj.core.*;
+import bitcoinj.core.*;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

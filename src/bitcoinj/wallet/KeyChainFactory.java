@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.wallet;
+package bitcoinj.wallet;
 
-import org.bitcoinj.crypto.ChildNumber;
-import org.bitcoinj.crypto.DeterministicKey;
-import org.bitcoinj.crypto.KeyCrypter;
-import org.bitcoinj.script.Script;
+import bitcoinj.crypto.ChildNumber;
+import bitcoinj.crypto.DeterministicKey;
+import bitcoinj.crypto.KeyCrypter;
+import bitcoinj.script.Script;
 
 import java.util.List;
 

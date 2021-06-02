@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.net.discovery;
+package bitcoinj.net.discovery;
 
-import org.bitcoinj.core.NetworkParameters;
-import org.bitcoinj.core.Utils;
+import bitcoinj.core.NetworkParameters;
+import bitcoinj.core.Utils;
 
 import javax.annotation.Nullable;
 import java.net.InetAddress;

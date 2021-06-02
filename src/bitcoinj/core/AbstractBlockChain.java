@@ -15,15 +15,15 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
 import com.google.common.base.*;
 import com.google.common.util.concurrent.*;
-import org.bitcoinj.core.listeners.*;
-import org.bitcoinj.script.ScriptException;
-import org.bitcoinj.store.*;
-import org.bitcoinj.utils.*;
-import org.bitcoinj.wallet.Wallet;
+import bitcoinj.core.listeners.*;
+import bitcoinj.script.ScriptException;
+import bitcoinj.store.*;
+import bitcoinj.utils.*;
+import bitcoinj.wallet.Wallet;
 import org.slf4j.*;
 
 import javax.annotation.*;

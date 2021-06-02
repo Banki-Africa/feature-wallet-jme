@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
 /**
  * <p>Represents the {@code sendaddrv2} P2P protocol message, which indicates that a node can understand and prefers

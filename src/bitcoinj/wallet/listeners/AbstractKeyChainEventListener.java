@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.wallet.listeners;
+package bitcoinj.wallet.listeners;
 
-import org.bitcoinj.core.ECKey;
+import bitcoinj.core.ECKey;
 
 import java.util.List;
 

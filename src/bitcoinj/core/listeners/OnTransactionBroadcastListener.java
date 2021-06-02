@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core.listeners;
+package bitcoinj.core.listeners;
 
-import org.bitcoinj.core.*;
+import bitcoinj.core.*;
 
 /**
  * Called when a new transaction is broadcast over the network.

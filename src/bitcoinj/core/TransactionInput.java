@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
-import org.bitcoinj.script.Script;
-import org.bitcoinj.script.ScriptException;
-import org.bitcoinj.wallet.DefaultRiskAnalysis;
-import org.bitcoinj.wallet.KeyBag;
-import org.bitcoinj.wallet.RedeemData;
+import bitcoinj.script.Script;
+import bitcoinj.script.ScriptException;
+import bitcoinj.wallet.DefaultRiskAnalysis;
+import bitcoinj.wallet.KeyBag;
+import bitcoinj.wallet.RedeemData;
 
 import com.google.common.base.Joiner;
 

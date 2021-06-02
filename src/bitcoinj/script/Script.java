@@ -17,10 +17,10 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.script;
+package bitcoinj.script;
 
-import org.bitcoinj.core.*;
-import org.bitcoinj.crypto.TransactionSignature;
+import bitcoinj.core.*;
+import bitcoinj.crypto.TransactionSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.bouncycastle.crypto.digests.RIPEMD160Digest;
@@ -35,7 +35,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
-import static org.bitcoinj.script.ScriptOpCodes.*;
+import static bitcoinj.script.ScriptOpCodes.*;
 import static com.google.common.base.Preconditions.*;
 
 // TODO: Redesign this entire API to be more type safe and organised.

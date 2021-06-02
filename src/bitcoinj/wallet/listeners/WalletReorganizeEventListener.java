@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.wallet.listeners;
+package bitcoinj.wallet.listeners;
 
-import org.bitcoinj.wallet.Wallet;
+import bitcoinj.wallet.Wallet;
 
 /**
  * <p>Implementors are called when the wallet is reorganized.</p>

@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.net.discovery;
+package bitcoinj.net.discovery;
 
 import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.bitcoinj.core.VersionMessage;
+import bitcoinj.core.VersionMessage;
 
 /**
  * A PeerDiscovery object is responsible for finding addresses of other nodes in the Bitcoin P2P network. Note that

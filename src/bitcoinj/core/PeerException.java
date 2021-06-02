@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
 /**
  * Thrown when a problem occurs in communicating with a peer, and we should

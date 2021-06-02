@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

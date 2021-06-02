@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
-import org.bitcoinj.store.FullPrunedBlockStore;
+import bitcoinj.store.FullPrunedBlockStore;
 
 import java.util.List;
 

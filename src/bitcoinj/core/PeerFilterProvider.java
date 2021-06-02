@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
 /**
  * An interface which provides the information required to properly filter data downloaded from Peers. Note that an

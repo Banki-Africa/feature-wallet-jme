@@ -6,7 +6,7 @@ import core.PublicKey;
 import core.TransactionInstruction;
 import core.AccountMeta;
 
-import static org.bitcoinj.core.Utils.*;
+import static bitcoinj.core.Utils.*;
 
 public class SystemProgram extends Program {
     public static final PublicKey PROGRAM_ID = new PublicKey("11111111111111111111111111111111");

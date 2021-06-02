@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
@@ -24,8 +24,8 @@ import java.io.ByteArrayOutputStream;
 import javax.annotation.Nullable;
 
 import com.google.common.primitives.UnsignedBytes;
-import org.bitcoinj.params.Networks;
-import org.bitcoinj.script.Script;
+import bitcoinj.params.Networks;
+import bitcoinj.script.Script;
 
 /**
  * <p>Implementation of native segwit addresses. They are composed of two parts:</p>

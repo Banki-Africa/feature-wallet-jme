@@ -15,18 +15,18 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.kits;
+package bitcoinj.kits;
 
 import com.google.common.collect.*;
 import com.google.common.io.Closeables;
 import com.google.common.util.concurrent.*;
-import org.bitcoinj.core.listeners.*;
-import org.bitcoinj.core.*;
-import org.bitcoinj.crypto.DeterministicKey;
-import org.bitcoinj.net.discovery.*;
-import org.bitcoinj.script.Script;
-import org.bitcoinj.store.*;
-import org.bitcoinj.wallet.*;
+import bitcoinj.core.listeners.*;
+import bitcoinj.core.*;
+import bitcoinj.crypto.DeterministicKey;
+import bitcoinj.net.discovery.*;
+import bitcoinj.script.Script;
+import bitcoinj.store.*;
+import bitcoinj.wallet.*;
 import org.slf4j.*;
 
 import javax.annotation.*;

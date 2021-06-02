@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.crypto;
+package bitcoinj.crypto;
 
-import org.bitcoinj.core.*;
+import bitcoinj.core.*;
 import org.bouncycastle.math.ec.*;
 
 import java.math.*;

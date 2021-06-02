@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.script;
+package bitcoinj.script;
 
-import org.bitcoinj.core.VerificationException;
+import bitcoinj.core.VerificationException;
 
 @SuppressWarnings("serial")
 public class ScriptException extends VerificationException {

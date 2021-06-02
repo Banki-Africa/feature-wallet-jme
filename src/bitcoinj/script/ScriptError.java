@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.script;
+package bitcoinj.script;
 
 import java.util.HashMap;
 import java.util.Map;

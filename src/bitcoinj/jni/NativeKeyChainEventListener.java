@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.jni;
+package bitcoinj.jni;
 
-import org.bitcoinj.core.ECKey;
-import org.bitcoinj.wallet.listeners.KeyChainEventListener;
+import bitcoinj.core.ECKey;
+import bitcoinj.wallet.listeners.KeyChainEventListener;
 
 import java.util.List;
 

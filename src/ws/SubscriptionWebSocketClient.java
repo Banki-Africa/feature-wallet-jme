@@ -14,10 +14,10 @@ import com.squareup.moshi.Types;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
-import org.p2p.solanaj.rpc.types.RpcNotificationResult;
-import org.p2p.solanaj.rpc.types.RpcRequest;
-import org.p2p.solanaj.rpc.types.RpcResponse;
-import org.p2p.solanaj.ws.listeners.NotificationEventListener;
+import rpc.types.RpcNotificationResult;
+import rpc.types.RpcRequest;
+import rpc.types.RpcResponse;
+import ws.listeners.NotificationEventListener;
 
 public class SubscriptionWebSocketClient extends WebSocketClient {
 

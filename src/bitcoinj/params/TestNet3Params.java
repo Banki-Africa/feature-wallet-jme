@@ -15,21 +15,21 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.params;
+package bitcoinj.params;
 
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.Date;
 
-import org.bitcoinj.core.Block;
-import org.bitcoinj.core.ECKey;
-import org.bitcoinj.core.NetworkParameters;
-import org.bitcoinj.core.StoredBlock;
-import org.bitcoinj.core.Utils;
-import org.bitcoinj.core.VerificationException;
-import org.bitcoinj.net.discovery.HttpDiscovery;
-import org.bitcoinj.store.BlockStore;
-import org.bitcoinj.store.BlockStoreException;
+import bitcoinj.core.Block;
+import bitcoinj.core.ECKey;
+import bitcoinj.core.NetworkParameters;
+import bitcoinj.core.StoredBlock;
+import bitcoinj.core.Utils;
+import bitcoinj.core.VerificationException;
+import bitcoinj.net.discovery.HttpDiscovery;
+import bitcoinj.store.BlockStore;
+import bitcoinj.store.BlockStoreException;
 
 import static com.google.common.base.Preconditions.checkState;
 

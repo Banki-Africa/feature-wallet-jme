@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core.listeners;
+package bitcoinj.core.listeners;
 
-import org.bitcoinj.core.*;
-import org.bitcoinj.utils.Threading;
+import bitcoinj.core.*;
+import bitcoinj.utils.Threading;
 
 import javax.annotation.*;
 import java.util.*;

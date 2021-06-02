@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.net;
+package bitcoinj.net;
 
 import java.nio.ByteBuffer;
 

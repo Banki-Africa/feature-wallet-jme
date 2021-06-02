@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.signers;
+package bitcoinj.signers;
 
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.crypto.ChildNumber;
-import org.bitcoinj.script.Script;
-import org.bitcoinj.wallet.KeyBag;
-import org.bitcoinj.wallet.Wallet;
+import bitcoinj.core.Transaction;
+import bitcoinj.crypto.ChildNumber;
+import bitcoinj.script.Script;
+import bitcoinj.wallet.KeyBag;
+import bitcoinj.wallet.Wallet;
 
 import java.util.HashMap;
 import java.util.List;

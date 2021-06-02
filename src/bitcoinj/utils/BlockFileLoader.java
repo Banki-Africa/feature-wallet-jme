@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.utils;
+package bitcoinj.utils;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import org.bitcoinj.core.Block;
-import org.bitcoinj.core.NetworkParameters;
-import org.bitcoinj.core.ProtocolException;
-import org.bitcoinj.core.Utils;
+import bitcoinj.core.Block;
+import bitcoinj.core.NetworkParameters;
+import bitcoinj.core.ProtocolException;
+import bitcoinj.core.Utils;
 
 import java.io.File;
 import java.io.FileInputStream;

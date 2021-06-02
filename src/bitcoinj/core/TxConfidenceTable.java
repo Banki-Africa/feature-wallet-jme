@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
-import org.bitcoinj.utils.*;
+import bitcoinj.utils.*;
 
 import javax.annotation.*;
 import java.lang.ref.*;

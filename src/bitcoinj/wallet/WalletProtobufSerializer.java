@@ -15,27 +15,27 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.wallet;
+package bitcoinj.wallet;
 
 import com.google.protobuf.Message;
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.core.NetworkParameters;
-import org.bitcoinj.core.PeerAddress;
-import org.bitcoinj.core.Sha256Hash;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.core.TransactionConfidence;
-import org.bitcoinj.core.TransactionConfidence.ConfidenceType;
-import org.bitcoinj.core.TransactionInput;
-import org.bitcoinj.core.TransactionOutPoint;
-import org.bitcoinj.core.TransactionOutput;
-import org.bitcoinj.core.TransactionWitness;
-import org.bitcoinj.crypto.KeyCrypter;
-import org.bitcoinj.crypto.KeyCrypterScrypt;
-import org.bitcoinj.script.Script;
-import org.bitcoinj.script.ScriptException;
-import org.bitcoinj.utils.ExchangeRate;
-import org.bitcoinj.utils.Fiat;
-import org.bitcoinj.wallet.Protos.Wallet.EncryptionType;
+import bitcoinj.core.Coin;
+import bitcoinj.core.NetworkParameters;
+import bitcoinj.core.PeerAddress;
+import bitcoinj.core.Sha256Hash;
+import bitcoinj.core.Transaction;
+import bitcoinj.core.TransactionConfidence;
+import bitcoinj.core.TransactionConfidence.ConfidenceType;
+import bitcoinj.core.TransactionInput;
+import bitcoinj.core.TransactionOutPoint;
+import bitcoinj.core.TransactionOutput;
+import bitcoinj.core.TransactionWitness;
+import bitcoinj.crypto.KeyCrypter;
+import bitcoinj.crypto.KeyCrypterScrypt;
+import bitcoinj.script.Script;
+import bitcoinj.script.ScriptException;
+import bitcoinj.utils.ExchangeRate;
+import bitcoinj.utils.Fiat;
+import bitcoinj.wallet.Protos.Wallet.EncryptionType;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.CodedInputStream;
@@ -702,7 +702,7 @@ public class WalletProtobufSerializer {
     }
 
     private WalletTransaction connectTransactionOutputs(final NetworkParameters params,
-                                                        final org.bitcoinj.wallet.Protos.Transaction txProto) throws UnreadableWalletException {
+                                                        final bitcoinj.wallet.Protos.Transaction txProto) throws UnreadableWalletException {
         Transaction tx = txMap.get(txProto.getHash());
         final WalletTransaction.Pool pool;
         switch (txProto.getPool()) {

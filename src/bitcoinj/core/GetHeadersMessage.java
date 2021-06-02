@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package bitcoinj.core;
 
 /**
  * <p>The "getheaders" command is structurally identical to "getblocks", but has different meaning. On receiving this

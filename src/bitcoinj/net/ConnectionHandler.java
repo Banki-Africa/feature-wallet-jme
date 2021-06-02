@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.net;
+package bitcoinj.net;
 
 import com.google.common.base.Throwables;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
-import org.bitcoinj.core.Message;
-import org.bitcoinj.utils.Threading;
+import bitcoinj.core.Message;
+import bitcoinj.utils.Threading;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;

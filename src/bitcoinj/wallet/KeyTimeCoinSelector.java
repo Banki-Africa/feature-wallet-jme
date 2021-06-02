@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.wallet;
+package bitcoinj.wallet;
 
-import org.bitcoinj.core.*;
-import org.bitcoinj.script.Script;
-import org.bitcoinj.script.ScriptException;
-import org.bitcoinj.script.ScriptPattern;
+import bitcoinj.core.*;
+import bitcoinj.script.Script;
+import bitcoinj.script.ScriptException;
+import bitcoinj.script.ScriptPattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

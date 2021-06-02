@@ -1,1 +1,1 @@
-# Banki Feature Wallet - Lightweight JME Solana Wallet
+# Banki Feature Wallet - Lightweight Java ME Solana Client

@@ -14,4 +14,10 @@ public enum Cluster {
     public String getEndpoint() {
         return endpoint;
     }
+
+	@Override
+	public int compareTo(Object arg0) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

@@ -1,6 +1,6 @@
 package utils;
 
-import static org.bitcoinj.core.Utils.*;
+import static bitcoinj.Utils.*;
 
 import java.io.IOException;
 import java.io.OutputStream;

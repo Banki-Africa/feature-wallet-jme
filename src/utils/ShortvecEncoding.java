@@ -1,6 +1,6 @@
 package utils;
 
-import static org.bitcoinj.core.Utils.*;
+import static bitcoinj.Utils.*;
 
 public class ShortvecEncoding {
 

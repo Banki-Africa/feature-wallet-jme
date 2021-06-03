@@ -28,8 +28,8 @@ import bitcoinj.core.TransactionInput;
 import bitcoinj.core.TransactionOutput;
 import bitcoinj.crypto.TransactionSignature;
 import bitcoinj.script.ScriptChunk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import slf4j.Logger;
+import slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 

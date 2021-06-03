@@ -34,8 +34,8 @@ import bitcoinj.utils.MonetaryFormat;
 import bitcoinj.core.VerificationException;
 import bitcoinj.store.BlockStore;
 import bitcoinj.store.BlockStoreException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import slf4j.Logger;
+import slf4j.LoggerFactory;
 
 import com.google.common.base.Stopwatch;
 

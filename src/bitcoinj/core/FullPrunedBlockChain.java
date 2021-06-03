@@ -25,8 +25,8 @@ import bitcoinj.store.FullPrunedBlockStore;
 import bitcoinj.utils.*;
 import bitcoinj.wallet.Wallet;
 import bitcoinj.wallet.WalletExtension;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import slf4j.Logger;
+import slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 import java.io.File;

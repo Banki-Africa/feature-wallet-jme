@@ -21,8 +21,8 @@ import bitcoinj.core.NetworkParameters;
 import bitcoinj.core.VersionMessage;
 import bitcoinj.net.discovery.DnsDiscovery.DnsSeedDiscovery;
 import bitcoinj.utils.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import slf4j.Logger;
+import slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
 import java.util.ArrayList;

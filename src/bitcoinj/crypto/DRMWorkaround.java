@@ -17,8 +17,8 @@
 package bitcoinj.crypto;
 
 import bitcoinj.core.Utils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import slf4j.Logger;
+import slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

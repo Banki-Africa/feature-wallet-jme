@@ -26,8 +26,8 @@ import bitcoinj.script.ScriptChunk;
 import bitcoinj.script.ScriptPattern;
 import bitcoinj.wallet.KeyBag;
 import bitcoinj.wallet.Wallet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import slf4j.Logger;
+import slf4j.LoggerFactory;
 
 /**
  * This transaction signer resolves missing signatures in accordance with the given {@link Wallet.MissingSigsMode}.

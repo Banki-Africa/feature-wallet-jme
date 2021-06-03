@@ -17,7 +17,7 @@
 package bitcoinj.crypto;
 
 import bitcoinj.core.*;
-import org.bouncycastle.crypto.generators.SCrypt;
+import bouncycastle.crypto.generators.SCrypt;
 
 import com.google.common.primitives.Bytes;
 

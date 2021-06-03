@@ -25,8 +25,8 @@ import bitcoinj.net.NioClientManager;
 import bitcoinj.net.StreamConnection;
 import bitcoinj.utils.Threading;
 import com.google.common.annotations.VisibleForTesting;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import slf4j.Logger;
+import slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

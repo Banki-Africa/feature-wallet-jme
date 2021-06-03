@@ -23,7 +23,7 @@ import bitcoinj.crypto.*;
 import com.google.common.base.MoreObjects;
 import java.util.Objects;
 import com.google.common.base.Splitter;
-import org.bouncycastle.crypto.params.KeyParameter;
+import bouncycastle.crypto.params.KeyParameter;
 
 import javax.annotation.Nullable;
 

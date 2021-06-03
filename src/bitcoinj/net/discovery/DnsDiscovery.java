@@ -19,8 +19,8 @@ package bitcoinj.net.discovery;
 
 import bitcoinj.core.*;
 import bitcoinj.utils.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import slf4j.Logger;
+import slf4j.LoggerFactory;
 
 import java.net.*;
 import java.util.*;

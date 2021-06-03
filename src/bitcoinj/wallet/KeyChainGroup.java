@@ -18,7 +18,7 @@
 package bitcoinj.wallet;
 
 import com.google.common.collect.*;
-import com.google.protobuf.*;
+import protobuf.*;
 
 import bitcoinj.core.Address;
 import bitcoinj.core.BloomFilter;
@@ -32,8 +32,8 @@ import bitcoinj.script.Script.ScriptType;
 import bitcoinj.utils.*;
 import bitcoinj.wallet.listeners.CurrentKeyChangeEventListener;
 import bitcoinj.wallet.listeners.KeyChainEventListener;
-import org.slf4j.*;
-import org.bouncycastle.crypto.params.*;
+import slf4j.*;
+import bouncycastle.crypto.params.*;
 
 import javax.annotation.*;
 import java.security.*;

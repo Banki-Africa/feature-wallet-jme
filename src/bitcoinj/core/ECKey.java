@@ -25,30 +25,30 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.UnsignedBytes;
-import org.bitcoin.NativeSecp256k1;
-import org.bitcoin.NativeSecp256k1Util;
-import org.bitcoin.Secp256k1Context;
+import bitcoin.NativeSecp256k1;
+import bitcoin.NativeSecp256k1Util;
+import bitcoin.Secp256k1Context;
 import bitcoinj.wallet.Protos;
 import bitcoinj.wallet.Wallet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.bouncycastle.asn1.*;
-import org.bouncycastle.asn1.x9.X9ECParameters;
-import org.bouncycastle.asn1.x9.X9IntegerConverter;
-import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
-import org.bouncycastle.crypto.digests.SHA256Digest;
-import org.bouncycastle.crypto.ec.CustomNamedCurves;
-import org.bouncycastle.crypto.generators.ECKeyPairGenerator;
-import org.bouncycastle.crypto.params.*;
-import org.bouncycastle.crypto.signers.ECDSASigner;
-import org.bouncycastle.crypto.signers.HMacDSAKCalculator;
-import org.bouncycastle.math.ec.ECAlgorithms;
-import org.bouncycastle.math.ec.ECPoint;
-import org.bouncycastle.math.ec.FixedPointCombMultiplier;
-import org.bouncycastle.math.ec.FixedPointUtil;
-import org.bouncycastle.math.ec.custom.sec.SecP256K1Curve;
-import org.bouncycastle.util.Properties;
-import org.bouncycastle.util.encoders.Base64;
+import slf4j.Logger;
+import slf4j.LoggerFactory;
+import bouncycastle.asn1.*;
+import bouncycastle.asn1.x9.X9ECParameters;
+import bouncycastle.asn1.x9.X9IntegerConverter;
+import bouncycastle.crypto.AsymmetricCipherKeyPair;
+import bouncycastle.crypto.digests.SHA256Digest;
+import bouncycastle.crypto.ec.CustomNamedCurves;
+import bouncycastle.crypto.generators.ECKeyPairGenerator;
+import bouncycastle.crypto.params.*;
+import bouncycastle.crypto.signers.ECDSASigner;
+import bouncycastle.crypto.signers.HMacDSAKCalculator;
+import bouncycastle.math.ec.ECAlgorithms;
+import bouncycastle.math.ec.ECPoint;
+import bouncycastle.math.ec.FixedPointCombMultiplier;
+import bouncycastle.math.ec.FixedPointUtil;
+import bouncycastle.math.ec.custom.sec.SecP256K1Curve;
+import bouncycastle.util.Properties;
+import bouncycastle.util.encoders.Base64;
 
 import javax.annotation.Nullable;
 import java.io.ByteArrayOutputStream;
@@ -561,7 +561,7 @@ public class ECKey implements EncryptableItem {
             try {
                 // BouncyCastle by default is strict about parsing ASN.1 integers. We relax this check, because some
                 // Bitcoin signatures would not parse.
-                Properties.setThreadOverride("org.bouncycastle.asn1.allow_unsafe_integer", true);
+                Properties.setThreadOverride("bouncycastle.asn1.allow_unsafe_integer", true);
                 decoder = new ASN1InputStream(bytes);
                 final ASN1Primitive seqObj = decoder.readObject();
                 if (seqObj == null)
@@ -584,7 +584,7 @@ public class ECKey implements EncryptableItem {
             } finally {
                 if (decoder != null)
                     try { decoder.close(); } catch (IOException x) {}
-                Properties.removeThreadOverride("org.bouncycastle.asn1.allow_unsafe_integer");
+                Properties.removeThreadOverride("bouncycastle.asn1.allow_unsafe_integer");
             }
         }
 

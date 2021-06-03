@@ -18,12 +18,12 @@ package bitcoinj.crypto;
 
 import com.google.common.base.Joiner;
 import bitcoinj.protocols.payments.PaymentSession;
-import org.bouncycastle.asn1.ASN1ObjectIdentifier;
-import org.bouncycastle.asn1.ASN1String;
-import org.bouncycastle.asn1.x500.AttributeTypeAndValue;
-import org.bouncycastle.asn1.x500.RDN;
-import org.bouncycastle.asn1.x500.X500Name;
-import org.bouncycastle.asn1.x500.style.RFC4519Style;
+import bouncycastle.asn1.ASN1ObjectIdentifier;
+import bouncycastle.asn1.ASN1String;
+import bouncycastle.asn1.x500.AttributeTypeAndValue;
+import bouncycastle.asn1.x500.RDN;
+import bouncycastle.asn1.x500.X500Name;
+import bouncycastle.asn1.x500.style.RFC4519Style;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

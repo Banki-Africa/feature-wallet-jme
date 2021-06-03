@@ -21,7 +21,7 @@ import com.google.common.base.*;
 import com.google.common.util.concurrent.*;
 import bitcoinj.utils.*;
 import bitcoinj.wallet.Wallet;
-import org.slf4j.*;
+import slf4j.*;
 
 import javax.annotation.*;
 import java.util.*;

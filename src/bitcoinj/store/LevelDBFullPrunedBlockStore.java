@@ -45,8 +45,8 @@ import bitcoinj.core.VerificationException;
 import bitcoinj.script.Script;
 import bitcoinj.script.ScriptException;
 import org.iq80.leveldb.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import slf4j.Logger;
+import slf4j.LoggerFactory;
 
 import static org.fusesource.leveldbjni.JniDBFactory.*;
 

@@ -18,9 +18,9 @@
 package bitcoinj.crypto;
 
 import bitcoinj.core.ECKey;
-import org.bouncycastle.crypto.digests.SHA512Digest;
-import org.bouncycastle.crypto.macs.HMac;
-import org.bouncycastle.crypto.params.KeyParameter;
+import bouncycastle.crypto.digests.SHA512Digest;
+import bouncycastle.crypto.macs.HMac;
+import bouncycastle.crypto.params.KeyParameter;
 
 import javax.annotation.Nonnull;
 import java.nio.ByteBuffer;

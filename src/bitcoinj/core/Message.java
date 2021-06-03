@@ -17,8 +17,8 @@
 
 package bitcoinj.core;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import slf4j.Logger;
+import slf4j.LoggerFactory;
 
 import java.io.*;
 import java.math.BigInteger;

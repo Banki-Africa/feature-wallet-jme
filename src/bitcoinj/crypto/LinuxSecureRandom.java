@@ -16,7 +16,7 @@
 
 package bitcoinj.crypto;
 
-import org.slf4j.*;
+import slf4j.*;
 
 import java.io.*;
 import java.security.*;

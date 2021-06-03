@@ -12,8 +12,8 @@ import moshi.JsonAdapter;
 import moshi.Moshi;
 import moshi.Types;
 
-import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.handshake.ServerHandshake;
+import java_websocket.client.WebSocketClient;
+import java_websocket.handshake.ServerHandshake;
 import rpc.types.RpcNotificationResult;
 import rpc.types.RpcRequest;
 import rpc.types.RpcResponse;

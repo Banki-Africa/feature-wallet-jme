@@ -21,9 +21,9 @@ package bitcoinj.script;
 
 import bitcoinj.core.*;
 import bitcoinj.crypto.TransactionSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.bouncycastle.crypto.digests.RIPEMD160Digest;
+import slf4j.Logger;
+import slf4j.LoggerFactory;
+import bouncycastle.crypto.digests.RIPEMD160Digest;
 
 import javax.annotation.Nullable;
 import java.io.ByteArrayInputStream;

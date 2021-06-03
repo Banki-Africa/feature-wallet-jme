@@ -18,21 +18,21 @@
 package bitcoinj.crypto;
 
 import com.google.common.base.Stopwatch;
-import com.google.protobuf.ByteString;
+import protobuf.ByteString;
 import bitcoinj.core.Utils;
 import bitcoinj.wallet.Protos;
 import bitcoinj.wallet.Protos.ScryptParameters;
 import bitcoinj.wallet.Protos.Wallet.EncryptionType;
-import org.bouncycastle.crypto.engines.AESEngine;
-import org.bouncycastle.crypto.generators.SCrypt;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.bouncycastle.crypto.BufferedBlockCipher;
-import org.bouncycastle.crypto.InvalidCipherTextException;
-import org.bouncycastle.crypto.modes.CBCBlockCipher;
-import org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher;
-import org.bouncycastle.crypto.params.KeyParameter;
-import org.bouncycastle.crypto.params.ParametersWithIV;
+import bouncycastle.crypto.engines.AESEngine;
+import bouncycastle.crypto.generators.SCrypt;
+import slf4j.Logger;
+import slf4j.LoggerFactory;
+import bouncycastle.crypto.BufferedBlockCipher;
+import bouncycastle.crypto.InvalidCipherTextException;
+import bouncycastle.crypto.modes.CBCBlockCipher;
+import bouncycastle.crypto.paddings.PaddedBufferedBlockCipher;
+import bouncycastle.crypto.params.KeyParameter;
+import bouncycastle.crypto.params.ParametersWithIV;
 
 import java.security.SecureRandom;
 import java.util.Arrays;

@@ -19,7 +19,7 @@ package bitcoinj.core;
 
 import bitcoinj.script.*;
 import bitcoinj.wallet.Wallet;
-import org.slf4j.*;
+import slf4j.*;
 
 import javax.annotation.*;
 import java.io.*;

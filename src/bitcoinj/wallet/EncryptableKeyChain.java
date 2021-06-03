@@ -19,7 +19,7 @@ package bitcoinj.wallet;
 import bitcoinj.crypto.KeyCrypter;
 import bitcoinj.crypto.KeyCrypterException;
 import bitcoinj.crypto.KeyCrypterScrypt;
-import org.bouncycastle.crypto.params.KeyParameter;
+import bouncycastle.crypto.params.KeyParameter;
 
 import javax.annotation.Nullable;
 

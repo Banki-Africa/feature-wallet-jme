@@ -18,7 +18,7 @@ package bitcoinj.store;
 
 import bitcoinj.core.*;
 import bitcoinj.utils.*;
-import org.slf4j.*;
+import slf4j.*;
 
 import javax.annotation.*;
 import java.io.*;

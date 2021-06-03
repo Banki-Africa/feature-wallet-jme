@@ -30,9 +30,9 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
 
-import org.bouncycastle.crypto.digests.RIPEMD160Digest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import bouncycastle.crypto.digests.RIPEMD160Digest;
+import slf4j.Logger;
+import slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;

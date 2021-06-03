@@ -23,9 +23,9 @@ import bitcoinj.script.ScriptBuilder;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
-import com.google.protobuf.ByteString;
-import com.google.protobuf.InvalidProtocolBufferException;
-import org.bitcoin.protocols.payments.Protos;
+import protobuf.ByteString;
+import protobuf.InvalidProtocolBufferException;
+import bitcoin.protocols.payments.Protos;
 
 import javax.annotation.Nullable;
 import java.io.Serializable;

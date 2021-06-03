@@ -16,7 +16,7 @@
 
 package bitcoinj.utils;
 
-import com.google.protobuf.ByteString;
+import protobuf.ByteString;
 
 import javax.annotation.Nullable;
 import java.util.Map;

@@ -17,7 +17,7 @@
 
 package bitcoinj.wallet;
 
-import com.google.protobuf.Message;
+import protobuf.Message;
 import bitcoinj.core.Coin;
 import bitcoinj.core.NetworkParameters;
 import bitcoinj.core.PeerAddress;
@@ -37,14 +37,14 @@ import bitcoinj.utils.ExchangeRate;
 import bitcoinj.utils.Fiat;
 import bitcoinj.wallet.Protos.Wallet.EncryptionType;
 
-import com.google.protobuf.ByteString;
-import com.google.protobuf.CodedInputStream;
-import com.google.protobuf.CodedOutputStream;
-import com.google.protobuf.TextFormat;
-import com.google.protobuf.WireFormat;
+import protobuf.ByteString;
+import protobuf.CodedInputStream;
+import protobuf.CodedOutputStream;
+import protobuf.TextFormat;
+import protobuf.WireFormat;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import slf4j.Logger;
+import slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 import java.io.ByteArrayInputStream;
@@ -136,7 +136,7 @@ public class WalletProtobufSerializer {
     }
 
     /**
-     * Change buffer size for writing wallet to output stream. Default is {@link com.google.protobuf.CodedOutputStream#DEFAULT_BUFFER_SIZE}
+     * Change buffer size for writing wallet to output stream. Default is {@link protobuf.CodedOutputStream#DEFAULT_BUFFER_SIZE}
      * @param walletWriteBufferSize - buffer size in bytes
      */
     public void setWalletWriteBufferSize(int walletWriteBufferSize) {

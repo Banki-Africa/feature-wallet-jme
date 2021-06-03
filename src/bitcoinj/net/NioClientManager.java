@@ -19,7 +19,7 @@ package bitcoinj.net;
 import com.google.common.base.Throwables;
 import com.google.common.util.concurrent.*;
 import bitcoinj.utils.*;
-import org.slf4j.LoggerFactory;
+import slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -34,7 +34,7 @@ import java.util.concurrent.*;
  * single network processing thread.
  */
 public class NioClientManager extends AbstractExecutionThreadService implements ClientConnectionManager {
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(NioClientManager.class);
+    private static final slf4j.Logger log = LoggerFactory.getLogger(NioClientManager.class);
 
     private final Selector selector;
 

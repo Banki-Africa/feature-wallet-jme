@@ -27,7 +27,7 @@ import bitcoinj.net.discovery.*;
 import bitcoinj.script.Script;
 import bitcoinj.store.*;
 import bitcoinj.wallet.*;
-import org.slf4j.*;
+import slf4j.*;
 
 import javax.annotation.*;
 import java.io.*;

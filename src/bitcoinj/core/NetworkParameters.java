@@ -46,11 +46,11 @@ import bitcoinj.utils.VersionTally;
  */
 public abstract class NetworkParameters {
     /** The string returned by getId() for the main, production network where people trade things. */
-    public static final String ID_MAINNET = "org.bitcoin.production";
+    public static final String ID_MAINNET = "bitcoin.production";
     /** The string returned by getId() for the testnet. */
-    public static final String ID_TESTNET = "org.bitcoin.test";
+    public static final String ID_TESTNET = "bitcoin.test";
     /** The string returned by getId() for regtest mode. */
-    public static final String ID_REGTEST = "org.bitcoin.regtest";
+    public static final String ID_REGTEST = "bitcoin.regtest";
     /** Unit test network. */
     public static final String ID_UNITTESTNET = "bitcoinj.unittest";
 

@@ -19,7 +19,7 @@ package bitcoinj.wallet;
 
 import bitcoinj.core.*;
 import bitcoinj.utils.*;
-import org.slf4j.*;
+import slf4j.*;
 
 import com.google.common.base.Stopwatch;
 

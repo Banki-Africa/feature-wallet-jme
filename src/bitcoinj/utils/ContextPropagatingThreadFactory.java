@@ -17,7 +17,7 @@
 package bitcoinj.utils;
 
 import bitcoinj.core.*;
-import org.slf4j.*;
+import slf4j.*;
 
 import java.util.concurrent.*;
 

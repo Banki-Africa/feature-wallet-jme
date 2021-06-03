@@ -21,8 +21,8 @@ import bitcoinj.core.*;
 import bitcoinj.script.Script;
 
 import com.google.common.base.MoreObjects;
-import org.bouncycastle.crypto.params.KeyParameter;
-import org.bouncycastle.math.ec.ECPoint;
+import bouncycastle.crypto.params.KeyParameter;
+import bouncycastle.math.ec.ECPoint;
 
 import javax.annotation.Nullable;
 import java.math.BigInteger;

@@ -17,9 +17,9 @@
 package bitcoinj.crypto;
 
 import bitcoinj.core.ECKey;
-import org.bouncycastle.math.ec.ECCurve;
-import org.bouncycastle.math.ec.ECFieldElement;
-import org.bouncycastle.math.ec.ECPoint;
+import bouncycastle.math.ec.ECCurve;
+import bouncycastle.math.ec.ECFieldElement;
+import bouncycastle.math.ec.ECPoint;
 
 import javax.annotation.Nullable;
 import java.math.BigInteger;

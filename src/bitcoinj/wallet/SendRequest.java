@@ -19,7 +19,7 @@ package bitcoinj.wallet;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import org.bitcoin.protocols.payments.Protos.PaymentDetails;
+import bitcoin.protocols.payments.Protos.PaymentDetails;
 import bitcoinj.core.Address;
 import bitcoinj.core.Coin;
 import bitcoinj.core.Context;
@@ -30,7 +30,7 @@ import bitcoinj.core.TransactionOutput;
 import bitcoinj.utils.ExchangeRate;
 import bitcoinj.wallet.KeyChain.KeyPurpose;
 import bitcoinj.wallet.Wallet.MissingSigsMode;
-import org.bouncycastle.crypto.params.KeyParameter;
+import bouncycastle.crypto.params.KeyParameter;
 
 import com.google.common.base.MoreObjects;
 

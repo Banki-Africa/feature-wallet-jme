@@ -19,8 +19,8 @@ package bitcoinj.crypto;
 
 import bitcoinj.core.Sha256Hash;
 import bitcoinj.core.Utils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import slf4j.Logger;
+import slf4j.LoggerFactory;
 
 import com.google.common.base.Stopwatch;
 

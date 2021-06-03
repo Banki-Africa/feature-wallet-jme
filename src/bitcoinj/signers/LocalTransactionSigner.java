@@ -35,8 +35,8 @@ import bitcoinj.script.ScriptPattern;
 import bitcoinj.script.Script.VerifyFlag;
 import bitcoinj.wallet.KeyBag;
 import bitcoinj.wallet.RedeemData;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import slf4j.Logger;
+import slf4j.LoggerFactory;
 
 /**
  * <p>{@link TransactionSigner} implementation for signing inputs using keys from provided {@link KeyBag}.</p>

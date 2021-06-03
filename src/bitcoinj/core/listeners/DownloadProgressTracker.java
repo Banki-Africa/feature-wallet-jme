@@ -23,8 +23,8 @@ import bitcoinj.core.Peer;
 import bitcoinj.core.Utils;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import slf4j.Logger;
+import slf4j.LoggerFactory;
 
 import javax.annotation.*;
 import java.util.Date;

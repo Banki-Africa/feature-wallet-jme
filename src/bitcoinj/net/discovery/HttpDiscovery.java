@@ -18,10 +18,10 @@
 package bitcoinj.net.discovery;
 
 import com.google.common.annotations.*;
-import com.google.protobuf.*;
-import org.bitcoin.crawler.*;
+import protobuf.*;
+import bitcoin.crawler.*;
 import bitcoinj.core.*;
-import org.slf4j.*;
+import slf4j.*;
 
 import javax.annotation.*;
 import java.io.*;

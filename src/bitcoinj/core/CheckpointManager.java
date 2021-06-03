@@ -25,8 +25,8 @@ import com.google.common.hash.Hashing;
 import com.google.common.io.BaseEncoding;
 
 import bitcoinj.store.SPVBlockStore;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import slf4j.Logger;
+import slf4j.LoggerFactory;
 
 import javax.annotation.*;
 import java.io.BufferedInputStream;

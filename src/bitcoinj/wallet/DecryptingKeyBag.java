@@ -18,7 +18,7 @@ package bitcoinj.wallet;
 
 import bitcoinj.core.ECKey;
 import bitcoinj.script.Script;
-import org.bouncycastle.crypto.params.KeyParameter;
+import bouncycastle.crypto.params.KeyParameter;
 
 import javax.annotation.Nullable;
 

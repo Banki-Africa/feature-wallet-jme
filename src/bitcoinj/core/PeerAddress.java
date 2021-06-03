@@ -18,7 +18,7 @@
 package bitcoinj.core;
 
 import com.google.common.io.BaseEncoding;
-import org.bouncycastle.jcajce.provider.digest.SHA3;
+import bouncycastle.jcajce.provider.digest.SHA3;
 
 import java.io.IOException;
 import java.io.OutputStream;

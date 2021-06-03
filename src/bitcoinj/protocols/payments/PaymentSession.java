@@ -27,9 +27,9 @@ import bitcoinj.wallet.SendRequest;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.protobuf.InvalidProtocolBufferException;
+import protobuf.InvalidProtocolBufferException;
 
-import org.bitcoin.protocols.payments.Protos;
+import bitcoin.protocols.payments.Protos;
 
 import javax.annotation.Nullable;
 

@@ -19,7 +19,7 @@ package bitcoinj.net;
 
 import com.google.common.base.*;
 import com.google.common.util.concurrent.*;
-import org.slf4j.*;
+import slf4j.*;
 
 import java.io.*;
 import java.net.*;

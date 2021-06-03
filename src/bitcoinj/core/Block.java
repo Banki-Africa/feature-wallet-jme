@@ -22,7 +22,7 @@ import com.google.common.base.*;
 import com.google.common.collect.*;
 import bitcoinj.params.AbstractBitcoinNetParams;
 import bitcoinj.script.*;
-import org.slf4j.*;
+import slf4j.*;
 
 import javax.annotation.*;
 import java.io.*;

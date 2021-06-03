@@ -21,8 +21,8 @@ package bitcoinj.store;
 import bitcoinj.core.*;
 import bitcoinj.script.Script;
 import bitcoinj.script.Script.ScriptType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import slf4j.Logger;
+import slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 import java.io.ByteArrayInputStream;

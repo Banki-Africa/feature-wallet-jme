@@ -33,7 +33,7 @@ import bitcoinj.wallet.listeners.KeyChainEventListener;
 import bitcoinj.wallet.listeners.ScriptsChangeEventListener;
 import bitcoinj.wallet.listeners.WalletCoinsReceivedEventListener;
 import bitcoinj.wallet.listeners.WalletCoinsSentEventListener;
-import org.slf4j.*;
+import slf4j.*;
 
 import javax.annotation.*;
 import java.io.*;

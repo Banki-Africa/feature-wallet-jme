@@ -18,7 +18,7 @@ package bitcoinj.net;
 
 import com.google.common.util.concurrent.*;
 import bitcoinj.core.*;
-import org.slf4j.*;
+import slf4j.*;
 
 import javax.annotation.*;
 import javax.net.*;
@@ -37,7 +37,7 @@ import static com.google.common.base.Preconditions.*;
  * cannot be set using NIO.</p>
  */
 public class BlockingClient implements MessageWriteTarget {
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(BlockingClient.class);
+    private static final slf4j.Logger log = LoggerFactory.getLogger(BlockingClient.class);
 
     private static final int BUFFER_SIZE_LOWER_BOUND = 4096;
     private static final int BUFFER_SIZE_UPPER_BOUND = 65536;

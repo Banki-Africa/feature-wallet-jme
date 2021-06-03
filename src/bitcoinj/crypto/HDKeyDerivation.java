@@ -17,7 +17,7 @@
 package bitcoinj.crypto;
 
 import bitcoinj.core.*;
-import org.bouncycastle.math.ec.*;
+import bouncycastle.math.ec.*;
 
 import java.math.*;
 import java.nio.*;

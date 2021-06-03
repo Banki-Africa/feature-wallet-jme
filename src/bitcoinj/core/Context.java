@@ -18,7 +18,7 @@ package bitcoinj.core;
 
 import bitcoinj.utils.ContextPropagatingThreadFactory;
 import bitcoinj.wallet.SendRequest;
-import org.slf4j.*;
+import slf4j.*;
 
 import static com.google.common.base.Preconditions.*;
 

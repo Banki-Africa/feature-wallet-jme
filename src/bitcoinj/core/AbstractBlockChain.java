@@ -24,7 +24,7 @@ import bitcoinj.script.ScriptException;
 import bitcoinj.store.*;
 import bitcoinj.utils.*;
 import bitcoinj.wallet.Wallet;
-import org.slf4j.*;
+import slf4j.*;
 
 import javax.annotation.*;
 import java.util.*;

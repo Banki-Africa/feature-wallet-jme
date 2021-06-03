@@ -20,7 +20,7 @@ package bitcoinj.wallet;
 import com.google.common.annotations.*;
 import com.google.common.collect.*;
 import com.google.common.util.concurrent.*;
-import com.google.protobuf.*;
+import protobuf.*;
 import net.jcip.annotations.*;
 import bitcoinj.core.listeners.*;
 import bitcoinj.core.Address;
@@ -69,8 +69,8 @@ import bitcoinj.wallet.listeners.WalletChangeEventListener;
 import bitcoinj.wallet.listeners.WalletCoinsReceivedEventListener;
 import bitcoinj.wallet.listeners.WalletCoinsSentEventListener;
 import bitcoinj.wallet.listeners.WalletReorganizeEventListener;
-import org.slf4j.*;
-import org.bouncycastle.crypto.params.*;
+import slf4j.*;
+import bouncycastle.crypto.params.*;
 
 import javax.annotation.*;
 import java.io.*;
@@ -1306,7 +1306,7 @@ public class Wallet extends BaseTaggableObject
 
     /**
      * Convenience wrapper around {@link Wallet#encrypt(KeyCrypter,
-     * org.bouncycastle.crypto.params.KeyParameter)} which uses the default Scrypt key derivation algorithm and
+     * bouncycastle.crypto.params.KeyParameter)} which uses the default Scrypt key derivation algorithm and
      * parameters to derive a key from the given password.
      */
     public void encrypt(CharSequence password) {

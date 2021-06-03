@@ -7,19 +7,18 @@ import java.util.List;
 
 import bitcoinj.core.Base58;
 import utils.ShortvecEncoding;
-import utils.TweetNaclFast;
 
 public class Transaction {
 
     public static final int SIGNATURE_LENGTH = 64;
 
     private Message messgae;
-    private List<String> signatures;
+    private List signatures;
     private byte[] serializedMessage;
 
     public Transaction() {
         this.messgae = new Message();
-        this.signatures = new ArrayList<String>();
+        this.signatures = new ArrayList();
     }
 
     public Transaction addInstruction(TransactionInstruction instruction) {

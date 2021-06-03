@@ -1,5 +1,7 @@
 package java.util;
 
+import core.Account;
+
 public class Arrays
 {
 
@@ -43,19 +45,19 @@ public class Arrays
         return true;
     }
 
-    public static List asList(Object[] a)
+    public static List asList(Account signer)
     {
-        return new ArrayList(a);
+        return new ArrayList(signer);
     }
 
     private static class ArrayList
         extends AbstractList
     {
-        private Object[] a;
+        private Account a;
 
-        ArrayList(Object[] array)
+        ArrayList(Account signer)
         {
-            a = array;
+            a = signer;
         }
 
         public int size()

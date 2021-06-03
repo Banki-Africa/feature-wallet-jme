@@ -2,7 +2,7 @@ MIDlet-1: Wallet,,main.Wallet
 MIDlet-2: main,,solanaj.main
 MIDlet-3: Wallet,,main.Wallet
 MIDlet-4: Wallet,,Wallet
-MIDlet-Jar-Size: 96662
+MIDlet-Jar-Size: 19141
 MIDlet-Jar-URL: feature-wallet.jar
 MIDlet-Name: feature-wallet MIDlet Suite
 MIDlet-Vendor: deon4e

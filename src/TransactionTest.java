@@ -1,15 +1,10 @@
-import static org.junit.Assert.assertEquals;
-
 import java.util.Base64;
 
-import bitcoinj.core.Base58;
-import org.junit.Test;
-import core.Account;
-import core.PublicKey;
-import core.Transaction;
-import programs.SystemProgram;
-
-
+import org.bitcoinj.core.Base58;
+import org.p2p.solanaj.core.Account;
+import org.p2p.solanaj.core.PublicKey;
+import org.p2p.solanaj.core.Transaction;
+import org.p2p.solanaj.programs.SystemProgram;
 
 public class TransactionTest {
 

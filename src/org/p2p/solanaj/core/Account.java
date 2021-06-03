@@ -30,7 +30,11 @@ public class Account {
         DeterministicHierarchy deterministicHierarchy = new DeterministicHierarchy(masterPrivateKey);
         DeterministicKey child = deterministicHierarchy.get(HDUtils.parsePath("M/501H/0H/0/0"), true, true);
 
+<<<<<<< HEAD
         TweetNaclFast.Signature.KeyPair keyPair = TweetNaclFast.Signature.keyPair_fromSeed(child.getPrivKeyBytes());
+=======
+        TweetNaclFast.Signature.KeyPair keyPair = TweetNaclFast.Signature.keyPair_fromSeed(child.getPrivKey());
+>>>>>>> 324b80f8cd54d33dc3338036c1a8da6bc8cacc23
 
         return new Account(keyPair);
     }

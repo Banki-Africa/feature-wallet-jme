@@ -7,6 +7,10 @@ package org.p2p.solanaj.utils;
 import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
 import java.lang.System;
+<<<<<<< HEAD
+=======
+import java.math.BigInteger;
+>>>>>>> 324b80f8cd54d33dc3338036c1a8da6bc8cacc23
 import java.util.concurrent.atomic.AtomicLong;
 
 /*
@@ -836,14 +840,22 @@ public final class TweetNaclFast {
 			return kp;
 		}
 
+<<<<<<< HEAD
 		public static KeyPair keyPair_fromSeed(byte [] seed) {
+=======
+		public static KeyPair keyPair_fromSeed(BigInteger bigInteger) {
+>>>>>>> 324b80f8cd54d33dc3338036c1a8da6bc8cacc23
 			KeyPair kp = new KeyPair();
 			byte [] pk = kp.getPublicKey();
 			byte [] sk = kp.getSecretKey();
 
 			// copy sk
 			for (int i = 0; i < seedLength; i ++)
+<<<<<<< HEAD
 				sk[i] = seed[i];
+=======
+				sk[i] = bigInteger[i];
+>>>>>>> 324b80f8cd54d33dc3338036c1a8da6bc8cacc23
 
 			// generate pk from sk 
 			crypto_sign_keypair(pk, sk, true);

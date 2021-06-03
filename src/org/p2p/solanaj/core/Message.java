@@ -9,6 +9,10 @@ import org.bitcoinj.core.Base58;
 import org.p2p.solanaj.utils.ShortvecEncoding;
 
 public class Message {
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 324b80f8cd54d33dc3338036c1a8da6bc8cacc23
     private class MessageHeader {
         static final int HEADER_LENGTH = 3;
 

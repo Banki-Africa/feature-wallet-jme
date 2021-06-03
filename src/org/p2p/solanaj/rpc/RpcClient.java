@@ -41,7 +41,11 @@ public class RpcClient {
                 .adapter(Types.newParameterizedType(RpcResponse.class, Type.class.cast(clazz)));
 
         Request request = new Request.Builder().url(endpoint)
+<<<<<<< HEAD
                 .post(RequestBody.create(rpcRequestJsonAdapter.toJson(rpcRequest), JSON)).build();
+=======
+                .post(RequestBody.create(JSON, rpcRequestJsonAdapter.toJson(rpcRequest))).build();
+>>>>>>> 324b80f8cd54d33dc3338036c1a8da6bc8cacc23
 
         try {
             Response response = httpClient.newCall(request).execute();

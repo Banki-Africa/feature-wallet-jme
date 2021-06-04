@@ -37,8 +37,8 @@ import org.bouncycastle.crypto.tls.TlsAuthentication;
 import org.bouncycastle.crypto.tls.TlsCredentials;
 import org.bouncycastle.operator.OperatorCreationException;
 
-import electrol.java.util.ArrayList;
-import electrol.java.util.List;
+import banki.java.util.ArrayList;
+import banki.java.util.List;
 
 /**
  * 

@@ -21,8 +21,8 @@ package net.wstech2.me.httpsclient;
 
 import java.io.IOException;
 
-import electrol.java.util.ArrayList;
-import electrol.java.util.List;
+import banki.java.util.ArrayList;
+import banki.java.util.List;
 
 /**
  * 

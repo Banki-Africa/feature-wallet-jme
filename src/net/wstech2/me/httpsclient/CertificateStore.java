@@ -18,7 +18,7 @@
  */
 
 package net.wstech2.me.httpsclient;
-
+import banki.java.util.*;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -32,7 +32,7 @@ import javax.microedition.rms.RecordStoreNotOpenException;
 
 import org.bouncycastle.asn1.x509.Certificate;
 
-import electrol.java.util.StringTokenizer;
+import banki.java.util.StringTokenizer;
 
 /**
  * 

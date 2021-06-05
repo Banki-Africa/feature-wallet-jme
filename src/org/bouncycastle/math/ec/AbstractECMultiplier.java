@@ -1,6 +1,6 @@
 package org.bouncycastle.math.ec;
 
-import banki.util.BigInteger;
+import java.math.BigInteger;
 
 public abstract class AbstractECMultiplier implements ECMultiplier
 {
@@ -19,8 +19,13 @@ public abstract class AbstractECMultiplier implements ECMultiplier
          * Although the various multipliers ought not to produce invalid output under normal
          * circumstances, a final check here is advised to guard against fault attacks.
          */
-        return ECAlgorithms.validatePoint(result);
+        return checkResult(result);
     }
 
     protected abstract ECPoint multiplyPositive(ECPoint p, BigInteger k);
+
+    protected ECPoint checkResult(ECPoint p)
+    {
+        return ECAlgorithms.implCheckResult(p);
+    }
 }

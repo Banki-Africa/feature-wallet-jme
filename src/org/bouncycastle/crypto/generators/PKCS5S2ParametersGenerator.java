@@ -4,17 +4,17 @@ import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.Digest;
 import org.bouncycastle.crypto.Mac;
 import org.bouncycastle.crypto.PBEParametersGenerator;
-import org.bouncycastle.crypto.digests.SHA1Digest;
 import org.bouncycastle.crypto.macs.HMac;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.crypto.params.ParametersWithIV;
+import org.bouncycastle.crypto.util.DigestFactory;
 
 /**
  * Generator for PBE derived keys and ivs as defined by PKCS 5 V2.0 Scheme 2.
  * This generator uses a SHA-1 HMac as the calculation function.
  * <p>
  * The document this implementation is based on can be found at
- * <a href=http://www.rsasecurity.com/rsalabs/pkcs/pkcs-5/index.html>
+ * <a href=https://www.rsasecurity.com/rsalabs/pkcs/pkcs-5/index.html>
  * RSA's PKCS5 Page</a>
  */
 public class PKCS5S2ParametersGenerator
@@ -28,7 +28,7 @@ public class PKCS5S2ParametersGenerator
      */
     public PKCS5S2ParametersGenerator()
     {
-        this(new SHA1Digest());
+        this(DigestFactory.createSHA1());
     }
 
     public PKCS5S2ParametersGenerator(Digest digest)
@@ -112,7 +112,7 @@ public class PKCS5S2ParametersGenerator
     {
         keySize = keySize / 8;
 
-        byte[]  dKey = generateDerivedKey(keySize);
+        byte[] dKey = generateDerivedKey(keySize);
 
         return new KeyParameter(dKey, 0, keySize);
     }
@@ -133,7 +133,7 @@ public class PKCS5S2ParametersGenerator
         keySize = keySize / 8;
         ivSize = ivSize / 8;
 
-        byte[]  dKey = generateDerivedKey(keySize + ivSize);
+        byte[] dKey = generateDerivedKey(keySize + ivSize);
 
         return new ParametersWithIV(new KeyParameter(dKey, 0, keySize), dKey, keySize, ivSize);
     }

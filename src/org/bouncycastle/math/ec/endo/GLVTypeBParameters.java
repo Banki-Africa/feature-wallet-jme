@@ -1,25 +1,28 @@
 package org.bouncycastle.math.ec.endo;
 
-import banki.util.BigInteger;
+import java.math.BigInteger;
 
 public class GLVTypeBParameters
 {
-    protected final BigInteger beta;
-    protected final BigInteger lambda;
-    protected final BigInteger[] v1, v2;
-    protected final BigInteger g1, g2;
-    protected final int bits;
+    protected final BigInteger beta, lambda;
+    protected final ScalarSplitParameters splitParams;
 
+    /**
+     * @deprecated Use constructor taking a {@link ScalarSplitParameters} instead.
+     */
     public GLVTypeBParameters(BigInteger beta, BigInteger lambda, BigInteger[] v1, BigInteger[] v2, BigInteger g1,
         BigInteger g2, int bits)
     {
         this.beta = beta;
         this.lambda = lambda;
-        this.v1 = v1;
-        this.v2 = v2;
-        this.g1 = g1;
-        this.g2 = g2;
-        this.bits = bits;
+        this.splitParams = new ScalarSplitParameters(v1, v2, g1, g2, bits);
+    }
+
+    public GLVTypeBParameters(BigInteger beta, BigInteger lambda, ScalarSplitParameters splitParams)
+    {
+        this.beta = beta;
+        this.lambda = lambda;
+        this.splitParams = splitParams;
     }
 
     public BigInteger getBeta()
@@ -32,28 +35,64 @@ public class GLVTypeBParameters
         return lambda;
     }
 
-    public BigInteger[] getV1()
+    public ScalarSplitParameters getSplitParams()
     {
-        return v1;
+        return splitParams;
     }
 
-    public BigInteger[] getV2()
+    /**
+     * @deprecated Access via {@link #getSplitParams()} instead.
+     */
+    public BigInteger getV1A()
     {
-        return v2;
+        return getSplitParams().getV1A();
     }
 
+    /**
+     * @deprecated Access via {@link #getSplitParams()} instead.
+     */
+    public BigInteger getV1B()
+    {
+        return getSplitParams().getV1B();
+    }
+
+    /**
+     * @deprecated Access via {@link #getSplitParams()} instead.
+     */
+    public BigInteger getV2A()
+    {
+        return getSplitParams().getV2A();
+    }
+
+    /**
+     * @deprecated Access via {@link #getSplitParams()} instead.
+     */
+    public BigInteger getV2B()
+    {
+        return getSplitParams().getV2B();
+    }
+
+    /**
+     * @deprecated Access via {@link #getSplitParams()} instead.
+     */
     public BigInteger getG1()
     {
-        return g1;
+        return getSplitParams().getG1();
     }
 
+    /**
+     * @deprecated Access via {@link #getSplitParams()} instead.
+     */
     public BigInteger getG2()
     {
-        return g2;
+        return getSplitParams().getG2();
     }
     
+    /**
+     * @deprecated Access via {@link #getSplitParams()} instead.
+     */
     public int getBits()
     {
-        return bits;
+        return getSplitParams().getBits();
     }
 }

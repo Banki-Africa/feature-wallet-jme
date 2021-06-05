@@ -1,8 +1,12 @@
 package org.bouncycastle.math.ec.custom.sec;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
+import org.bouncycastle.math.raw.Mod;
 import org.bouncycastle.math.raw.Nat;
 import org.bouncycastle.math.raw.Nat256;
-import banki.util.BigInteger;
+import org.bouncycastle.util.Pack;
 
 public class SecP256R1Field
 {
@@ -11,11 +15,11 @@ public class SecP256R1Field
     // 2^256 - 2^224 + 2^192 + 2^96 - 1
     static final int[] P = new int[]{ 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0x00000000, 0x00000000, 0x00000000,
         0x00000001, 0xFFFFFFFF };
-    static final int[] PExt = new int[]{ 0x00000001, 0x00000000, 0x00000000, 0xFFFFFFFE, 0xFFFFFFFF,
-        0xFFFFFFFF, 0xFFFFFFFE, 0x00000001, 0xFFFFFFFE, 0x00000001, 0xFFFFFFFE, 0x00000001, 0x00000001, 0xFFFFFFFE,
-        0x00000002, 0xFFFFFFFE };
+    private static final int[] PExt = new int[]{ 0x00000001, 0x00000000, 0x00000000, 0xFFFFFFFE, 0xFFFFFFFF, 0xFFFFFFFF,
+        0xFFFFFFFE, 0x00000001, 0xFFFFFFFE, 0x00000001, 0xFFFFFFFE, 0x00000001, 0x00000001, 0xFFFFFFFE, 0x00000002,
+        0xFFFFFFFE };
     private static final int P7 = 0xFFFFFFFF;
-    private static final int PExt15 = 0xFFFFFFFF;
+    private static final int PExt15s1 = 0xFFFFFFFE >>> 1;
 
     public static void add(int[] x, int[] y, int[] z)
     {
@@ -29,7 +33,7 @@ public class SecP256R1Field
     public static void addExt(int[] xx, int[] yy, int[] zz)
     {
         int c = Nat.add(16, xx, yy, zz);
-        if (c != 0 || ((zz[15] & PExt15) == PExt15 && Nat.gte(16, zz, PExt)))
+        if (c != 0 || ((zz[15] >>> 1) >= PExt15s1 && Nat.gte(16, zz, PExt)))
         {
             Nat.subFrom(16, PExt, zz);
         }
@@ -67,6 +71,22 @@ public class SecP256R1Field
         }
     }
 
+    public static void inv(int[] x, int[] z)
+    {
+        Mod.checkedModOddInverse(P, x, z);
+    }
+
+    public static int isZero(int[] x)
+    {
+        int d = 0;
+        for (int i = 0; i < 8; ++i)
+        {
+            d |= x[i];
+        }
+        d = (d >>> 1) | (d & 1);
+        return (d - 1) >> 31;
+    }
+
     public static void multiply(int[] x, int[] y, int[] z)
     {
         int[] tt = Nat256.createExt();
@@ -77,7 +97,7 @@ public class SecP256R1Field
     public static void multiplyAddToExt(int[] x, int[] y, int[] zz)
     {
         int c = Nat256.mulAddTo(x, y, zz);
-        if (c != 0 || ((zz[15] & PExt15) == PExt15 && Nat.gte(16, zz, PExt)))
+        if (c != 0 || ((zz[15] >>> 1) >= PExt15s1 && Nat.gte(16, zz, PExt)))
         {
             Nat.subFrom(16, PExt, zz);
         }
@@ -85,14 +105,34 @@ public class SecP256R1Field
 
     public static void negate(int[] x, int[] z)
     {
-        if (Nat256.isZero(x))
+        if (0 != isZero(x))
         {
-            Nat256.zero(z);
+            Nat256.sub(P, P, z);
         }
         else
         {
             Nat256.sub(P, x, z);
         }
+    }
+
+    public static void random(SecureRandom r, int[] z)
+    {
+        byte[] bb = new byte[8 * 4];
+        do
+        {
+            r.nextBytes(bb);
+            Pack.littleEndianToInt(bb, 0, z, 0, 8);
+        }
+        while (0 == Nat.lessThan(8, z, P));
+    }
+
+    public static void randomMult(SecureRandom r, int[] z)
+    {
+        do
+        {
+            random(r, z);
+        }
+        while (0 != isZero(z));
     }
 
     public static void reduce(int[] xx, int[] z)
@@ -111,9 +151,10 @@ public class SecP256R1Field
         long t4 = xx12 + xx13;
         long t5 = xx13 + xx14;
         long t6 = xx14 + xx15;
+        long t7 = t5 - t0;
 
         long cc = 0;
-        cc += (xx[0] & M) + t0 - t3 - t5;
+        cc += (xx[0] & M) - t3 - t7;
         z[0] = (int)cc;
         cc >>= 32;
         cc += (xx[1] & M) + t1 - t4 - t6;
@@ -122,7 +163,7 @@ public class SecP256R1Field
         cc += (xx[2] & M) + t2 - t5;
         z[2] = (int)cc;
         cc >>= 32;
-        cc += (xx[3] & M) + (t3 << 1) + xx13 - xx15 - t0;
+        cc += (xx[3] & M) + (t3 << 1) + t7 - t6;
         z[3] = (int)cc;
         cc >>= 32;
         cc += (xx[4] & M) + (t4 << 1) + xx14 - t1;
@@ -131,7 +172,7 @@ public class SecP256R1Field
         cc += (xx[5] & M) + (t5 << 1) - t2;
         z[5] = (int)cc;
         cc >>= 32;
-        cc += (xx[6] & M) + (t6 << 1) + t5 - t0;
+        cc += (xx[6] & M) + (t6 << 1) + t7;
         z[6] = (int)cc;
         cc >>= 32;
         cc += (xx[7] & M) + (xx15 << 1) + xx08 - t2 - t4;

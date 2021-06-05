@@ -1,5 +1,6 @@
 package org.bouncycastle.asn1.sec;
 
+import java.math.BigInteger;
 import java.util.Enumeration;
 
 import org.bouncycastle.asn1.ASN1Encodable;
@@ -15,7 +16,6 @@ import org.bouncycastle.asn1.DEROctetString;
 import org.bouncycastle.asn1.DERSequence;
 import org.bouncycastle.asn1.DERTaggedObject;
 import org.bouncycastle.util.BigIntegers;
-import banki.util.BigInteger;
 
 /**
  * the elliptic curve private key object from SEC 1
@@ -37,7 +37,7 @@ public class ECPrivateKeyStructure
     {
         byte[] bytes = BigIntegers.asUnsignedByteArray(key);
 
-        ASN1EncodableVector v = new ASN1EncodableVector();
+        ASN1EncodableVector v = new ASN1EncodableVector(2);
 
         v.add(new ASN1Integer(1));
         v.add(new DEROctetString(bytes));
@@ -59,7 +59,7 @@ public class ECPrivateKeyStructure
     {
         byte[] bytes = BigIntegers.asUnsignedByteArray(key);
 
-        ASN1EncodableVector v = new ASN1EncodableVector();
+        ASN1EncodableVector v = new ASN1EncodableVector(4);
 
         v.add(new ASN1Integer(1));
         v.add(new DEROctetString(bytes));

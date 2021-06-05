@@ -1,8 +1,8 @@
 package org.bouncycastle.crypto.params;
 
-import org.bouncycastle.crypto.KeyGenerationParameters;
+import java.security.SecureRandom;
 
-import banki.java.security.SecureRandom;
+import org.bouncycastle.crypto.KeyGenerationParameters;
 
 public class DHKeyGenerationParameters
     extends KeyGenerationParameters

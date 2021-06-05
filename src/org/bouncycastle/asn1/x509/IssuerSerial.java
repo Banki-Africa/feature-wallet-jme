@@ -1,5 +1,7 @@
 package org.bouncycastle.asn1.x509;
 
+import java.math.BigInteger;
+
 import org.bouncycastle.asn1.ASN1EncodableVector;
 import org.bouncycastle.asn1.ASN1Integer;
 import org.bouncycastle.asn1.ASN1Object;
@@ -9,7 +11,6 @@ import org.bouncycastle.asn1.ASN1TaggedObject;
 import org.bouncycastle.asn1.DERBitString;
 import org.bouncycastle.asn1.DERSequence;
 import org.bouncycastle.asn1.x500.X500Name;
-import banki.util.BigInteger;
 
 public class IssuerSerial
     extends ASN1Object
@@ -107,7 +108,7 @@ public class IssuerSerial
      */
     public ASN1Primitive toASN1Primitive()
     {
-        ASN1EncodableVector  v = new ASN1EncodableVector();
+        ASN1EncodableVector v = new ASN1EncodableVector(3);
 
         v.add(issuer);
         v.add(serial);

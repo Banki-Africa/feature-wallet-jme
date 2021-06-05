@@ -1,7 +1,8 @@
 package org.bouncycastle.math.raw;
 
+import java.math.BigInteger;
+
 import org.bouncycastle.util.Pack;
-import banki.util.BigInteger;
 
 public abstract class Nat256
 {
@@ -237,14 +238,52 @@ public abstract class Nat256
         z[7] = x[7];
     }
 
+    public static void copy(int[] x, int xOff, int[] z, int zOff)
+    {
+        z[zOff + 0] = x[xOff + 0];
+        z[zOff + 1] = x[xOff + 1];
+        z[zOff + 2] = x[xOff + 2];
+        z[zOff + 3] = x[xOff + 3];
+        z[zOff + 4] = x[xOff + 4];
+        z[zOff + 5] = x[xOff + 5];
+        z[zOff + 6] = x[xOff + 6];
+        z[zOff + 7] = x[xOff + 7];
+    }
+
+    public static void copy64(long[] x, long[] z)
+    {
+        z[0] = x[0];
+        z[1] = x[1];
+        z[2] = x[2];
+        z[3] = x[3];
+    }
+
+    public static void copy64(long[] x, int xOff, long[] z, int zOff)
+    {
+        z[zOff + 0] = x[xOff + 0];
+        z[zOff + 1] = x[xOff + 1];
+        z[zOff + 2] = x[xOff + 2];
+        z[zOff + 3] = x[xOff + 3];
+    }
+
     public static int[] create()
     {
         return new int[8];
     }
 
+    public static long[] create64()
+    {
+        return new long[4];
+    }
+
     public static int[] createExt()
     {
         return new int[16];
+    }
+
+    public static long[] createExt64()
+    {
+        return new long[8];
     }
 
     public static boolean diff(int[] x, int xOff, int[] y, int yOff, int[] z, int zOff)
@@ -273,6 +312,18 @@ public abstract class Nat256
         return true;
     }
 
+    public static boolean eq64(long[] x, long[] y)
+    {
+        for (int i = 3; i >= 0; --i)
+        {
+            if (x[i] != y[i])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static int[] fromBigInteger(BigInteger x)
     {
         if (x.signum() < 0 || x.bitLength() > 256)
@@ -281,11 +332,30 @@ public abstract class Nat256
         }
 
         int[] z = create();
-        int i = 0;
-        while (x.signum() != 0)
+
+        // NOTE: Use a fixed number of loop iterations
+        for (int i = 0; i < 8; ++i)
         {
-            z[i++] = x.intValue();
+            z[i] = x.intValue();
             x = x.shiftRight(32);
+        }
+        return z;
+    }
+
+    public static long[] fromBigInteger64(BigInteger x)
+    {
+        if (x.signum() < 0 || x.bitLength() > 256)
+        {
+            throw new IllegalArgumentException();
+        }
+
+        long[] z = create64();
+
+        // NOTE: Use a fixed number of loop iterations
+        for (int i = 0; i < 4; ++i)
+        {
+            z[i] = x.longValue();
+            x = x.shiftRight(64);
         }
         return z;
     }
@@ -349,11 +419,39 @@ public abstract class Nat256
         return true;
     }
 
+    public static boolean isOne64(long[] x)
+    {
+        if (x[0] != 1L)
+        {
+            return false;
+        }
+        for (int i = 1; i < 4; ++i)
+        {
+            if (x[i] != 0L)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static boolean isZero(int[] x)
     {
         for (int i = 0; i < 8; ++i)
         {
             if (x[i] != 0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isZero64(long[] x)
+    {
+        for (int i = 0; i < 4; ++i)
+        {
+            if (x[i] != 0L)
             {
                 return false;
             }
@@ -543,9 +641,10 @@ public abstract class Nat256
             c += x_i * y_7 + (zz[i + 7] & M);
             zz[i + 7] = (int)c;
             c >>>= 32;
-            c += zc + (zz[i + 8] & M);
-            zz[i + 8] = (int)c;
-            zc = c >>> 32;
+
+            zc += c + (zz[i + 8] & M);
+            zz[i + 8] = (int)zc;
+            zc >>>= 32;
         }
         return (int)zc;
     }
@@ -589,9 +688,10 @@ public abstract class Nat256
             c += x_i * y_7 + (zz[zzOff + 7] & M);
             zz[zzOff + 7] = (int)c;
             c >>>= 32;
-            c += zc + (zz[zzOff + 8] & M);
-            zz[zzOff + 8] = (int)c;
-            zc = c >>> 32;
+
+            zc += c + (zz[zzOff + 8] & M);
+            zz[zzOff + 8] = (int)zc;
+            zc >>>= 32;
             ++zzOff;
         }
         return (int)zc;
@@ -850,8 +950,8 @@ public abstract class Nat256
         }
 
         long x_3 = x[3] & M;
-        long zz_5 = zz[5] & M;
-        long zz_6 = zz[6] & M;
+        long zz_5 = (zz[5] & M) + (zz_4 >>> 32); zz_4 &= M;
+        long zz_6 = (zz[6] & M) + (zz_5 >>> 32); zz_5 &= M;
         {
             zz_3 += x_3 * x_0;
             w = (int)zz_3;
@@ -865,8 +965,8 @@ public abstract class Nat256
         }
 
         long x_4 = x[4] & M;
-        long zz_7 = zz[7] & M;
-        long zz_8 = zz[8] & M;
+        long zz_7 = (zz[7] & M) + (zz_6 >>> 32); zz_6 &= M;
+        long zz_8 = (zz[8] & M) + (zz_7 >>> 32); zz_7 &= M;
         {
             zz_4 += x_4 * x_0;
             w = (int)zz_4;
@@ -882,8 +982,8 @@ public abstract class Nat256
         }
 
         long x_5 = x[5] & M;
-        long zz_9 = zz[9] & M;
-        long zz_10 = zz[10] & M;
+        long zz_9 = (zz[9] & M) + (zz_8 >>> 32); zz_8 &= M;
+        long zz_10 = (zz[10] & M) + (zz_9 >>> 32); zz_9 &= M;
         {
             zz_5 += x_5 * x_0;
             w = (int)zz_5;
@@ -901,8 +1001,8 @@ public abstract class Nat256
         }
 
         long x_6 = x[6] & M;
-        long zz_11 = zz[11] & M;
-        long zz_12 = zz[12] & M;
+        long zz_11 = (zz[11] & M) + (zz_10 >>> 32); zz_10 &= M;
+        long zz_12 = (zz[12] & M) + (zz_11 >>> 32); zz_11 &= M;
         {
             zz_6 += x_6 * x_0;
             w = (int)zz_6;
@@ -922,8 +1022,8 @@ public abstract class Nat256
         }
 
         long x_7 = x[7] & M;
-        long zz_13 = zz[13] & M;
-        long zz_14 = zz[14] & M;
+        long zz_13 = (zz[13] & M) + (zz_12 >>> 32); zz_12 &= M;
+        long zz_14 = (zz[14] & M) + (zz_13 >>> 32); zz_13 &= M;
         {
             zz_7 += x_7 * x_0;
             w = (int)zz_7;
@@ -959,7 +1059,7 @@ public abstract class Nat256
         w = (int)zz_14;
         zz[14] = (w << 1) | c;
         c = w >>> 31;
-        w = zz[15] + (int)(zz_14 >> 32);
+        w = zz[15] + (int)(zz_14 >>> 32);
         zz[15] = (w << 1) | c;
     }
 
@@ -1014,8 +1114,8 @@ public abstract class Nat256
         }
 
         long x_3 = x[xOff + 3] & M;
-        long zz_5 = zz[zzOff + 5] & M;
-        long zz_6 = zz[zzOff + 6] & M;
+        long zz_5 = (zz[zzOff + 5] & M) + (zz_4 >>> 32); zz_4 &= M;
+        long zz_6 = (zz[zzOff + 6] & M) + (zz_5 >>> 32); zz_5 &= M;
         {
             zz_3 += x_3 * x_0;
             w = (int)zz_3;
@@ -1029,8 +1129,8 @@ public abstract class Nat256
         }
 
         long x_4 = x[xOff + 4] & M;
-        long zz_7 = zz[zzOff + 7] & M;
-        long zz_8 = zz[zzOff + 8] & M;
+        long zz_7 = (zz[zzOff + 7] & M) + (zz_6 >>> 32); zz_6 &= M;
+        long zz_8 = (zz[zzOff + 8] & M) + (zz_7 >>> 32); zz_7 &= M;
         {
             zz_4 += x_4 * x_0;
             w = (int)zz_4;
@@ -1046,8 +1146,8 @@ public abstract class Nat256
         }
 
         long x_5 = x[xOff + 5] & M;
-        long zz_9 = zz[zzOff + 9] & M;
-        long zz_10 = zz[zzOff + 10] & M;
+        long zz_9 = (zz[zzOff + 9] & M) + (zz_8 >>> 32); zz_8 &= M;
+        long zz_10 = (zz[zzOff + 10] & M) + (zz_9 >>> 32); zz_9 &= M;
         {
             zz_5 += x_5 * x_0;
             w = (int)zz_5;
@@ -1065,8 +1165,8 @@ public abstract class Nat256
         }
 
         long x_6 = x[xOff + 6] & M;
-        long zz_11 = zz[zzOff + 11] & M;
-        long zz_12 = zz[zzOff + 12] & M;
+        long zz_11 = (zz[zzOff + 11] & M) + (zz_10 >>> 32); zz_10 &= M;
+        long zz_12 = (zz[zzOff + 12] & M) + (zz_11 >>> 32); zz_11 &= M;
         {
             zz_6 += x_6 * x_0;
             w = (int)zz_6;
@@ -1086,8 +1186,8 @@ public abstract class Nat256
         }
 
         long x_7 = x[xOff + 7] & M;
-        long zz_13 = zz[zzOff + 13] & M;
-        long zz_14 = zz[zzOff + 14] & M;
+        long zz_13 = (zz[zzOff + 13] & M) + (zz_12 >>> 32); zz_12 &= M;
+        long zz_14 = (zz[zzOff + 14] & M) + (zz_13 >>> 32); zz_13 &= M;
         {
             zz_7 += x_7 * x_0;
             w = (int)zz_7;
@@ -1123,7 +1223,7 @@ public abstract class Nat256
         w = (int)zz_14;
         zz[zzOff + 14] = (w << 1) | c;
         c = w >>> 31;
-        w = zz[zzOff + 15] + (int)(zz_14 >> 32);
+        w = zz[zzOff + 15] + (int)(zz_14 >>> 32);
         zz[zzOff + 15] = (w << 1) | c;
     }
 
@@ -1286,6 +1386,20 @@ public abstract class Nat256
             if (x_i != 0)
             {
                 Pack.intToBigEndian(x_i, bs, (7 - i) << 2);
+            }
+        }
+        return new BigInteger(1, bs);
+    }
+
+    public static BigInteger toBigInteger64(long[] x)
+    {
+        byte[] bs = new byte[32];
+        for (int i = 0; i < 4; ++i)
+        {
+            long x_i = x[i];
+            if (x_i != 0L)
+            {
+                Pack.longToBigEndian(x_i, bs, (3 - i) << 3);
             }
         }
         return new BigInteger(1, bs);

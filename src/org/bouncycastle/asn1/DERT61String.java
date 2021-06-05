@@ -16,7 +16,7 @@ public class DERT61String
     private byte[] string;
 
     /**
-     * return a T61 string from the passed in object.
+     * Return a T61 string from the passed in object.
      *
      * @param obj a DERT61String or an object that can be converted into one.
      * @exception IllegalArgumentException if the object cannot be converted.
@@ -46,7 +46,7 @@ public class DERT61String
     }
 
     /**
-     * return an T61 String from a tagged object.
+     * Return an T61 String from a tagged object.
      *
      * @param obj the tagged object holding the object we want
      * @param explicit true if the object is meant to be explicitly
@@ -72,25 +72,25 @@ public class DERT61String
     }
 
     /**
-     * basic constructor - string encoded as a sequence of bytes.
+     * Basic constructor - string encoded as a sequence of bytes.
      *
      * @param string the byte encoding of the string to be wrapped.
      */
     public DERT61String(
         byte[]   string)
     {
-        this.string = string;
+        this.string = Arrays.clone(string);
     }
 
     /**
-     * basic constructor - with string 8 bit assumed.
+     * Basic constructor - with string 8 bit assumed.
      *
      * @param string the string to be wrapped.
      */
     public DERT61String(
         String   string)
     {
-        this(Strings.toByteArray(string));
+        this.string = Strings.toByteArray(string);
     }
 
     /**
@@ -117,11 +117,9 @@ public class DERT61String
         return 1 + StreamUtil.calculateBodyLength(string.length) + string.length;
     }
 
-    void encode(
-        ASN1OutputStream out)
-        throws IOException
+    void encode(ASN1OutputStream out, boolean withTag) throws IOException
     {
-        out.writeEncoded(BERTags.T61_STRING, string);
+        out.writeEncoded(withTag, BERTags.T61_STRING, string);
     }
 
     /**

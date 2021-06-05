@@ -5,16 +5,21 @@ import java.io.IOException;
 import org.bouncycastle.util.Arrays;
 
 /**
- * DER BMPString object.
+ * DER BMPString object encodes BMP (<i>Basic Multilingual Plane</i>) subset
+ * (aka UCS-2) of UNICODE (ISO 10646) characters in codepoints 0 to 65535.
+ * <p>
+ * At ISO-10646:2011 the term "BMP" has been withdrawn, and replaced by
+ * term "UCS-2".
+ * </p>
  */
 public class DERBMPString
     extends ASN1Primitive
     implements ASN1String
 {
-    private char[]  string;
+    private final char[]  string;
 
     /**
-     * return a BMP String from the given object.
+     * Return a BMP String from the given object.
      *
      * @param obj the object we want converted.
      * @exception IllegalArgumentException if the object cannot be converted.
@@ -44,7 +49,7 @@ public class DERBMPString
     }
 
     /**
-     * return a BMP String from a tagged object.
+     * Return a BMP String from a tagged object.
      *
      * @param obj the tagged object holding the object we want
      * @param explicit true if the object is meant to be explicitly
@@ -70,15 +75,27 @@ public class DERBMPString
     }
 
     /**
-     * basic constructor - byte encoded string.
+     * Basic constructor - byte encoded string.
      * @param string the encoded BMP STRING to wrap.
      */
     DERBMPString(
         byte[]   string)
     {
-        char[]  cs = new char[string.length / 2];
+        if (string == null)
+        {
+            throw new NullPointerException("'string' cannot be null");
+        }
 
-        for (int i = 0; i != cs.length; i++)
+        int byteLen = string.length;
+        if (0 != (byteLen & 1))
+        {
+            throw new IllegalArgumentException("malformed BMPString encoding encountered");
+        }
+
+        int charLen = byteLen / 2;
+        char[] cs = new char[charLen];
+
+        for (int i = 0; i != charLen; i++)
         {
             cs[i] = (char)((string[2 * i] << 8) | (string[2 * i + 1] & 0xff));
         }
@@ -88,16 +105,26 @@ public class DERBMPString
 
     DERBMPString(char[] string)
     {
+        if (string == null)
+        {
+            throw new NullPointerException("'string' cannot be null");
+        }
+
         this.string = string;
     }
 
     /**
-     * basic constructor
+     * Basic constructor
      * @param string a String to wrap as a BMP STRING.
      */
     public DERBMPString(
         String   string)
     {
+        if (string == null)
+        {
+            throw new NullPointerException("'string' cannot be null");
+        }
+
         this.string = string.toCharArray();
     }
 
@@ -140,18 +167,49 @@ public class DERBMPString
     }
 
     void encode(
-        ASN1OutputStream out)
+        ASN1OutputStream out, boolean withTag)
         throws IOException
     {
-        out.write(BERTags.BMP_STRING);
-        out.writeLength(string.length * 2);
-
-        for (int i = 0; i != string.length; i++)
+        int count = string.length;
+        if (withTag)
         {
-            char c = string[i];
+            out.write(BERTags.BMP_STRING);
+        }
+        out.writeLength(count * 2);
 
-            out.write((byte)(c >> 8));
-            out.write((byte)c);
+        byte[] buf = new byte[8];
+
+        int i = 0, limit = count & -4;
+        while (i < limit)
+        {
+            char c0 = string[i], c1 = string[i + 1], c2 = string[i + 2], c3 = string[i + 3];
+            i += 4;
+
+            buf[0] = (byte)(c0 >> 8);
+            buf[1] = (byte)c0;
+            buf[2] = (byte)(c1 >> 8);
+            buf[3] = (byte)c1;
+            buf[4] = (byte)(c2 >> 8);
+            buf[5] = (byte)c2;
+            buf[6] = (byte)(c3 >> 8);
+            buf[7] = (byte)c3;
+
+            out.write(buf, 0, 8);
+        }
+        if (i < count)
+        {
+            int bufPos = 0;
+            do
+            {
+                char c0 = string[i];
+                i += 1;
+
+                buf[bufPos++] = (byte)(c0 >> 8);
+                buf[bufPos++] = (byte)c0;
+            }
+            while (i < count);
+
+            out.write(buf, 0, bufPos);
         }
     }
 }

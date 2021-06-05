@@ -1,14 +1,14 @@
 package org.bouncycastle.math.ec.custom.djb;
 
+import java.math.BigInteger;
+
 import org.bouncycastle.math.ec.ECFieldElement;
-import org.bouncycastle.math.raw.Mod;
 import org.bouncycastle.math.raw.Nat256;
 import org.bouncycastle.util.Arrays;
-import banki.util.BigInteger;
 
-public class Curve25519FieldElement extends ECFieldElement
+public class Curve25519FieldElement extends ECFieldElement.AbstractFp
 {
-    public static final BigInteger Q = Curve25519.q;
+    public static final BigInteger Q = Nat256.toBigInteger(Curve25519Field.P);
 
     // Calculated as ECConstants.TWO.modPow(Q.shiftRight(2), Q)
     private static final int[] PRECOMP_POW2 = new int[]{ 0x4a0ea0b0, 0xc4ee1b27, 0xad2fe478, 0x2f431806,
@@ -98,7 +98,7 @@ public class Curve25519FieldElement extends ECFieldElement
     {
 //        return multiply(b.invert());
         int[] z = Nat256.create();
-        Mod.invert(Curve25519Field.P, ((Curve25519FieldElement)b).x, z);
+        Curve25519Field.inv(((Curve25519FieldElement)b).x, z);
         Curve25519Field.multiply(z, x, z);
         return new Curve25519FieldElement(z);
     }
@@ -121,7 +121,7 @@ public class Curve25519FieldElement extends ECFieldElement
     {
 //        return new Curve25519FieldElement(toBigInteger().modInverse(Q));
         int[] z = Nat256.create();
-        Mod.invert(Curve25519Field.P, x, z);
+        Curve25519Field.inv(x, z);
         return new Curve25519FieldElement(z);
     }
 

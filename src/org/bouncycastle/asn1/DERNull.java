@@ -3,7 +3,9 @@ package org.bouncycastle.asn1;
 import java.io.IOException;
 
 /**
- * A NULL object.
+ * An ASN.1 DER NULL object.
+ * <p>
+ * Preferably use the constant:  DERNull.INSTANCE.
  */
 public class DERNull
     extends ASN1Null
@@ -12,10 +14,7 @@ public class DERNull
 
     private static final byte[]  zeroBytes = new byte[0];
 
-    /**
-     * @deprecated use DERNull.INSTANCE
-     */
-    public DERNull()
+    private DERNull()
     {
     }
 
@@ -29,10 +28,8 @@ public class DERNull
         return 2;
     }
 
-    void encode(
-        ASN1OutputStream out)
-        throws IOException
+    void encode(ASN1OutputStream out, boolean withTag) throws IOException
     {
-        out.writeEncoded(BERTags.NULL, zeroBytes);
+        out.writeEncoded(withTag, BERTags.NULL, zeroBytes);
     }
 }

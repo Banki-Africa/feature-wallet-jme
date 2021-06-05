@@ -115,7 +115,14 @@ public class BufferedBlockCipher
 
         if (pgpCFB)
         {
-            leftOver    = total % buf.length - (cipher.getBlockSize() + 2);
+            if (forEncryption)
+            {
+                leftOver = total % buf.length - (cipher.getBlockSize() + 2);
+            }
+            else
+            {
+                leftOver = total % buf.length;
+            }
         }
         else
         {
@@ -141,7 +148,7 @@ public class BufferedBlockCipher
     }
 
     /**
-     * process a single byte, producing an output block if neccessary.
+     * process a single byte, producing an output block if necessary.
      *
      * @param in the input byte.
      * @param out the space for any output that might be produced.

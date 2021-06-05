@@ -1,17 +1,20 @@
 package org.bouncycastle.math.ec;
 
 import org.bouncycastle.util.Arrays;
-import banki.util.BigInteger;
 
-class LongArray
+import java.math.BigInteger;
+
+class LongArray implements Cloneable
 {
 //    private static long DEINTERLEAVE_MASK = 0x5555555555555555L;
 
     /*
      * This expands 8 bit indices into 16 bit contents (high bit 14), by inserting 0s between bits.
      * In a binary field, this operation is the same as squaring an 8 bit number.
+     * 
+     * NOTE: All entries are positive so sign-extension is not an issue.
      */
-    private static final int[] INTERLEAVE2_TABLE = new int[]
+    private static final short[] INTERLEAVE2_TABLE = new short[]
     {
         0x0000, 0x0001, 0x0004, 0x0005, 0x0010, 0x0011, 0x0014, 0x0015,
         0x0040, 0x0041, 0x0044, 0x0045, 0x0050, 0x0051, 0x0054, 0x0055,
@@ -368,6 +371,11 @@ class LongArray
             }
             m_ints[iarrJ] = temp;
         }
+    }
+
+    void copyTo(long[] z, int zOff)
+    {
+        System.arraycopy(m_ints, 0, z, zOff, m_ints.length);
     }
 
     public boolean isOne()
@@ -2174,7 +2182,7 @@ class LongArray
         {
             return "0";
         }
-/*
+
         StringBuffer sb = new StringBuffer(Long.toBinaryString(m_ints[--i]));
         while (--i >= 0)
         {
@@ -2190,7 +2198,5 @@ class LongArray
             sb.append(s);
         }
         return sb.toString();
-*/
-        return "not supported";
     }
 }

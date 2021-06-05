@@ -1,23 +1,35 @@
 package org.bouncycastle.math.ec;
 
+import java.math.BigInteger;
+
 import org.bouncycastle.math.ec.endo.ECEndomorphism;
+import org.bouncycastle.math.ec.endo.EndoUtil;
 import org.bouncycastle.math.ec.endo.GLVEndomorphism;
 import org.bouncycastle.math.field.FiniteField;
 import org.bouncycastle.math.field.PolynomialExtensionField;
-import banki.util.BigInteger;
+import org.bouncycastle.math.raw.Nat;
 
 public class ECAlgorithms
 {
     public static boolean isF2mCurve(ECCurve c)
     {
-        FiniteField field = c.getField();
+        return isF2mField(c.getField());
+    }
+
+    public static boolean isF2mField(FiniteField field)
+    {
         return field.getDimension() > 1 && field.getCharacteristic().equals(ECConstants.TWO)
             && field instanceof PolynomialExtensionField;
     }
 
     public static boolean isFpCurve(ECCurve c)
     {
-        return c.getField().getDimension() == 1;
+        return isFpField(c.getField());
+    }
+
+    public static boolean isFpField(FiniteField field)
+    {
+        return field.getDimension() == 1;
     }
 
     public static ECPoint sumOfMultiplies(ECPoint[] ps, BigInteger[] ks)
@@ -51,10 +63,10 @@ public class ECAlgorithms
         ECEndomorphism endomorphism = c.getEndomorphism();
         if (endomorphism instanceof GLVEndomorphism)
         {
-            return validatePoint(implSumOfMultipliesGLV(imported, ks, (GLVEndomorphism)endomorphism));
+            return implCheckResult(implSumOfMultipliesGLV(imported, ks, (GLVEndomorphism)endomorphism));
         }
 
-        return validatePoint(implSumOfMultiplies(imported, ks));
+        return implCheckResult(implSumOfMultiplies(imported, ks));
     }
 
     public static ECPoint sumOfTwoMultiplies(ECPoint P, BigInteger a,
@@ -64,23 +76,23 @@ public class ECAlgorithms
         Q = importPoint(cp, Q);
 
         // Point multiplication for Koblitz curves (using WTNAF) beats Shamir's trick
-        if (cp instanceof ECCurve.F2m)
+        if (cp instanceof ECCurve.AbstractF2m)
         {
-            ECCurve.F2m f2mCurve = (ECCurve.F2m)cp;
+            ECCurve.AbstractF2m f2mCurve = (ECCurve.AbstractF2m)cp;
             if (f2mCurve.isKoblitz())
             {
-                return validatePoint(P.multiply(a).add(Q.multiply(b)));
+                return implCheckResult(P.multiply(a).add(Q.multiply(b)));
             }
         }
 
         ECEndomorphism endomorphism = cp.getEndomorphism();
         if (endomorphism instanceof GLVEndomorphism)
         {
-            return validatePoint(
+            return implCheckResult(
                 implSumOfMultipliesGLV(new ECPoint[]{ P, Q }, new BigInteger[]{ a, b }, (GLVEndomorphism)endomorphism));
         }
 
-        return validatePoint(implShamirsTrickWNaf(P, a, Q, b));
+        return implCheckResult(implShamirsTrickWNaf(P, a, Q, b));
     }
 
     /*
@@ -108,7 +120,7 @@ public class ECAlgorithms
         ECCurve cp = P.getCurve();
         Q = importPoint(cp, Q);
 
-        return validatePoint(implShamirsTrickJsf(P, k, Q, l));
+        return implCheckResult(implShamirsTrickJsf(P, k, Q, l));
     }
 
     public static ECPoint importPoint(ECCurve c, ECPoint p)
@@ -122,6 +134,11 @@ public class ECAlgorithms
     }
 
     public static void montgomeryTrick(ECFieldElement[] zs, int off, int len)
+    {
+        montgomeryTrick(zs, off, len, null);
+    }
+
+    public static void montgomeryTrick(ECFieldElement[] zs, int off, int len, ECFieldElement scale)
     {
         /*
          * Uses the "Montgomery Trick" to invert many field elements, with only a single actual
@@ -139,7 +156,14 @@ public class ECAlgorithms
             c[i] = c[i - 1].multiply(zs[off + i]);
         }
 
-        ECFieldElement u = c[--i].invert();
+        --i;
+
+        if (scale != null)
+        {
+            c[i] = c[i].multiply(scale);
+        }
+
+        ECFieldElement u = c[i].invert();
 
         while (i > 0)
         {
@@ -153,8 +177,9 @@ public class ECAlgorithms
     }
 
     /**
-     * Simple shift-and-add multiplication. Serves as reference implementation
-     * to verify (possibly faster) implementations, and for very small scalars.
+     * Simple shift-and-add multiplication. Serves as reference implementation to verify (possibly
+     * faster) implementations, and for very small scalars. CAUTION: This implementation is NOT
+     * constant-time in any way. It is only intended to be used for diagnostics.
      * 
      * @param p
      *            The point to multiply.
@@ -189,7 +214,28 @@ public class ECAlgorithms
     {
         if (!p.isValid())
         {
-            throw new IllegalArgumentException("Invalid point");
+            throw new IllegalStateException("Invalid point");
+        }
+
+        return p;
+    }
+
+    public static ECPoint cleanPoint(ECCurve c, ECPoint p)
+    {
+        ECCurve cp = p.getCurve();
+        if (!c.equals(cp))
+        {
+            throw new IllegalArgumentException("Point must be on the same curve");
+        }
+
+        return c.decodePoint(p.getEncoded(false));
+    }
+
+    static ECPoint implCheckResult(ECPoint p)
+    {
+        if (!p.isValidPartial())
+        {
+            throw new IllegalStateException("Invalid result");
         }
 
         return p;
@@ -237,14 +283,55 @@ public class ECAlgorithms
     {
         boolean negK = k.signum() < 0, negL = l.signum() < 0;
 
+        BigInteger kAbs = k.abs(), lAbs = l.abs();
+
+        int minWidthP = WNafUtil.getWindowSize(kAbs.bitLength(), 8);
+        int minWidthQ = WNafUtil.getWindowSize(lAbs.bitLength(), 8);
+
+        WNafPreCompInfo infoP = WNafUtil.precompute(P, minWidthP, true);
+        WNafPreCompInfo infoQ = WNafUtil.precompute(Q, minWidthQ, true);
+
+        // When P, Q are 'promoted' (i.e. reused several times), switch to fixed-point algorithm
+        {
+            ECCurve c = P.getCurve();
+            int combSize = FixedPointUtil.getCombSize(c);
+            if (!negK && !negL
+                && k.bitLength() <= combSize && l.bitLength() <= combSize
+                && infoP.isPromoted() && infoQ.isPromoted())
+            {
+                return implShamirsTrickFixedPoint(P, k, Q, l);
+            }
+        }
+
+        int widthP = Math.min(8, infoP.getWidth());
+        int widthQ = Math.min(8, infoQ.getWidth());
+
+        ECPoint[] preCompP = negK ? infoP.getPreCompNeg() : infoP.getPreComp();
+        ECPoint[] preCompQ = negL ? infoQ.getPreCompNeg() : infoQ.getPreComp();
+        ECPoint[] preCompNegP = negK ? infoP.getPreComp() : infoP.getPreCompNeg();
+        ECPoint[] preCompNegQ = negL ? infoQ.getPreComp() : infoQ.getPreCompNeg();
+
+        byte[] wnafP = WNafUtil.generateWindowNaf(widthP, kAbs);
+        byte[] wnafQ = WNafUtil.generateWindowNaf(widthQ, lAbs);
+
+        return implShamirsTrickWNaf(preCompP, preCompNegP, wnafP, preCompQ, preCompNegQ, wnafQ);
+    }
+
+    static ECPoint implShamirsTrickWNaf(ECEndomorphism endomorphism, ECPoint P, BigInteger k, BigInteger l)
+    {
+        boolean negK = k.signum() < 0, negL = l.signum() < 0;
+
         k = k.abs();
         l = l.abs();
 
-        int widthP = Math.max(2, Math.min(16, WNafUtil.getWindowSize(k.bitLength())));
-        int widthQ = Math.max(2, Math.min(16, WNafUtil.getWindowSize(l.bitLength())));
+        int minWidth = WNafUtil.getWindowSize(Math.max(k.bitLength(), l.bitLength()), 8);
 
-        WNafPreCompInfo infoP = WNafUtil.precompute(P, widthP, true);
-        WNafPreCompInfo infoQ = WNafUtil.precompute(Q, widthQ, true);
+        WNafPreCompInfo infoP = WNafUtil.precompute(P, minWidth, true);
+        ECPoint Q = EndoUtil.mapPoint(endomorphism, P);
+        WNafPreCompInfo infoQ = WNafUtil.precomputeWithPointMap(Q, endomorphism.getPointMap(), infoP, true);
+
+        int widthP = Math.min(8, infoP.getWidth());
+        int widthQ = Math.min(8, infoQ.getWidth());
 
         ECPoint[] preCompP = negK ? infoP.getPreCompNeg() : infoP.getPreComp();
         ECPoint[] preCompQ = negL ? infoQ.getPreCompNeg() : infoQ.getPreComp();
@@ -253,30 +340,6 @@ public class ECAlgorithms
 
         byte[] wnafP = WNafUtil.generateWindowNaf(widthP, k);
         byte[] wnafQ = WNafUtil.generateWindowNaf(widthQ, l);
-
-        return implShamirsTrickWNaf(preCompP, preCompNegP, wnafP, preCompQ, preCompNegQ, wnafQ);
-    }
-
-    static ECPoint implShamirsTrickWNaf(ECPoint P, BigInteger k, ECPointMap pointMapQ, BigInteger l)
-    {
-        boolean negK = k.signum() < 0, negL = l.signum() < 0;
-
-        k = k.abs();
-        l = l.abs();
-
-        int width = Math.max(2, Math.min(16, WNafUtil.getWindowSize(Math.max(k.bitLength(), l.bitLength()))));
-
-        ECPoint Q = WNafUtil.mapPointWithPrecomp(P, width, true, pointMapQ);
-        WNafPreCompInfo infoP = WNafUtil.getWNafPreCompInfo(P);
-        WNafPreCompInfo infoQ = WNafUtil.getWNafPreCompInfo(Q);
-
-        ECPoint[] preCompP = negK ? infoP.getPreCompNeg() : infoP.getPreComp();
-        ECPoint[] preCompQ = negL ? infoQ.getPreCompNeg() : infoQ.getPreComp();
-        ECPoint[] preCompNegP = negK ? infoP.getPreComp() : infoP.getPreCompNeg();
-        ECPoint[] preCompNegQ = negL ? infoQ.getPreComp() : infoQ.getPreCompNeg();
-
-        byte[] wnafP = WNafUtil.generateWindowNaf(width, k);
-        byte[] wnafQ = WNafUtil.generateWindowNaf(width, l);
 
         return implShamirsTrickWNaf(preCompP, preCompNegP, wnafP, preCompQ, preCompNegQ, wnafQ);
     }
@@ -345,8 +408,12 @@ public class ECAlgorithms
         {
             BigInteger ki = ks[i]; negs[i] = ki.signum() < 0; ki = ki.abs();
 
-            int width = Math.max(2, Math.min(16, WNafUtil.getWindowSize(ki.bitLength())));
-            infos[i] = WNafUtil.precompute(ps[i], width, true);
+            int minWidth = WNafUtil.getWindowSize(ki.bitLength(), 8);
+            WNafPreCompInfo info = WNafUtil.precompute(ps[i], minWidth, true);
+
+            int width = Math.min(8, info.getWidth());
+
+            infos[i] = info;
             wnafs[i] = WNafUtil.generateWindowNaf(width, ki);
         }
 
@@ -367,31 +434,32 @@ public class ECAlgorithms
             abs[j++] = ab[1];
         }
 
-        ECPointMap pointMap = glvEndomorphism.getPointMap();
         if (glvEndomorphism.hasEfficientPointMap())
         {
-            return ECAlgorithms.implSumOfMultiplies(ps, pointMap, abs);
+            return implSumOfMultiplies(glvEndomorphism, ps, abs);
         }
 
         ECPoint[] pqs = new ECPoint[len << 1];
         for (int i = 0, j = 0; i < len; ++i)
         {
-            ECPoint p = ps[i], q = pointMap.map(p);
+            ECPoint p = ps[i];
+            ECPoint q = EndoUtil.mapPoint(glvEndomorphism, p);
             pqs[j++] = p;
             pqs[j++] = q;
         }
-        
-        return ECAlgorithms.implSumOfMultiplies(pqs, abs);
 
+        return implSumOfMultiplies(pqs, abs);
     }
 
-    static ECPoint implSumOfMultiplies(ECPoint[] ps, ECPointMap pointMap, BigInteger[] ks)
+    static ECPoint implSumOfMultiplies(ECEndomorphism endomorphism, ECPoint[] ps, BigInteger[] ks)
     {
         int halfCount = ps.length, fullCount = halfCount << 1;
 
         boolean[] negs = new boolean[fullCount];
         WNafPreCompInfo[] infos = new WNafPreCompInfo[fullCount];
         byte[][] wnafs = new byte[fullCount][];
+
+        ECPointMap pointMap = endomorphism.getPointMap();
 
         for (int i = 0; i < halfCount; ++i)
         {
@@ -400,13 +468,20 @@ public class ECAlgorithms
             BigInteger kj0 = ks[j0]; negs[j0] = kj0.signum() < 0; kj0 = kj0.abs();
             BigInteger kj1 = ks[j1]; negs[j1] = kj1.signum() < 0; kj1 = kj1.abs();
 
-            int width = Math.max(2, Math.min(16, WNafUtil.getWindowSize(Math.max(kj0.bitLength(), kj1.bitLength()))));
+            int minWidth = WNafUtil.getWindowSize(Math.max(kj0.bitLength(), kj1.bitLength()), 8);
 
-            ECPoint P = ps[i], Q = WNafUtil.mapPointWithPrecomp(P, width, true, pointMap);
-            infos[j0] = WNafUtil.getWNafPreCompInfo(P);
-            infos[j1] = WNafUtil.getWNafPreCompInfo(Q);
-            wnafs[j0] = WNafUtil.generateWindowNaf(width, kj0);
-            wnafs[j1] = WNafUtil.generateWindowNaf(width, kj1);
+            ECPoint P = ps[i];
+            WNafPreCompInfo infoP = WNafUtil.precompute(P, minWidth, true);
+            ECPoint Q = EndoUtil.mapPoint(endomorphism, P);
+            WNafPreCompInfo infoQ = WNafUtil.precomputeWithPointMap(Q, pointMap, infoP, true);
+
+            int widthP = Math.min(8, infoP.getWidth());
+            int widthQ = Math.min(8, infoQ.getWidth());
+
+            infos[j0] = infoP;
+            infos[j1] = infoQ;
+            wnafs[j0] = WNafUtil.generateWindowNaf(widthP, kj0);
+            wnafs[j1] = WNafUtil.generateWindowNaf(widthQ, kj1);
         }
 
         return implSumOfMultiplies(negs, infos, wnafs);
@@ -464,5 +539,78 @@ public class ECAlgorithms
         }
 
         return R;
+    }
+
+    private static ECPoint implShamirsTrickFixedPoint(ECPoint p, BigInteger k, ECPoint q, BigInteger l)
+    {
+        ECCurve c = p.getCurve();
+        int combSize = FixedPointUtil.getCombSize(c);
+
+        if (k.bitLength() > combSize || l.bitLength() > combSize)
+        {
+            /*
+             * TODO The comb works best when the scalars are less than the (possibly unknown) order.
+             * Still, if we want to handle larger scalars, we could allow customization of the comb
+             * size, or alternatively we could deal with the 'extra' bits either by running the comb
+             * multiple times as necessary, or by using an alternative multiplier as prelude.
+             */
+            throw new IllegalStateException("fixed-point comb doesn't support scalars larger than the curve order");
+        }
+
+        FixedPointPreCompInfo infoP = FixedPointUtil.precompute(p);
+        FixedPointPreCompInfo infoQ = FixedPointUtil.precompute(q);
+
+        ECLookupTable lookupTableP = infoP.getLookupTable();
+        ECLookupTable lookupTableQ = infoQ.getLookupTable();
+
+        int widthP = infoP.getWidth();
+        int widthQ = infoQ.getWidth();
+
+        // TODO This shouldn't normally happen, but a better "solution" is desirable anyway
+        if (widthP != widthQ)
+        {
+            FixedPointCombMultiplier m = new FixedPointCombMultiplier();
+            ECPoint r1 = m.multiply(p, k);
+            ECPoint r2 = m.multiply(q, l);
+            return r1.add(r2);
+        }
+
+        int width = widthP;
+
+        int d = (combSize + width - 1) / width;
+
+        ECPoint R = c.getInfinity();
+
+        int fullComb = d * width;
+        int[] K = Nat.fromBigInteger(fullComb, k);
+        int[] L = Nat.fromBigInteger(fullComb, l);
+
+        int top = fullComb - 1; 
+        for (int i = 0; i < d; ++i)
+        {
+            int secretIndexK = 0, secretIndexL = 0;
+
+            for (int j = top - i; j >= 0; j -= d)
+            {
+                int secretBitK = K[j >>> 5] >>> (j & 0x1F);
+                secretIndexK ^= secretBitK >>> 1;
+                secretIndexK <<= 1;
+                secretIndexK ^= secretBitK;
+
+                int secretBitL = L[j >>> 5] >>> (j & 0x1F);
+                secretIndexL ^= secretBitL >>> 1;
+                secretIndexL <<= 1;
+                secretIndexL ^= secretBitL;
+            }
+
+            ECPoint addP = lookupTableP.lookupVar(secretIndexK);
+            ECPoint addQ = lookupTableQ.lookupVar(secretIndexL);
+
+            ECPoint T = addP.add(addQ);
+
+            R = R.twicePlus(T);
+        }
+
+        return R.add(infoP.getOffset()).add(infoQ.getOffset());
     }
 }

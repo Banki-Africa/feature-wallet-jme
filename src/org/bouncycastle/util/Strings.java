@@ -3,85 +3,59 @@ package org.bouncycastle.util;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.util.ArrayList;
 import java.util.Vector;
 
+import org.bouncycastle.util.encoders.UTF8;
+
+/**
+ * String utilities.
+ */
 public final class Strings
 {
+    private static String LINE_SEPARATOR;
+
+    static
+    {
+        try
+        {
+            LINE_SEPARATOR = AccessController.doPrivileged(new PrivilegedAction<String>()
+            {
+                public String run()
+                {
+                    // the easy way
+                    return System.getProperty("line.separator");
+                }
+            });
+
+        }
+        catch (Exception e)
+        {
+            try
+            {
+                // the harder way
+                LINE_SEPARATOR = String.format("%n");
+            }
+            catch (Exception ef)
+            {
+                LINE_SEPARATOR = "\n";   // we're desperate use this...
+            }
+        }
+    }
+
     public static String fromUTF8ByteArray(byte[] bytes)
     {
-        int i = 0;
-        int length = 0;
-
-        while (i < bytes.length)
+        char[] chars = new char[bytes.length];
+        int len = UTF8.transcodeToUTF16(bytes, chars);
+        if (len < 0)
         {
-            length++;
-            if ((bytes[i] & 0xf0) == 0xf0)
-            {
-                // surrogate pair
-                length++;
-                i += 4;
-            }
-            else if ((bytes[i] & 0xe0) == 0xe0)
-            {
-                i += 3;
-            }
-            else if ((bytes[i] & 0xc0) == 0xc0)
-            {
-                i += 2;
-            }
-            else
-            {
-                i += 1;
-            }
+            throw new IllegalArgumentException("Invalid UTF-8 input");
         }
-
-        char[] cs = new char[length];
-
-        i = 0;
-        length = 0;
-
-        while (i < bytes.length)
-        {
-            char ch;
-
-            if ((bytes[i] & 0xf0) == 0xf0)
-            {
-                int codePoint = ((bytes[i] & 0x03) << 18) | ((bytes[i+1] & 0x3F) << 12) | ((bytes[i+2] & 0x3F) << 6) | (bytes[i+3] & 0x3F);
-                int U = codePoint - 0x10000;
-                char W1 = (char)(0xD800 | (U >> 10));
-                char W2 = (char)(0xDC00 | (U & 0x3FF));
-                cs[length++] = W1;
-                ch = W2;
-                i += 4;
-            }
-            else if ((bytes[i] & 0xe0) == 0xe0)
-            {
-                ch = (char)(((bytes[i] & 0x0f) << 12)
-                        | ((bytes[i + 1] & 0x3f) << 6) | (bytes[i + 2] & 0x3f));
-                i += 3;
-            }
-            else if ((bytes[i] & 0xd0) == 0xd0)
-            {
-                ch = (char)(((bytes[i] & 0x1f) << 6) | (bytes[i + 1] & 0x3f));
-                i += 2;
-            }
-            else if ((bytes[i] & 0xc0) == 0xc0)
-            {
-                ch = (char)(((bytes[i] & 0x1f) << 6) | (bytes[i + 1] & 0x3f));
-                i += 2;
-            }
-            else
-            {
-                ch = (char)(bytes[i] & 0xff);
-                i += 1;
-            }
-
-            cs[length++] = ch;
-        }
-
-        return new String(cs);
+        return new String(chars, 0, len);
     }
-    
+
     public static byte[] toUTF8ByteArray(String string)
     {
         return toUTF8ByteArray(string.toCharArray());
@@ -99,7 +73,7 @@ public final class Strings
         {
             throw new IllegalStateException("cannot encode string to byte array!");
         }
-        
+
         return bOut.toByteArray();
     }
 
@@ -159,7 +133,7 @@ public final class Strings
 
     /**
      * A locale independent version of toUpperCase.
-     * 
+     *
      * @param string input to be converted
      * @return a US Ascii uppercase version
      */
@@ -167,7 +141,7 @@ public final class Strings
     {
         boolean changed = false;
         char[] chars = string.toCharArray();
-        
+
         for (int i = 0; i != chars.length; i++)
         {
             char ch = chars[i];
@@ -177,18 +151,18 @@ public final class Strings
                 chars[i] = (char)(ch - 'a' + 'A');
             }
         }
-        
+
         if (changed)
         {
             return new String(chars);
         }
-        
+
         return string;
     }
-    
+
     /**
      * A locale independent version of toLowerCase.
-     * 
+     *
      * @param string input to be converted
      * @return a US ASCII lowercase version
      */
@@ -196,7 +170,7 @@ public final class Strings
     {
         boolean changed = false;
         char[] chars = string.toCharArray();
-        
+
         for (int i = 0; i != chars.length; i++)
         {
             char ch = chars[i];
@@ -206,12 +180,12 @@ public final class Strings
                 chars[i] = (char)(ch - 'A' + 'a');
             }
         }
-        
+
         if (changed)
         {
             return new String(chars);
         }
-        
+
         return string;
     }
 
@@ -226,6 +200,7 @@ public final class Strings
 
         return bytes;
     }
+
 
     public static byte[] toByteArray(String string)
     {
@@ -283,7 +258,7 @@ public final class Strings
 
     public static String[] split(String input, char delimiter)
     {
-        Vector           v = new Vector();
+        Vector v = new Vector();
         boolean moreTokens = true;
         String subString;
 
@@ -311,4 +286,60 @@ public final class Strings
         }
         return res;
     }
+
+    public static StringList newList()
+    {
+        return new StringListImpl();
+    }
+
+    public static String lineSeparator()
+    {
+        return LINE_SEPARATOR;
+    }
+
+    private static class StringListImpl
+        extends ArrayList<String>
+        implements StringList
+    {
+        public boolean add(String s)
+        {
+            return super.add(s);
+        }
+
+        public String set(int index, String element)
+        {
+            return super.set(index, element);
+        }
+
+        public void add(int index, String element)
+        {
+            super.add(index, element);
+        }
+
+        public String[] toStringArray()
+        {
+            String[] strs = new String[this.size()];
+
+            for (int i = 0; i != strs.length; i++)
+            {
+                strs[i] = this.get(i);
+            }
+
+            return strs;
+        }
+
+        public String[] toStringArray(int from, int to)
+        {
+            String[] strs = new String[to - from];
+
+            for (int i = from; i != this.size() && i != to; i++)
+            {
+                strs[i - from] = this.get(i);
+            }
+
+            return strs;
+        }
+    }
+
+
 }

@@ -7,7 +7,8 @@ import org.bouncycastle.crypto.params.DHKeyGenerationParameters;
 import org.bouncycastle.crypto.params.DHParameters;
 import org.bouncycastle.crypto.params.DHPrivateKeyParameters;
 import org.bouncycastle.crypto.params.DHPublicKeyParameters;
-import banki.util.BigInteger;
+
+import java.math.BigInteger;
 
 /**
  * a basic Diffie-Hellman key pair generator.

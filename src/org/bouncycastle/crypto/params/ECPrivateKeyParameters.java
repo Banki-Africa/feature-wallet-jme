@@ -1,18 +1,19 @@
 package org.bouncycastle.crypto.params;
 
-import banki.util.BigInteger;
+import java.math.BigInteger;
 
 public class ECPrivateKeyParameters
     extends ECKeyParameters
 {
-    BigInteger d;
+    private final BigInteger d;
 
     public ECPrivateKeyParameters(
         BigInteger          d,
-        ECDomainParameters  params)
+        ECDomainParameters  parameters)
     {
-        super(true, params);
-        this.d = d;
+        super(true, parameters);
+
+        this.d = parameters.validatePrivateScalar(d);
     }
 
     public BigInteger getD()

@@ -1,6 +1,6 @@
 package org.bouncycastle.crypto;
 
-import banki.java.security.SecureRandom;
+import java.security.SecureRandom;
 
 /**
  * The base class for symmetric, or secret, cipher key generators.

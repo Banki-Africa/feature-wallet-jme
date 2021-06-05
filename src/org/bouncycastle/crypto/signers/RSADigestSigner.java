@@ -39,6 +39,8 @@ public class RSADigestSigner
      */
     static
     {
+        // Null-digester is intentionally NOT on this mapping.
+        
         oidMap.put("RIPEMD128", TeleTrusTObjectIdentifiers.ripemd128);
         oidMap.put("RIPEMD160", TeleTrusTObjectIdentifiers.ripemd160);
         oidMap.put("RIPEMD256", TeleTrusTObjectIdentifiers.ripemd256);
@@ -50,6 +52,11 @@ public class RSADigestSigner
         oidMap.put("SHA-512", NISTObjectIdentifiers.id_sha512);
         oidMap.put("SHA-512/224", NISTObjectIdentifiers.id_sha512_224);
         oidMap.put("SHA-512/256", NISTObjectIdentifiers.id_sha512_256);
+
+        oidMap.put("SHA3-224", NISTObjectIdentifiers.id_sha3_224);
+        oidMap.put("SHA3-256", NISTObjectIdentifiers.id_sha3_256);
+        oidMap.put("SHA3-384", NISTObjectIdentifiers.id_sha3_384);
+        oidMap.put("SHA3-512", NISTObjectIdentifiers.id_sha3_512);
 
         oidMap.put("MD2", PKCSObjectIdentifiers.md2);
         oidMap.put("MD4", PKCSObjectIdentifiers.md4);
@@ -67,7 +74,15 @@ public class RSADigestSigner
         ASN1ObjectIdentifier digestOid)
     {
         this.digest = digest;
-        this.algId = new AlgorithmIdentifier(digestOid, DERNull.INSTANCE);
+        if (digestOid != null)
+        {
+            this.algId = new AlgorithmIdentifier(digestOid, DERNull.INSTANCE);
+        }
+        else
+        {
+            // NULL digester, match behaviour with DigestSignatureSpi
+            this.algId = null;
+        }
     }
 
     /**
@@ -79,7 +94,7 @@ public class RSADigestSigner
     }
 
     /**
-     * initialise the signer for signing or verification.
+     * Initialize the signer for signing or verification.
      *
      * @param forSigning
      *            true if for signing, false otherwise
@@ -220,6 +235,8 @@ public class RSADigestSigner
         }
         else
         {
+            Arrays.constantTimeAreEqual(expected, expected);  // keep time "steady".
+
             return false;
         }
     }
@@ -233,6 +250,20 @@ public class RSADigestSigner
         byte[] hash)
         throws IOException
     {
+        if (algId == null)
+        {
+            try
+            {
+                // check hash is at least right format
+                DigestInfo.getInstance(hash);
+                return hash;
+            }
+            catch (IllegalArgumentException e)
+            {
+                throw new IOException("malformed DigestInfo for NONEwithRSA hash: " + e.getMessage());
+            }
+        }
+
         DigestInfo dInfo = new DigestInfo(algId, hash);
 
         return dInfo.getEncoded(ASN1Encoding.DER);

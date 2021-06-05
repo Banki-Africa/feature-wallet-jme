@@ -6,6 +6,7 @@ import java.util.Hashtable;
 
 import org.bouncycastle.asn1.ASN1Encodable;
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
+import org.bouncycastle.asn1.ASN1ParsingException;
 import org.bouncycastle.asn1.DERUTF8String;
 import org.bouncycastle.asn1.x500.AttributeTypeAndValue;
 import org.bouncycastle.asn1.x500.RDN;
@@ -43,8 +44,7 @@ public abstract class AbstractX500NameStyle
 
     private int calcHashCode(ASN1Encodable enc)
     {
-        String value = IETFUtils.valueToString(enc);
-        value = IETFUtils.canonicalize(value);
+        String value = IETFUtils.canonicalString(enc);
         return value.hashCode();
     }
 
@@ -101,7 +101,7 @@ public abstract class AbstractX500NameStyle
             }
             catch (IOException e)
             {
-                throw new RuntimeException("can't recode value for oid " + oid.getId());
+                throw new ASN1ParsingException("can't recode value for oid " + oid.getId());
             }
         }
 

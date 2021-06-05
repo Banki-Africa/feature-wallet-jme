@@ -9,7 +9,7 @@ import org.bouncycastle.asn1.ASN1Primitive;
  * <pre>
  *     KeyPurposeId ::= OBJECT IDENTIFIER
  *
- *     id-kp ::= OBJECT IDENTIFIER { iso(1) identified-organization(3) 
+ *     id-kp ::= OBJECT IDENTIFIER { iso(1) identified-organization(3)
  *          dod(6) internet(1) security(5) mechanisms(5) pkix(7) 3}
  *
  * </pre>
@@ -115,6 +115,24 @@ public class KeyPurposeId
      */
     public static final KeyPurposeId id_kp_smartcardlogon = new KeyPurposeId(new ASN1ObjectIdentifier("1.3.6.1.4.1.311.20.2.2"));
 
+
+    /**
+     *
+     */
+    public static final KeyPurposeId id_kp_macAddress = new KeyPurposeId(new ASN1ObjectIdentifier("1.3.6.1.1.1.1.22"));
+
+
+    /**
+     * Microsoft Server Gated Crypto (msSGC) see https://www.alvestrand.no/objectid/1.3.6.1.4.1.311.10.3.3.html
+     */
+    public static final KeyPurposeId id_kp_msSGC = new KeyPurposeId(new ASN1ObjectIdentifier("1.3.6.1.4.1.311.10.3.3"));
+
+    /**
+     * Netscape Server Gated Crypto (nsSGC) see https://www.alvestrand.no/objectid/2.16.840.1.113730.4.1.html
+     */
+    public static final KeyPurposeId id_kp_nsSGC = new KeyPurposeId(new ASN1ObjectIdentifier("2.16.840.1.113730.4.1"));
+
+
     private ASN1ObjectIdentifier id;
 
     private KeyPurposeId(ASN1ObjectIdentifier id)
@@ -123,8 +141,8 @@ public class KeyPurposeId
     }
 
     /**
-     * @deprecated use getInstance and an OID or one of the constants above.
      * @param id string representation of an OID.
+     * @deprecated use getInstance and an OID or one of the constants above.
      */
     public KeyPurposeId(String id)
     {
@@ -145,6 +163,11 @@ public class KeyPurposeId
         return null;
     }
 
+    public ASN1ObjectIdentifier toOID()
+    {
+        return id;
+    }
+
     public ASN1Primitive toASN1Primitive()
     {
         return id;
@@ -153,5 +176,10 @@ public class KeyPurposeId
     public String getId()
     {
         return id.getId();
+    }
+
+    public String toString()
+    {
+        return id.toString();
     }
 }

@@ -1,14 +1,16 @@
 package org.bouncycastle.math.ec.custom.sec;
 
+import java.math.BigInteger;
+
 import org.bouncycastle.math.ec.ECFieldElement;
-import org.bouncycastle.math.raw.Mod;
 import org.bouncycastle.math.raw.Nat192;
 import org.bouncycastle.util.Arrays;
-import banki.util.BigInteger;
+import org.bouncycastle.util.encoders.Hex;
 
-public class SecP192R1FieldElement extends ECFieldElement
+public class SecP192R1FieldElement extends ECFieldElement.AbstractFp
 {
-    public static final BigInteger Q = SecP192R1Curve.q;
+    public static final BigInteger Q = new BigInteger(1,
+        Hex.decodeStrict("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFF"));
 
     protected int[] x;
 
@@ -94,7 +96,7 @@ public class SecP192R1FieldElement extends ECFieldElement
     {
 //        return multiply(b.invert());
         int[] z = Nat192.create();
-        Mod.invert(SecP192R1Field.P, ((SecP192R1FieldElement)b).x, z);
+        SecP192R1Field.inv(((SecP192R1FieldElement)b).x, z);
         SecP192R1Field.multiply(z, x, z);
         return new SecP192R1FieldElement(z);
     }
@@ -117,7 +119,7 @@ public class SecP192R1FieldElement extends ECFieldElement
     {
 //        return new SecP192R1FieldElement(toBigInteger().modInverse(Q));
         int[] z = Nat192.create();
-        Mod.invert(SecP192R1Field.P, x, z);
+        SecP192R1Field.inv(x, z);
         return new SecP192R1FieldElement(z);
     }
 

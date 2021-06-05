@@ -1,13 +1,13 @@
 package org.bouncycastle.crypto.signers;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
 import org.bouncycastle.crypto.Digest;
 import org.bouncycastle.crypto.macs.HMac;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.util.Arrays;
 import org.bouncycastle.util.BigIntegers;
-
-import banki.java.security.SecureRandom;
-import banki.util.BigInteger;
 
 /**
  * A deterministic K calculator based on the algorithm in section 3.2 of RFC 6979.
@@ -52,16 +52,17 @@ public class HMacDSAKCalculator
         Arrays.fill(V, (byte)0x01);
         Arrays.fill(K, (byte)0);
 
-        byte[] x = new byte[(n.bitLength() + 7) / 8];
+        int size = BigIntegers.getUnsignedByteLength(n);
+        byte[] x = new byte[size];
         byte[] dVal = BigIntegers.asUnsignedByteArray(d);
 
         System.arraycopy(dVal, 0, x, x.length - dVal.length, dVal.length);
 
-        byte[] m = new byte[(n.bitLength() + 7) / 8];
+        byte[] m = new byte[size];
 
         BigInteger mInt = bitsToInt(message);
 
-        if (mInt.compareTo(n) > 0)
+        if (mInt.compareTo(n) >= 0)
         {
             mInt = mInt.subtract(n);
         }
@@ -101,7 +102,7 @@ public class HMacDSAKCalculator
 
     public BigInteger nextK()
     {
-        byte[] t = new byte[((n.bitLength() + 7) / 8)];
+        byte[] t = new byte[BigIntegers.getUnsignedByteLength(n)];
 
         for (;;)
         {

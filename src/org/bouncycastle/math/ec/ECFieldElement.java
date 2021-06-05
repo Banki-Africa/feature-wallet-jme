@@ -1,12 +1,11 @@
 package org.bouncycastle.math.ec;
 
+import java.math.BigInteger;
 import java.util.Random;
 
-import org.bouncycastle.math.raw.Mod;
-import org.bouncycastle.math.raw.Nat;
 import org.bouncycastle.util.Arrays;
 import org.bouncycastle.util.BigIntegers;
-import banki.util.BigInteger;
+import org.bouncycastle.util.Integers;
 
 public abstract class ECFieldElement
     implements ECConstants
@@ -24,6 +23,11 @@ public abstract class ECFieldElement
     public abstract ECFieldElement invert();
     public abstract ECFieldElement sqrt();
 
+    public ECFieldElement()
+    {
+
+    }
+    
     public int bitLength()
     {
         return toBigInteger().bitLength();
@@ -59,6 +63,16 @@ public abstract class ECFieldElement
         return square().add(x.multiply(y));
     }
 
+    public ECFieldElement squarePow(int pow)
+    {
+        ECFieldElement r = this;
+        for (int i = 0; i < pow; ++i)
+        {
+            r = r.square();
+        }
+        return r;
+    }
+
     public boolean testBitZero()
     {
         return toBigInteger().testBit(0);
@@ -74,7 +88,11 @@ public abstract class ECFieldElement
         return BigIntegers.asUnsignedByteArray((getFieldSize() + 7) / 8, toBigInteger());
     }
 
-    public static class Fp extends ECFieldElement
+    public static abstract class AbstractFp extends ECFieldElement
+    {
+    }
+
+    public static class Fp extends AbstractFp
     {
         BigInteger q, r, x;
 
@@ -398,13 +416,7 @@ public abstract class ECFieldElement
 
         protected BigInteger modInverse(BigInteger x)
         {
-            int bits = getFieldSize();
-            int len = (bits + 31) >> 5;
-            int[] p = Nat.fromBigInteger(bits, q);
-            int[] n = Nat.fromBigInteger(bits, x);
-            int[] z = Nat.create(len);
-            Mod.invert(p, n, z);
-            return Nat.toBigInteger(len, z);
+            return BigIntegers.modOddInverse(q, x);
         }
 
         protected BigInteger modMult(BigInteger x1, BigInteger x2)
@@ -481,6 +493,81 @@ public abstract class ECFieldElement
         }
     }
 
+    public static abstract class AbstractF2m extends ECFieldElement
+    {
+        public ECFieldElement halfTrace()
+        {
+            int m = this.getFieldSize();
+            if ((m & 1) == 0)
+            {
+                throw new IllegalStateException("Half-trace only defined for odd m");
+            }
+
+//            ECFieldElement ht = this;
+//            for (int i = 1; i < m; i += 2)
+//            {
+//                ht = ht.squarePow(2).add(this);
+//            }
+
+            int n = (m + 1) >>> 1;
+            int k = 31 - Integers.numberOfLeadingZeros(n);
+            int nk = 1;
+
+            ECFieldElement ht = this;
+            while (k > 0)
+            {
+                ht = ht.squarePow(nk << 1).add(ht);
+                nk = n >>> --k;
+                if (0 != (nk & 1))
+                {
+                    ht = ht.squarePow(2).add(this);
+                }
+            }
+
+            return ht;
+        }
+
+        public boolean hasFastTrace()
+        {
+            return false;
+        }
+
+        public int trace()
+        {
+            int m = this.getFieldSize();
+
+//            ECFieldElement tr = this;
+//            for (int i = 1; i < m; ++i)
+//            {
+//                tr = tr.square().add(this);
+//            }
+
+            int k = 31 - Integers.numberOfLeadingZeros(m);
+            int mk = 1;
+
+            ECFieldElement tr = this;
+            while (k > 0)
+            {
+                tr = tr.squarePow(mk).add(tr);
+                mk = m >>> --k;
+                if (0 != (mk & 1))
+                {
+                    tr = tr.square().add(this);
+                }
+            }
+
+            if (tr.isZero())
+            {
+                return 0;
+            }
+            if (tr.isOne())
+            {
+                return 1;
+            }
+            throw new IllegalStateException("Internal error in trace calculation");
+        }
+    }
+
     /**
      * Class representing the Elements of the finite field
      * <code>F<sub>2<sup>m</sup></sub></code> in polynomial basis (PB)
@@ -488,7 +575,7 @@ public abstract class ECFieldElement
      * basis representations are supported. Gaussian normal basis (GNB)
      * representation is not supported.
      */
-    public static class F2m extends ECFieldElement
+    public static class F2m extends AbstractF2m
     {
         /**
          * Indicates gaussian normal basis representation (GNB). Number chosen
@@ -523,7 +610,7 @@ public abstract class ECFieldElement
         /**
          * The <code>LongArray</code> holding the bits.
          */
-        private LongArray x;
+        LongArray x;
 
         /**
          * Constructor for PPB.
@@ -548,6 +635,11 @@ public abstract class ECFieldElement
             int k3,
             BigInteger x)
         {
+            if (x == null || x.signum() < 0 || x.bitLength() > m)
+            {
+                throw new IllegalArgumentException("x value invalid in F2m field element");
+            }
+
             if ((k2 == 0) && (k3 == 0))
             {
                 this.representation = TPB;
@@ -573,23 +665,7 @@ public abstract class ECFieldElement
             this.x = new LongArray(x);
         }
 
-        /**
-         * Constructor for TPB.
-         * @param m  The exponent <code>m</code> of
-         * <code>F<sub>2<sup>m</sup></sub></code>.
-         * @param k The integer <code>k</code> where <code>x<sup>m</sup> +
-         * x<sup>k</sup> + 1</code> represents the reduction
-         * polynomial <code>f(z)</code>.
-         * @param x The BigInteger representing the value of the field element.
-         * @deprecated Use ECCurve.fromBigInteger to construct field elements
-         */
-        public F2m(int m, int k, BigInteger x)
-        {
-            // Set k1 to k, and set k2 and k3 to 0
-            this(m, k, 0, 0, x);
-        }
-
-        private F2m(int m, int[] ks, LongArray x)
+        F2m(int m, int[] ks, LongArray x)
         {
             this.m = m;
             this.representation = (ks.length == 1) ? TPB : PPB;
@@ -630,42 +706,6 @@ public abstract class ECFieldElement
         public int getFieldSize()
         {
             return m;
-        }
-
-        /**
-         * Checks, if the ECFieldElements <code>a</code> and <code>b</code>
-         * are elements of the same field <code>F<sub>2<sup>m</sup></sub></code>
-         * (having the same representation).
-         * @param a field element.
-         * @param b field element to be compared.
-         * @throws IllegalArgumentException if <code>a</code> and <code>b</code>
-         * are not elements of the same field
-         * <code>F<sub>2<sup>m</sup></sub></code> (having the same
-         * representation). 
-         */
-        public static void checkFieldElements(
-            ECFieldElement a,
-            ECFieldElement b)
-        {
-            if ((!(a instanceof F2m)) || (!(b instanceof F2m)))
-            {
-                throw new IllegalArgumentException("Field elements are not "
-                        + "both instances of ECFieldElement.F2m");
-            }
-
-            ECFieldElement.F2m aF2m = (ECFieldElement.F2m)a;
-            ECFieldElement.F2m bF2m = (ECFieldElement.F2m)b;
-
-            if (aF2m.representation != bF2m.representation)
-            {
-                // Should never occur
-                throw new IllegalArgumentException("One of the F2m field elements has incorrect representation");
-            }
-
-            if ((aF2m.m != bF2m.m) || !Arrays.areEqual(aF2m.ks, bF2m.ks))
-            {
-                throw new IllegalArgumentException("Field elements are not elements of the same field F2m");
-            }
         }
 
         public ECFieldElement add(final ECFieldElement b)
@@ -766,6 +806,11 @@ public abstract class ECFieldElement
             return new F2m(m, ks, aa);
         }
 
+        public ECFieldElement squarePow(int pow)
+        {
+            return pow < 1 ? this : new F2m(m, ks, x.modSquareN(pow, m, ks));
+        }
+
         public ECFieldElement invert()
         {
             return new ECFieldElement.F2m(this.m, this.ks, this.x.modInverse(m, ks));
@@ -773,14 +818,7 @@ public abstract class ECFieldElement
 
         public ECFieldElement sqrt()
         {
-            LongArray x1 = this.x;
-            if (x1.isOne() || x1.isZero())
-            {
-                return this;
-            }
-
-            LongArray x2 = x1.modSquareN(m - 1, m, ks);
-            return new ECFieldElement.F2m(m, ks, x2);
+            return (x.isZero() || x.isOne()) ? this : squarePow(m - 1);
         }
 
         /**

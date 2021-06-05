@@ -1,5 +1,7 @@
 package org.bouncycastle.crypto.agreement;
 
+import java.math.BigInteger;
+
 import org.bouncycastle.crypto.BasicAgreement;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
@@ -7,7 +9,6 @@ import org.bouncycastle.crypto.params.DHParameters;
 import org.bouncycastle.crypto.params.DHPrivateKeyParameters;
 import org.bouncycastle.crypto.params.DHPublicKeyParameters;
 import org.bouncycastle.crypto.params.ParametersWithRandom;
-import banki.util.BigInteger;
 
 /**
  * a Diffie-Hellman key agreement class.
@@ -19,6 +20,8 @@ import banki.util.BigInteger;
 public class DHBasicAgreement
     implements BasicAgreement
 {
+    private static final BigInteger ONE = BigInteger.valueOf(1);
+
     private DHPrivateKeyParameters  key;
     private DHParameters            dhParams;
 
@@ -65,6 +68,20 @@ public class DHBasicAgreement
             throw new IllegalArgumentException("Diffie-Hellman public key has wrong parameters.");
         }
 
-        return pub.getY().modPow(key.getX(), dhParams.getP());
+        BigInteger p = dhParams.getP();
+
+        BigInteger peerY = pub.getY();
+        if (peerY == null || peerY.compareTo(ONE) <= 0 || peerY.compareTo(p.subtract(ONE)) >= 0)
+        {
+            throw new IllegalArgumentException("Diffie-Hellman public key is weak");
+        }
+
+        BigInteger result = peerY.modPow(key.getX(), p);
+        if (result.equals(ONE))
+        {
+            throw new IllegalStateException("Shared key can't be 1");
+        }
+
+        return result;
     }
 }

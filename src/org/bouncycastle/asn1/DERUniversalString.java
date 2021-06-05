@@ -1,22 +1,22 @@
 package org.bouncycastle.asn1;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import org.bouncycastle.util.Arrays;
 
 /**
- * DER UniversalString object.
+ * DER UniversalString object - encodes UNICODE (ISO 10646) characters using 32-bit format. In Java we
+ * have no way of representing this directly so we rely on byte arrays to carry these.
  */
 public class DERUniversalString
     extends ASN1Primitive
     implements ASN1String
 {
     private static final char[]  table = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
-    private byte[] string;
+    private final byte[] string;
     
     /**
-     * return a Universal String from the passed in object.
+     * Return a Universal String from the passed in object.
      *
      * @param obj a DERUniversalString or an object that can be converted into one.
      * @exception IllegalArgumentException if the object cannot be converted.
@@ -46,7 +46,7 @@ public class DERUniversalString
     }
 
     /**
-     * return a Universal String from a tagged object.
+     * Return a Universal String from a tagged object.
      *
      * @param obj the tagged object holding the object we want
      * @param explicit true if the object is meant to be explicitly
@@ -67,36 +67,35 @@ public class DERUniversalString
         }
         else
         {
-            return new DERUniversalString(((ASN1OctetString)o).getOctets());
+            return new DERUniversalString(ASN1OctetString.getInstance(o).getOctets());
         }
     }
 
     /**
-     * basic constructor - byte encoded string.
+     * Basic constructor - byte encoded string.
+     *
+     * @param string the byte encoding of the string to be carried in the UniversalString object,
      */
     public DERUniversalString(
         byte[]   string)
     {
-        this.string = string;
+        this.string = Arrays.clone(string);
     }
 
     public String getString()
     {
-        StringBuffer    buf = new StringBuffer("#");
-        ByteArrayOutputStream    bOut = new ByteArrayOutputStream();
-        ASN1OutputStream            aOut = new ASN1OutputStream(bOut);
-        
+        StringBuffer buf = new StringBuffer("#");
+
+        byte[] string;
         try
         {
-            aOut.writeObject(this);
+            string = getEncoded();
         }
         catch (IOException e)
         {
-           throw new RuntimeException("internal error encoding BitString");
+           throw new ASN1ParsingException("internal error encoding UniversalString");
         }
-        
-        byte[]    string = bOut.toByteArray();
-        
+
         for (int i = 0; i != string.length; i++)
         {
             buf.append(table[(string[i] >>> 4) & 0xf]);
@@ -113,7 +112,7 @@ public class DERUniversalString
 
     public byte[] getOctets()
     {
-        return string;
+        return Arrays.clone(string);
     }
 
     boolean isConstructed()
@@ -126,13 +125,11 @@ public class DERUniversalString
         return 1 + StreamUtil.calculateBodyLength(string.length) + string.length;
     }
 
-    void encode(
-        ASN1OutputStream out)
-        throws IOException
+    void encode(ASN1OutputStream out, boolean withTag) throws IOException
     {
-        out.writeEncoded(BERTags.UNIVERSAL_STRING, this.getOctets());
+        out.writeEncoded(withTag, BERTags.UNIVERSAL_STRING, string);
     }
-    
+
     boolean asn1Equals(
         ASN1Primitive o)
     {

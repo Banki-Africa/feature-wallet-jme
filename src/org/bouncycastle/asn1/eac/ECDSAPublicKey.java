@@ -1,5 +1,6 @@
 package org.bouncycastle.asn1.eac;
 
+import java.math.BigInteger;
 import java.util.Enumeration;
 
 import org.bouncycastle.asn1.ASN1EncodableVector;
@@ -11,7 +12,7 @@ import org.bouncycastle.asn1.ASN1TaggedObject;
 import org.bouncycastle.asn1.DEROctetString;
 import org.bouncycastle.asn1.DERSequence;
 import org.bouncycastle.asn1.DERTaggedObject;
-import banki.util.BigInteger;
+import org.bouncycastle.util.Arrays;
 
 /**
  * an Iso7816ECDSAPublicKeyStructure structure.
@@ -129,7 +130,7 @@ public class ECDSAPublicKey
     {
         if ((options & G) != 0)
         {
-            return basePointG;
+            return Arrays.clone(basePointG);
         }
         else
         {
@@ -258,7 +259,7 @@ public class ECDSAPublicKey
     {
         if ((options & Y) != 0)
         {
-            return publicPointY;
+            return Arrays.clone(publicPointY);
         }
         else
         {
@@ -313,7 +314,7 @@ public class ECDSAPublicKey
 
     public ASN1EncodableVector getASN1EncodableVector(ASN1ObjectIdentifier oid, boolean publicPointOnly)
     {
-        ASN1EncodableVector v = new ASN1EncodableVector();
+        ASN1EncodableVector v = new ASN1EncodableVector(8);
         v.add(oid);
 
         if (!publicPointOnly)
@@ -335,6 +336,6 @@ public class ECDSAPublicKey
 
     public ASN1Primitive toASN1Primitive()
     {
-        return new DERSequence(getASN1EncodableVector(usage, false));
+        return new DERSequence(getASN1EncodableVector(usage, !hasParameters()));
     }
 }

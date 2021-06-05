@@ -1,5 +1,8 @@
 package org.bouncycastle.util;
 
+/**
+ * Utility methods for processing String objects containing IP addresses.
+ */
 public class IPAddress
 {
     /**
@@ -115,7 +118,7 @@ public class IPAddress
      *
      * @param address the IP address as a String.
      *
-     * @return true if a valid IPv4 address, false otherwise
+     * @return true if a valid IPv6 address, false otherwise
      */
     public static boolean isValidIPv6(
         String address)

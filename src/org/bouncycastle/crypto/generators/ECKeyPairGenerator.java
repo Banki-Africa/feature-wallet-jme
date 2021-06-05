@@ -1,5 +1,8 @@
 package org.bouncycastle.crypto.generators;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator;
 import org.bouncycastle.crypto.KeyGenerationParameters;
@@ -12,9 +15,7 @@ import org.bouncycastle.math.ec.ECMultiplier;
 import org.bouncycastle.math.ec.ECPoint;
 import org.bouncycastle.math.ec.FixedPointCombMultiplier;
 import org.bouncycastle.math.ec.WNafUtil;
-
-import banki.java.security.SecureRandom;
-import banki.util.BigInteger;
+import org.bouncycastle.util.BigIntegers;
 
 public class ECKeyPairGenerator
     implements AsymmetricCipherKeyPairGenerator, ECConstants
@@ -29,11 +30,6 @@ public class ECKeyPairGenerator
 
         this.random = ecP.getRandom();
         this.params = ecP.getDomainParameters();
-
-        if (this.random == null)
-        {
-            this.random = new SecureRandom();
-        }
     }
 
     /**
@@ -49,19 +45,13 @@ public class ECKeyPairGenerator
         BigInteger d;
         for (;;)
         {
-            d = new BigInteger(nBitLength, random);
+            d = BigIntegers.createRandomBigInteger(nBitLength, random);
 
-            if (d.compareTo(TWO) < 0  || (d.compareTo(n) >= 0))
+            if (d.compareTo(ONE) < 0  || (d.compareTo(n) >= 0))
             {
                 continue;
             }
 
-            /*
-             * Require a minimum weight of the NAF representation, since low-weight primes may be
-             * weak against a version of the number-field-sieve for the discrete-logarithm-problem.
-             * 
-             * See "The number field sieve for integers of low weight", Oliver Schirokauer.
-             */
             if (WNafUtil.getNafWeight(d) < minWeight)
             {
                 continue;

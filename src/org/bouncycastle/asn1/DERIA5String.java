@@ -6,16 +6,19 @@ import org.bouncycastle.util.Arrays;
 import org.bouncycastle.util.Strings;
 
 /**
- * DER IA5String object - this is an ascii string.
+ * DER IA5String object - this is a ISO 646 (ASCII) string encoding code points 0 to 127.
+ * <p>
+ * Explicit character set escape sequences are not allowed.
+ * </p>
  */
 public class DERIA5String
     extends ASN1Primitive
     implements ASN1String
 {
-    private byte[]  string;
+    private final byte[]  string;
 
     /**
-     * return a IA5 string from the passed in object
+     * Return an IA5 string from the passed in object
      *
      * @param obj a DERIA5String or an object that can be converted into one.
      * @exception IllegalArgumentException if the object cannot be converted.
@@ -45,7 +48,7 @@ public class DERIA5String
     }
 
     /**
-     * return an IA5 String from a tagged object.
+     * Return an IA5 String from a tagged object.
      *
      * @param obj the tagged object holding the object we want
      * @param explicit true if the object is meant to be explicitly
@@ -66,12 +69,12 @@ public class DERIA5String
         }
         else
         {
-            return new DERIA5String(((ASN1OctetString)o).getOctets());
+            return new DERIA5String(ASN1OctetString.getInstance(o).getOctets());
         }
     }
 
     /**
-     * basic constructor - with bytes.
+     * Basic constructor - with bytes.
      * @param string the byte encoding of the characters making up the string.
      */
     DERIA5String(
@@ -81,7 +84,7 @@ public class DERIA5String
     }
 
     /**
-     * basic constructor - without validation.
+     * Basic constructor - without validation.
      * @param string the base string to use..
      */
     public DERIA5String(
@@ -104,11 +107,11 @@ public class DERIA5String
     {
         if (string == null)
         {
-            throw new NullPointerException("string cannot be null");
+            throw new NullPointerException("'string' cannot be null");
         }
         if (validate && !isIA5String(string))
         {
-            throw new IllegalArgumentException("string contains illegal characters");
+            throw new IllegalArgumentException("'string' contains illegal characters");
         }
 
         this.string = Strings.toByteArray(string);
@@ -139,11 +142,9 @@ public class DERIA5String
         return 1 + StreamUtil.calculateBodyLength(string.length) + string.length;
     }
 
-    void encode(
-        ASN1OutputStream out)
-        throws IOException
+    void encode(ASN1OutputStream out, boolean withTag) throws IOException
     {
-        out.writeEncoded(BERTags.IA5_STRING, string);
+        out.writeEncoded(withTag, BERTags.IA5_STRING, string);
     }
 
     public int hashCode()

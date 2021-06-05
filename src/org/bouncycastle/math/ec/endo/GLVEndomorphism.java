@@ -1,6 +1,6 @@
 package org.bouncycastle.math.ec.endo;
 
-import banki.util.BigInteger;
+import java.math.BigInteger;
 
 public interface GLVEndomorphism extends ECEndomorphism
 {

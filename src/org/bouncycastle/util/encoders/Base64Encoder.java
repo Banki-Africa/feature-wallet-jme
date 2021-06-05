@@ -49,71 +49,71 @@ public class Base64Encoder
     {
         initialiseDecodingTable();
     }
-    
+
+    public int encode(byte[] inBuf, int inOff, int inLen, byte[] outBuf, int outOff) throws IOException
+    {
+        int inPos = inOff;
+        int inEnd = inOff + inLen - 2;
+        int outPos = outOff;
+
+        while (inPos < inEnd)
+        {
+            int a1 = inBuf[inPos++];
+            int a2 = inBuf[inPos++] & 0xFF;
+            int a3 = inBuf[inPos++] & 0xFF;
+
+            outBuf[outPos++] = encodingTable[(a1 >>> 2) & 0x3F];
+            outBuf[outPos++] = encodingTable[((a1 << 4) | (a2 >>> 4)) & 0x3F];
+            outBuf[outPos++] = encodingTable[((a2 << 2) | (a3 >>> 6)) & 0x3F];
+            outBuf[outPos++] = encodingTable[a3 & 0x3F];
+        }
+
+        switch (inLen - (inPos - inOff))
+        {
+        case 1:
+        {
+            int a1 = inBuf[inPos++] & 0xFF;
+
+            outBuf[outPos++] = encodingTable[(a1 >>> 2) & 0x3F];
+            outBuf[outPos++] = encodingTable[(a1 << 4) & 0x3F];
+            outBuf[outPos++] = padding;
+            outBuf[outPos++] = padding;
+            break;
+        }
+        case 2:
+        {
+            int a1 = inBuf[inPos++] & 0xFF;
+            int a2 = inBuf[inPos++] & 0xFF;
+
+            outBuf[outPos++] = encodingTable[(a1 >>> 2) & 0x3F];
+            outBuf[outPos++] = encodingTable[((a1 << 4) | (a2 >>> 4)) & 0x3F];
+            outBuf[outPos++] = encodingTable[(a2 << 2) & 0x3F];
+            outBuf[outPos++] = padding;
+            break;
+        }
+        }
+
+        return outPos - outOff;
+    }
+
     /**
      * encode the input data producing a base 64 output stream.
      *
      * @return the number of bytes produced.
      */
-    public int encode(
-        byte[]                data,
-        int                    off,
-        int                    length,
-        OutputStream    out) 
+    public int encode(byte[] buf, int off, int len, OutputStream out) 
         throws IOException
     {
-        int modulus = length % 3;
-        int dataLength = (length - modulus);
-        int a1, a2, a3;
-        
-        for (int i = off; i < off + dataLength; i += 3)
+        byte[] tmp = new byte[72];
+        while (len > 0)
         {
-            a1 = data[i] & 0xff;
-            a2 = data[i + 1] & 0xff;
-            a3 = data[i + 2] & 0xff;
-
-            out.write(encodingTable[(a1 >>> 2) & 0x3f]);
-            out.write(encodingTable[((a1 << 4) | (a2 >>> 4)) & 0x3f]);
-            out.write(encodingTable[((a2 << 2) | (a3 >>> 6)) & 0x3f]);
-            out.write(encodingTable[a3 & 0x3f]);
+            int inLen = Math.min(54, len);
+            int outLen = encode(buf, off, inLen, tmp, 0);
+            out.write(tmp, 0, outLen);
+            off += inLen;
+            len -= inLen;
         }
-
-        /*
-         * process the tail end.
-         */
-        int    b1, b2, b3;
-        int    d1, d2;
-
-        switch (modulus)
-        {
-        case 0:        /* nothing left to do */
-            break;
-        case 1:
-            d1 = data[off + dataLength] & 0xff;
-            b1 = (d1 >>> 2) & 0x3f;
-            b2 = (d1 << 4) & 0x3f;
-
-            out.write(encodingTable[b1]);
-            out.write(encodingTable[b2]);
-            out.write(padding);
-            out.write(padding);
-            break;
-        case 2:
-            d1 = data[off + dataLength] & 0xff;
-            d2 = data[off + dataLength + 1] & 0xff;
-
-            b1 = (d1 >>> 2) & 0x3f;
-            b2 = ((d1 << 4) | (d2 >>> 4)) & 0x3f;
-            b3 = (d2 << 2) & 0x3f;
-
-            out.write(encodingTable[b1]);
-            out.write(encodingTable[b2]);
-            out.write(encodingTable[b3]);
-            out.write(padding);
-            break;
-        }
-
-        return (dataLength / 3) * 4 + ((modulus == 0) ? 0 : 4);
+        return ((len + 2) / 3) * 4;
     }
 
     private boolean ignore(
@@ -136,6 +136,8 @@ public class Base64Encoder
         throws IOException
     {
         byte    b1, b2, b3, b4;
+        byte[]  outBuffer = new byte[54];   // S/MIME standard
+        int     bufOff = 0;
         int     outLen = 0;
         
         int     end = off + length;
@@ -149,11 +151,27 @@ public class Base64Encoder
             
             end--;
         }
+
+        // empty data!
+        if (end == 0)
+        {
+            return 0;
+        }
         
-        int  i = off;
-        int  finish = end - 4;
-        
-        i = nextI(data, i, finish);
+        int  i = 0;
+        int  finish = end;
+
+        while (finish > off && i != 4)
+        {
+            if (!ignore((char)data[finish - 1]))
+            {
+                i++;
+            }
+
+            finish--;
+        }
+
+        i = nextI(data, off, finish);
 
         while (i < finish)
         {
@@ -175,18 +193,34 @@ public class Base64Encoder
             {
                 throw new IOException("invalid characters encountered in base64 data");
             }
+
+            outBuffer[bufOff++] = (byte)((b1 << 2) | (b2 >> 4));
+            outBuffer[bufOff++] = (byte)((b2 << 4) | (b3 >> 2));
+            outBuffer[bufOff++] = (byte)((b3 << 6) | b4);
             
-            out.write((b1 << 2) | (b2 >> 4));
-            out.write((b2 << 4) | (b3 >> 2));
-            out.write((b3 << 6) | b4);
+            if (bufOff == outBuffer.length)
+            {
+                out.write(outBuffer);
+                bufOff = 0;
+            }
             
             outLen += 3;
             
             i = nextI(data, i, finish);
         }
 
-        outLen += decodeLastBlock(out, (char)data[end - 4], (char)data[end - 3], (char)data[end - 2], (char)data[end - 1]);
-        
+        if (bufOff > 0)
+        {
+            out.write(outBuffer, 0, bufOff);
+        }
+
+        int e0 = nextI(data, i, end);
+        int e1 = nextI(data, e0 + 1, end);
+        int e2 = nextI(data, e1 + 1, end);
+        int e3 = nextI(data, e2 + 1, end);
+
+        outLen += decodeLastBlock(out, (char)data[e0], (char)data[e1], (char)data[e2], (char)data[e3]);
+
         return outLen;
     }
 
@@ -211,6 +245,8 @@ public class Base64Encoder
         throws IOException
     {
         byte    b1, b2, b3, b4;
+        byte[]  outBuffer = new byte[54];   // S/MIME standard
+        int     bufOff = 0;
         int     length = 0;
         
         int     end = data.length();
@@ -224,11 +260,27 @@ public class Base64Encoder
             
             end--;
         }
+
+        // empty data!
+        if (end == 0)
+        {
+            return 0;
+        }
         
         int  i = 0;
-        int  finish = end - 4;
+        int  finish = end;
+
+        while (finish > 0 && i != 4)
+        {
+            if (!ignore(data.charAt(finish - 1)))
+            {
+                i++;
+            }
+
+            finish--;
+        }
         
-        i = nextI(data, i, finish);
+        i = nextI(data, 0, finish);
         
         while (i < finish)
         {
@@ -251,17 +303,32 @@ public class Base64Encoder
                 throw new IOException("invalid characters encountered in base64 data");
             }
                
-            out.write((b1 << 2) | (b2 >> 4));
-            out.write((b2 << 4) | (b3 >> 2));
-            out.write((b3 << 6) | b4);
+            outBuffer[bufOff++] = (byte)((b1 << 2) | (b2 >> 4));
+            outBuffer[bufOff++] = (byte)((b2 << 4) | (b3 >> 2));
+            outBuffer[bufOff++] = (byte)((b3 << 6) | b4);
             
             length += 3;
-            
+            if (bufOff == outBuffer.length)
+            {
+                out.write(outBuffer);
+                bufOff = 0;
+            }
+
             i = nextI(data, i, finish);
         }
 
-        length += decodeLastBlock(out, data.charAt(end - 4), data.charAt(end - 3), data.charAt(end - 2), data.charAt(end - 1));
+        if (bufOff > 0)
+        {
+            out.write(outBuffer, 0, bufOff);
+        }
 
+        int e0 = nextI(data, i, end);
+        int e1 = nextI(data, e0 + 1, end);
+        int e2 = nextI(data, e1 + 1, end);
+        int e3 = nextI(data, e2 + 1, end);
+
+        length += decodeLastBlock(out, data.charAt(e0), data.charAt(e1), data.charAt(e2), data.charAt(e3));
+        
         return length;
     }
 
@@ -272,6 +339,11 @@ public class Base64Encoder
         
         if (c3 == padding)
         {
+            if (c4 != padding)
+            {
+                throw new IOException("invalid characters encountered at end of base64 data");
+            }
+            
             b1 = decodingTable[c1];
             b2 = decodingTable[c2];
 

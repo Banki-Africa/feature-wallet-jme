@@ -1,5 +1,7 @@
 package org.bouncycastle.asn1.pkcs;
 
+import java.math.BigInteger;
+
 import org.bouncycastle.asn1.ASN1EncodableVector;
 import org.bouncycastle.asn1.ASN1Integer;
 import org.bouncycastle.asn1.ASN1Object;
@@ -11,7 +13,6 @@ import org.bouncycastle.asn1.DERSequence;
 import org.bouncycastle.asn1.DERTaggedObject;
 import org.bouncycastle.asn1.oiw.OIWObjectIdentifiers;
 import org.bouncycastle.asn1.x509.AlgorithmIdentifier;
-import banki.util.BigInteger;
 
 public class RSASSAPSSparams
     extends ASN1Object
@@ -144,7 +145,7 @@ public class RSASSAPSSparams
      */
     public ASN1Primitive toASN1Primitive()
     {
-        ASN1EncodableVector v = new ASN1EncodableVector();
+        ASN1EncodableVector v = new ASN1EncodableVector(4);
         
         if (!hashAlgorithm.equals(DEFAULT_HASH_ALGORITHM))
         {

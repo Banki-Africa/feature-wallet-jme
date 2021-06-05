@@ -6,11 +6,19 @@ import org.bouncycastle.asn1.ASN1Primitive;
 import org.bouncycastle.asn1.ASN1Sequence;
 import org.bouncycastle.asn1.ASN1TaggedObject;
 import org.bouncycastle.asn1.DERSequence;
+import org.bouncycastle.util.Strings;
 
 public class GeneralNames
     extends ASN1Object
 {
     private final GeneralName[] names;
+
+    private static GeneralName[] copy(GeneralName[] names)
+    {
+        GeneralName[] result = new GeneralName[names.length];
+        System.arraycopy(names, 0, result, 0, names.length);
+        return result;
+    }
 
     public static GeneralNames getInstance(
         Object  obj)
@@ -32,12 +40,12 @@ public class GeneralNames
         ASN1TaggedObject obj,
         boolean          explicit)
     {
-        return getInstance(ASN1Sequence.getInstance(obj, explicit));
+        return new GeneralNames(ASN1Sequence.getInstance(obj, explicit));
     }
 
     public static GeneralNames fromExtensions(Extensions extensions, ASN1ObjectIdentifier extOID)
     {
-        return GeneralNames.getInstance(extensions.getExtensionParsedValue(extOID));
+        return getInstance(Extensions.getExtensionParsedValue(extensions, extOID));
     }
 
     /**
@@ -55,7 +63,7 @@ public class GeneralNames
     public GeneralNames(
         GeneralName[]  names)
     {
-        this.names = names;
+        this.names = copy(names);
     }
 
     private GeneralNames(
@@ -71,11 +79,7 @@ public class GeneralNames
 
     public GeneralName[] getNames()
     {
-        GeneralName[] tmp = new GeneralName[names.length];
-
-        System.arraycopy(names, 0, tmp, 0, names.length);
-
-        return tmp;
+        return copy(names);
     }
 
     /**
@@ -92,7 +96,7 @@ public class GeneralNames
     public String toString()
     {
         StringBuffer  buf = new StringBuffer();
-        String        sep = System.getProperty("line.separator");
+        String        sep = Strings.lineSeparator();
 
         buf.append("GeneralNames:");
         buf.append(sep);

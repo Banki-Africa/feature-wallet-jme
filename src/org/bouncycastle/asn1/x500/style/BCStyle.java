@@ -19,135 +19,130 @@ public class BCStyle
     /**
      * country code - StringType(SIZE(2))
      */
-    public static final ASN1ObjectIdentifier C = new ASN1ObjectIdentifier("2.5.4.6");
+    public static final ASN1ObjectIdentifier C = new ASN1ObjectIdentifier("2.5.4.6").intern();
 
     /**
      * organization - StringType(SIZE(1..64))
      */
-    public static final ASN1ObjectIdentifier O = new ASN1ObjectIdentifier("2.5.4.10");
+    public static final ASN1ObjectIdentifier O = new ASN1ObjectIdentifier("2.5.4.10").intern();
 
     /**
      * organizational unit name - StringType(SIZE(1..64))
      */
-    public static final ASN1ObjectIdentifier OU = new ASN1ObjectIdentifier("2.5.4.11");
+    public static final ASN1ObjectIdentifier OU = new ASN1ObjectIdentifier("2.5.4.11").intern();
 
     /**
      * Title
      */
-    public static final ASN1ObjectIdentifier T = new ASN1ObjectIdentifier("2.5.4.12");
+    public static final ASN1ObjectIdentifier T = new ASN1ObjectIdentifier("2.5.4.12").intern();
 
     /**
      * common name - StringType(SIZE(1..64))
      */
-    public static final ASN1ObjectIdentifier CN = new ASN1ObjectIdentifier("2.5.4.3");
+    public static final ASN1ObjectIdentifier CN = new ASN1ObjectIdentifier("2.5.4.3").intern();
 
     /**
      * device serial number name - StringType(SIZE(1..64))
+     * @deprecated use SERIALNUMBER or SURNAME
      */
-    public static final ASN1ObjectIdentifier SN = new ASN1ObjectIdentifier("2.5.4.5");
+    public static final ASN1ObjectIdentifier SN = new ASN1ObjectIdentifier("2.5.4.5").intern();
 
     /**
      * street - StringType(SIZE(1..64))
      */
-    public static final ASN1ObjectIdentifier STREET = new ASN1ObjectIdentifier("2.5.4.9");
+    public static final ASN1ObjectIdentifier STREET = new ASN1ObjectIdentifier("2.5.4.9").intern();
 
     /**
      * device serial number name - StringType(SIZE(1..64))
      */
-    public static final ASN1ObjectIdentifier SERIALNUMBER = SN;
+    public static final ASN1ObjectIdentifier SERIALNUMBER = new ASN1ObjectIdentifier("2.5.4.5").intern();
 
     /**
      * locality name - StringType(SIZE(1..64))
      */
-    public static final ASN1ObjectIdentifier L = new ASN1ObjectIdentifier("2.5.4.7");
+    public static final ASN1ObjectIdentifier L = new ASN1ObjectIdentifier("2.5.4.7").intern();
 
     /**
      * state, or province name - StringType(SIZE(1..64))
      */
-    public static final ASN1ObjectIdentifier ST = new ASN1ObjectIdentifier("2.5.4.8");
+    public static final ASN1ObjectIdentifier ST = new ASN1ObjectIdentifier("2.5.4.8").intern();
 
     /**
      * Naming attributes of type X520name
      */
-    public static final ASN1ObjectIdentifier SURNAME = new ASN1ObjectIdentifier("2.5.4.4");
-    public static final ASN1ObjectIdentifier GIVENNAME = new ASN1ObjectIdentifier("2.5.4.42");
-    public static final ASN1ObjectIdentifier INITIALS = new ASN1ObjectIdentifier("2.5.4.43");
-    public static final ASN1ObjectIdentifier GENERATION = new ASN1ObjectIdentifier("2.5.4.44");
-    public static final ASN1ObjectIdentifier UNIQUE_IDENTIFIER = new ASN1ObjectIdentifier("2.5.4.45");
+    public static final ASN1ObjectIdentifier SURNAME = new ASN1ObjectIdentifier("2.5.4.4").intern();
+    public static final ASN1ObjectIdentifier GIVENNAME = new ASN1ObjectIdentifier("2.5.4.42").intern();
+    public static final ASN1ObjectIdentifier INITIALS = new ASN1ObjectIdentifier("2.5.4.43").intern();
+    public static final ASN1ObjectIdentifier GENERATION = new ASN1ObjectIdentifier("2.5.4.44").intern();
+    public static final ASN1ObjectIdentifier UNIQUE_IDENTIFIER = new ASN1ObjectIdentifier("2.5.4.45").intern();
+
+    public static final ASN1ObjectIdentifier DESCRIPTION = new ASN1ObjectIdentifier("2.5.4.13").intern();
 
     /**
      * businessCategory - DirectoryString(SIZE(1..128)
      */
-    public static final ASN1ObjectIdentifier BUSINESS_CATEGORY = new ASN1ObjectIdentifier(
-        "2.5.4.15");
+    public static final ASN1ObjectIdentifier BUSINESS_CATEGORY = new ASN1ObjectIdentifier("2.5.4.15").intern();
 
     /**
      * postalCode - DirectoryString(SIZE(1..40)
      */
-    public static final ASN1ObjectIdentifier POSTAL_CODE = new ASN1ObjectIdentifier(
-        "2.5.4.17");
+    public static final ASN1ObjectIdentifier POSTAL_CODE = new ASN1ObjectIdentifier("2.5.4.17").intern();
 
     /**
      * dnQualifier - DirectoryString(SIZE(1..64)
      */
-    public static final ASN1ObjectIdentifier DN_QUALIFIER = new ASN1ObjectIdentifier(
-        "2.5.4.46");
+    public static final ASN1ObjectIdentifier DN_QUALIFIER = new ASN1ObjectIdentifier("2.5.4.46").intern();
 
     /**
      * RFC 3039 Pseudonym - DirectoryString(SIZE(1..64)
      */
-    public static final ASN1ObjectIdentifier PSEUDONYM = new ASN1ObjectIdentifier(
-        "2.5.4.65");
+    public static final ASN1ObjectIdentifier PSEUDONYM = new ASN1ObjectIdentifier("2.5.4.65").intern();
 
+    public static final ASN1ObjectIdentifier ROLE = new ASN1ObjectIdentifier("2.5.4.72").intern();
 
     /**
      * RFC 3039 DateOfBirth - GeneralizedTime - YYYYMMDD000000Z
      */
-    public static final ASN1ObjectIdentifier DATE_OF_BIRTH = new ASN1ObjectIdentifier(
-        "1.3.6.1.5.5.7.9.1");
+    public static final ASN1ObjectIdentifier DATE_OF_BIRTH = new ASN1ObjectIdentifier("1.3.6.1.5.5.7.9.1").intern();
 
     /**
      * RFC 3039 PlaceOfBirth - DirectoryString(SIZE(1..128)
      */
-    public static final ASN1ObjectIdentifier PLACE_OF_BIRTH = new ASN1ObjectIdentifier(
-        "1.3.6.1.5.5.7.9.2");
+    public static final ASN1ObjectIdentifier PLACE_OF_BIRTH = new ASN1ObjectIdentifier("1.3.6.1.5.5.7.9.2").intern();
 
     /**
      * RFC 3039 Gender - PrintableString (SIZE(1)) -- "M", "F", "m" or "f"
      */
-    public static final ASN1ObjectIdentifier GENDER = new ASN1ObjectIdentifier(
-        "1.3.6.1.5.5.7.9.3");
+    public static final ASN1ObjectIdentifier GENDER = new ASN1ObjectIdentifier("1.3.6.1.5.5.7.9.3").intern();
 
     /**
      * RFC 3039 CountryOfCitizenship - PrintableString (SIZE (2)) -- ISO 3166
      * codes only
      */
-    public static final ASN1ObjectIdentifier COUNTRY_OF_CITIZENSHIP = new ASN1ObjectIdentifier(
-        "1.3.6.1.5.5.7.9.4");
+    public static final ASN1ObjectIdentifier COUNTRY_OF_CITIZENSHIP = new ASN1ObjectIdentifier("1.3.6.1.5.5.7.9.4").intern();
 
     /**
      * RFC 3039 CountryOfResidence - PrintableString (SIZE (2)) -- ISO 3166
      * codes only
      */
-    public static final ASN1ObjectIdentifier COUNTRY_OF_RESIDENCE = new ASN1ObjectIdentifier(
-        "1.3.6.1.5.5.7.9.5");
+    public static final ASN1ObjectIdentifier COUNTRY_OF_RESIDENCE = new ASN1ObjectIdentifier("1.3.6.1.5.5.7.9.5").intern();
 
 
     /**
      * ISIS-MTT NameAtBirth - DirectoryString(SIZE(1..64)
      */
-    public static final ASN1ObjectIdentifier NAME_AT_BIRTH = new ASN1ObjectIdentifier("1.3.36.8.3.14");
+    public static final ASN1ObjectIdentifier NAME_AT_BIRTH = new ASN1ObjectIdentifier("1.3.36.8.3.14").intern();
 
     /**
      * RFC 3039 PostalAddress - SEQUENCE SIZE (1..6) OF
      * DirectoryString(SIZE(1..30))
      */
-    public static final ASN1ObjectIdentifier POSTAL_ADDRESS = new ASN1ObjectIdentifier("2.5.4.16");
+    public static final ASN1ObjectIdentifier POSTAL_ADDRESS = new ASN1ObjectIdentifier("2.5.4.16").intern();
 
     /**
      * RFC 2256 dmdName
      */
-    public static final ASN1ObjectIdentifier DMD_NAME = new ASN1ObjectIdentifier("2.5.4.54");
+    public static final ASN1ObjectIdentifier DMD_NAME = new ASN1ObjectIdentifier("2.5.4.54").intern();
 
     /**
      * id-at-telephoneNumber
@@ -158,6 +153,12 @@ public class BCStyle
      * id-at-name
      */
     public static final ASN1ObjectIdentifier NAME = X509ObjectIdentifiers.id_at_name;
+
+
+    /**
+     * id-at-organizationIdentifier
+     */
+    public static final ASN1ObjectIdentifier ORGANIZATION_IDENTIFIER = X509ObjectIdentifiers.id_at_organizationIdentifier;
 
     /**
      * Email address (RSA PKCS#9 extension) - IA5String.
@@ -206,7 +207,7 @@ public class BCStyle
         DefaultSymbols.put(CN, "CN");
         DefaultSymbols.put(L, "L");
         DefaultSymbols.put(ST, "ST");
-        DefaultSymbols.put(SN, "SERIALNUMBER");
+        DefaultSymbols.put(SERIALNUMBER, "SERIALNUMBER");
         DefaultSymbols.put(EmailAddress, "E");
         DefaultSymbols.put(DC, "DC");
         DefaultSymbols.put(UID, "UID");
@@ -215,6 +216,8 @@ public class BCStyle
         DefaultSymbols.put(GIVENNAME, "GIVENNAME");
         DefaultSymbols.put(INITIALS, "INITIALS");
         DefaultSymbols.put(GENERATION, "GENERATION");
+        DefaultSymbols.put(DESCRIPTION, "DESCRIPTION");
+        DefaultSymbols.put(ROLE, "ROLE");
         DefaultSymbols.put(UnstructuredAddress, "unstructuredAddress");
         DefaultSymbols.put(UnstructuredName, "unstructuredName");
         DefaultSymbols.put(UNIQUE_IDENTIFIER, "UniqueIdentifier");
@@ -231,6 +234,7 @@ public class BCStyle
         DefaultSymbols.put(BUSINESS_CATEGORY, "BusinessCategory");
         DefaultSymbols.put(TELEPHONE_NUMBER, "TelephoneNumber");
         DefaultSymbols.put(NAME, "Name");
+        DefaultSymbols.put(ORGANIZATION_IDENTIFIER, "organizationIdentifier");
 
         DefaultLookUp.put("c", C);
         DefaultLookUp.put("o", O);
@@ -239,8 +243,8 @@ public class BCStyle
         DefaultLookUp.put("cn", CN);
         DefaultLookUp.put("l", L);
         DefaultLookUp.put("st", ST);
-        DefaultLookUp.put("sn", SN);
-        DefaultLookUp.put("serialnumber", SN);
+        DefaultLookUp.put("sn", SURNAME);
+        DefaultLookUp.put("serialnumber", SERIALNUMBER);
         DefaultLookUp.put("street", STREET);
         DefaultLookUp.put("emailaddress", E);
         DefaultLookUp.put("dc", DC);
@@ -250,13 +254,15 @@ public class BCStyle
         DefaultLookUp.put("givenname", GIVENNAME);
         DefaultLookUp.put("initials", INITIALS);
         DefaultLookUp.put("generation", GENERATION);
+        DefaultLookUp.put("description", DESCRIPTION);
+        DefaultLookUp.put("role", ROLE);
         DefaultLookUp.put("unstructuredaddress", UnstructuredAddress);
         DefaultLookUp.put("unstructuredname", UnstructuredName);
         DefaultLookUp.put("uniqueidentifier", UNIQUE_IDENTIFIER);
         DefaultLookUp.put("dn", DN_QUALIFIER);
         DefaultLookUp.put("pseudonym", PSEUDONYM);
         DefaultLookUp.put("postaladdress", POSTAL_ADDRESS);
-        DefaultLookUp.put("nameofbirth", NAME_AT_BIRTH);
+        DefaultLookUp.put("nameatbirth", NAME_AT_BIRTH);
         DefaultLookUp.put("countryofcitizenship", COUNTRY_OF_CITIZENSHIP);
         DefaultLookUp.put("countryofresidence", COUNTRY_OF_RESIDENCE);
         DefaultLookUp.put("gender", GENDER);
@@ -266,6 +272,7 @@ public class BCStyle
         DefaultLookUp.put("businesscategory", BUSINESS_CATEGORY);
         DefaultLookUp.put("telephonenumber", TELEPHONE_NUMBER);
         DefaultLookUp.put("name", NAME);
+        DefaultLookUp.put("organizationidentifier", ORGANIZATION_IDENTIFIER);
     }
 
     /**
@@ -344,6 +351,4 @@ public class BCStyle
 
         return buf.toString();
     }
-
-
 }

@@ -11,10 +11,8 @@ class DERFactory
         {
             return EMPTY_SEQUENCE;
         }
-        else
-        {
-            return new DLSequence(v);
-        }
+
+        return new DERSequence(v);
     }
 
     static ASN1Set createSet(ASN1EncodableVector v)
@@ -23,9 +21,7 @@ class DERFactory
         {
             return EMPTY_SET;
         }
-        else
-        {
-            return new DLSet(v);
-        }
+
+        return new DERSet(v);
     }
 }

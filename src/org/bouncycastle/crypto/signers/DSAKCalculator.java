@@ -1,7 +1,7 @@
 package org.bouncycastle.crypto.signers;
 
-import banki.java.security.SecureRandom;
-import banki.util.BigInteger;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 
 /**
  * Interface define calculators of K values for DSA/ECDSA.

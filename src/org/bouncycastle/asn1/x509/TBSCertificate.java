@@ -1,13 +1,19 @@
 package org.bouncycastle.asn1.x509;
 
+import java.math.BigInteger;
+
+import org.bouncycastle.asn1.ASN1EncodableVector;
 import org.bouncycastle.asn1.ASN1Integer;
 import org.bouncycastle.asn1.ASN1Object;
 import org.bouncycastle.asn1.ASN1Primitive;
 import org.bouncycastle.asn1.ASN1Sequence;
 import org.bouncycastle.asn1.ASN1TaggedObject;
 import org.bouncycastle.asn1.DERBitString;
+import org.bouncycastle.asn1.DERSequence;
 import org.bouncycastle.asn1.DERTaggedObject;
 import org.bouncycastle.asn1.x500.X500Name;
+import org.bouncycastle.util.BigIntegers;
+import org.bouncycastle.util.Properties;
 
 /**
  * The TBSCertificate object.
@@ -77,7 +83,7 @@ public class TBSCertificate
         //
         // some certficates don't include a version number - we assume v1
         //
-        if (seq.getObjectAt(0) instanceof DERTaggedObject)
+        if (seq.getObjectAt(0) instanceof ASN1TaggedObject)
         {
             version = ASN1Integer.getInstance((ASN1TaggedObject)seq.getObjectAt(0), true);
         }
@@ -85,6 +91,22 @@ public class TBSCertificate
         {
             seqStart = -1;          // field 0 is missing!
             version = new ASN1Integer(0);
+        }
+
+        boolean isV1 = false;
+        boolean isV2 = false;
+ 
+        if (version.hasValue(BigInteger.valueOf(0)))
+        {
+            isV1 = true;
+        }
+        else if (version.hasValue(BigInteger.valueOf(1)))
+        {
+            isV2 = true;
+        }
+        else if (!version.hasValue(BigInteger.valueOf(2)))
+        {
+            throw new IllegalArgumentException("version number not recognised");
         }
 
         serialNumber = ASN1Integer.getInstance(seq.getObjectAt(seqStart + 1));
@@ -107,9 +129,15 @@ public class TBSCertificate
         //
         subjectPublicKeyInfo = SubjectPublicKeyInfo.getInstance(seq.getObjectAt(seqStart + 6));
 
-        for (int extras = seq.size() - (seqStart + 6) - 1; extras > 0; extras--)
+        int extras = seq.size() - (seqStart + 6) - 1;
+        if (extras != 0 && isV1)
         {
-            DERTaggedObject extra = (DERTaggedObject)seq.getObjectAt(seqStart + 6 + extras);
+            throw new IllegalArgumentException("version 1 certificate contains extra data");
+        }
+        
+        while (extras > 0)
+        {
+            ASN1TaggedObject extra = (ASN1TaggedObject)seq.getObjectAt(seqStart + 6 + extras);
 
             switch (extra.getTagNo())
             {
@@ -120,14 +148,22 @@ public class TBSCertificate
                 subjectUniqueId = DERBitString.getInstance(extra, false);
                 break;
             case 3:
+                if (isV2)
+                {
+                    throw new IllegalArgumentException("version 2 certificate cannot contain extensions");
+                }
                 extensions = Extensions.getInstance(ASN1Sequence.getInstance(extra, true));
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown tag encountered in structure: " + extra.getTagNo());
             }
+            extras--;
         }
     }
 
     public int getVersionNumber()
     {
-        return version.getValue().intValue() + 1;
+        return version.intValueExact() + 1;
     }
 
     public ASN1Integer getVersion()
@@ -187,6 +223,69 @@ public class TBSCertificate
 
     public ASN1Primitive toASN1Primitive()
     {
-        return seq;
+        if (Properties.getPropertyValue("org.bouncycastle.x509.allow_non-der_tbscert") != null)
+        {
+            if (Properties.isOverrideSet("org.bouncycastle.x509.allow_non-der_tbscert"))
+            {
+                return seq;
+            }
+        }
+        else
+        {
+            return seq;
+        }
+
+        ASN1EncodableVector v = new ASN1EncodableVector();
+
+        // DEFAULT Zero
+        if (!version.hasValue(BigIntegers.ZERO))
+        {
+            v.add(new DERTaggedObject(true, 0, version));
+        }
+
+        v.add(serialNumber);
+        v.add(signature);
+        v.add(issuer);
+
+        //
+        // before and after dates
+        //
+        {
+            ASN1EncodableVector validity = new ASN1EncodableVector(2);
+            validity.add(startDate);
+            validity.add(endDate);
+
+            v.add(new DERSequence(validity));
+        }
+
+        if (subject != null)
+        {
+            v.add(subject);
+        }
+        else
+        {
+            v.add(new DERSequence());
+        }
+
+        v.add(subjectPublicKeyInfo);
+
+        // Note: implicit tag
+        if (issuerUniqueId != null)
+        {
+            v.add(new DERTaggedObject(false, 1, issuerUniqueId));
+        }
+
+        // Note: implicit tag
+        if (subjectUniqueId != null)
+        {
+            v.add(new DERTaggedObject(false, 2, subjectUniqueId));
+        }
+
+        if (extensions != null)
+        {
+            v.add(new DERTaggedObject(true, 3, extensions));
+        }
+
+        return new DERSequence(v);
     }
 }

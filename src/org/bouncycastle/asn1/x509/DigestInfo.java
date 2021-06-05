@@ -10,6 +10,7 @@ import org.bouncycastle.asn1.ASN1Sequence;
 import org.bouncycastle.asn1.ASN1TaggedObject;
 import org.bouncycastle.asn1.DEROctetString;
 import org.bouncycastle.asn1.DERSequence;
+import org.bouncycastle.util.Arrays;
 
 /**
  * The DigestInfo object.
@@ -51,7 +52,7 @@ public class DigestInfo
         AlgorithmIdentifier  algId,
         byte[]               digest)
     {
-        this.digest = digest;
+        this.digest = Arrays.clone(digest);
         this.algId = algId;
     }
 
@@ -71,12 +72,12 @@ public class DigestInfo
 
     public byte[] getDigest()
     {
-        return digest;
+        return Arrays.clone(digest);
     }
 
     public ASN1Primitive toASN1Primitive()
     {
-        ASN1EncodableVector  v = new ASN1EncodableVector();
+        ASN1EncodableVector v = new ASN1EncodableVector(2);
 
         v.add(algId);
         v.add(new DEROctetString(digest));

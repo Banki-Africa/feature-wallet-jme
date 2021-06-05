@@ -1,6 +1,6 @@
 package org.bouncycastle.math.field;
 
-import banki.util.BigInteger;
+import java.math.BigInteger;
 
 public interface FiniteField
 {

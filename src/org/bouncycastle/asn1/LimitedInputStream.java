@@ -2,6 +2,9 @@ package org.bouncycastle.asn1;
 
 import java.io.InputStream;
 
+/**
+ * Internal use stream that allows reading of a limited number of bytes from a wrapped stream.
+ */
 abstract class LimitedInputStream
         extends InputStream
 {
@@ -16,12 +19,11 @@ abstract class LimitedInputStream
         this._limit = limit;
     }
 
-    int getRemaining()
+    int getLimit()
     {
-        // TODO: maybe one day this can become more accurate
         return _limit;
     }
-    
+
     protected void setParentEofDetect(boolean on)
     {
         if (_in instanceof IndefiniteLengthInputStream)

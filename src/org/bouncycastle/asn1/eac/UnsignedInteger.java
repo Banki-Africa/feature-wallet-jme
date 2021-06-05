@@ -1,12 +1,13 @@
 package org.bouncycastle.asn1.eac;
 
+import java.math.BigInteger;
+
 import org.bouncycastle.asn1.ASN1Object;
 import org.bouncycastle.asn1.ASN1OctetString;
 import org.bouncycastle.asn1.ASN1Primitive;
 import org.bouncycastle.asn1.ASN1TaggedObject;
 import org.bouncycastle.asn1.DEROctetString;
 import org.bouncycastle.asn1.DERTaggedObject;
-import banki.util.BigInteger;
 
 public class UnsignedInteger
     extends ASN1Object

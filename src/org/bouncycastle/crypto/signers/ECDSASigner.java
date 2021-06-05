@@ -1,7 +1,11 @@
 package org.bouncycastle.crypto.signers;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
 import org.bouncycastle.crypto.CipherParameters;
-import org.bouncycastle.crypto.DSA;
+import org.bouncycastle.crypto.CryptoServicesRegistrar;
+import org.bouncycastle.crypto.DSAExt;
 import org.bouncycastle.crypto.params.ECDomainParameters;
 import org.bouncycastle.crypto.params.ECKeyParameters;
 import org.bouncycastle.crypto.params.ECPrivateKeyParameters;
@@ -9,18 +13,18 @@ import org.bouncycastle.crypto.params.ECPublicKeyParameters;
 import org.bouncycastle.crypto.params.ParametersWithRandom;
 import org.bouncycastle.math.ec.ECAlgorithms;
 import org.bouncycastle.math.ec.ECConstants;
+import org.bouncycastle.math.ec.ECCurve;
+import org.bouncycastle.math.ec.ECFieldElement;
 import org.bouncycastle.math.ec.ECMultiplier;
 import org.bouncycastle.math.ec.ECPoint;
 import org.bouncycastle.math.ec.FixedPointCombMultiplier;
-
-import banki.java.security.SecureRandom;
-import banki.util.BigInteger;
+import org.bouncycastle.util.BigIntegers;
 
 /**
  * EC-DSA as described in X9.62
  */
 public class ECDSASigner
-    implements ECConstants, DSA
+    implements ECConstants, DSAExt
 {
     private final DSAKCalculator kCalculator;
 
@@ -73,6 +77,11 @@ public class ECDSASigner
         this.random = initSecureRandom(forSigning && !kCalculator.isDeterministic(), providedRandom);
     }
 
+    public BigInteger getOrder()
+    {
+        return key.getParameters().getN();
+    }
+
     // 5.3 pg 28
     /**
      * generate a signature for the given message using the key we were
@@ -117,7 +126,7 @@ public class ECDSASigner
             }
             while (r.equals(ZERO));
 
-            s = k.modInverse(n).multiply(e.add(d.multiply(r))).mod(n);
+            s = BigIntegers.modOddInverse(n, k).multiply(e.add(d.multiply(r))).mod(n);
         }
         while (s.equals(ZERO));
 
@@ -151,7 +160,7 @@ public class ECDSASigner
             return false;
         }
 
-        BigInteger c = s.modInverse(n);
+        BigInteger c = BigIntegers.modOddInverseVar(n, s);
 
         BigInteger u1 = e.multiply(c).mod(n);
         BigInteger u2 = r.multiply(c).mod(n);
@@ -159,7 +168,7 @@ public class ECDSASigner
         ECPoint G = ec.getG();
         ECPoint Q = ((ECPublicKeyParameters)key).getQ();
 
-        ECPoint point = ECAlgorithms.sumOfTwoMultiplies(G, u1, Q, u2).normalize();
+        ECPoint point = ECAlgorithms.sumOfTwoMultiplies(G, u1, Q, u2);
 
         // components must be bogus.
         if (point.isInfinity())
@@ -167,8 +176,44 @@ public class ECDSASigner
             return false;
         }
 
-        BigInteger v = point.getAffineXCoord().toBigInteger().mod(n);
+        /*
+         * If possible, avoid normalizing the point (to save a modular inversion in the curve field).
+         * 
+         * There are ~cofactor elements of the curve field that reduce (modulo the group order) to 'r'.
+         * If the cofactor is known and small, we generate those possible field values and project each
+         * of them to the same "denominator" (depending on the particular projective coordinates in use)
+         * as the calculated point.X. If any of the projected values matches point.X, then we have:
+         *     (point.X / Denominator mod p) mod n == r
+         * as required, and verification succeeds.
+         * 
+         * Based on an original idea by Gregory Maxwell (https://github.com/gmaxwell), as implemented in
+         * the libsecp256k1 project (https://github.com/bitcoin/secp256k1).
+         */
+        ECCurve curve = point.getCurve();
+        if (curve != null)
+        {
+            BigInteger cofactor = curve.getCofactor();
+            if (cofactor != null && cofactor.compareTo(EIGHT) <= 0)
+            {
+                ECFieldElement D = getDenominator(curve.getCoordinateSystem(), point);
+                if (D != null && !D.isZero())
+                {
+                    ECFieldElement X = point.getXCoord();
+                    while (curve.isValidFieldElement(r))
+                    {
+                        ECFieldElement R = curve.fromBigInteger(r).multiply(D);
+                        if (R.equals(X))
+                        {
+                            return true;
+                        }
+                        r = r.add(n);
+                    }
+                    return false;
+                }
+            }
+        }
 
+        BigInteger v = point.normalize().getAffineXCoord().toBigInteger().mod(n);
         return v.equals(r);
     }
 
@@ -190,8 +235,25 @@ public class ECDSASigner
         return new FixedPointCombMultiplier();
     }
 
+    protected ECFieldElement getDenominator(int coordinateSystem, ECPoint p)
+    {
+        switch (coordinateSystem)
+        {
+        case ECCurve.COORD_HOMOGENEOUS:
+        case ECCurve.COORD_LAMBDA_PROJECTIVE:
+        case ECCurve.COORD_SKEWED:
+            return p.getZCoord(0);
+        case ECCurve.COORD_JACOBIAN:
+        case ECCurve.COORD_JACOBIAN_CHUDNOVSKY:
+        case ECCurve.COORD_JACOBIAN_MODIFIED:
+            return p.getZCoord(0).square();
+        default:
+            return null;
+        }
+    }
+
     protected SecureRandom initSecureRandom(boolean needed, SecureRandom provided)
     {
-        return !needed ? null : (provided != null) ? provided : new SecureRandom();
+        return needed ? CryptoServicesRegistrar.getSecureRandom(provided) : null;
     }
 }

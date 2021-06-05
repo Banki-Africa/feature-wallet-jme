@@ -1,7 +1,8 @@
 package org.bouncycastle.crypto.params;
 
+import java.math.BigInteger;
+
 import org.bouncycastle.crypto.CipherParameters;
-import banki.util.BigInteger;
 
 public class DSAParameters
     implements CipherParameters

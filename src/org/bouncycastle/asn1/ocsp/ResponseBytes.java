@@ -9,6 +9,14 @@ import org.bouncycastle.asn1.ASN1Sequence;
 import org.bouncycastle.asn1.ASN1TaggedObject;
 import org.bouncycastle.asn1.DERSequence;
 
+/**
+ * OCSP RFC 2560, RFC 6960
+ * <pre>
+ * ResponseBytes ::=       SEQUENCE {
+ *     responseType   OBJECT IDENTIFIER,
+ *     response       OCTET STRING }
+ * </pre>
+ */
 public class ResponseBytes
     extends ASN1Object
 {
@@ -23,6 +31,9 @@ public class ResponseBytes
         this.response = response;
     }
 
+    /**
+     * @deprecated use getInstance()
+     */
     public ResponseBytes(
         ASN1Sequence    seq)
     {
@@ -40,16 +51,16 @@ public class ResponseBytes
     public static ResponseBytes getInstance(
         Object  obj)
     {
-        if (obj == null || obj instanceof ResponseBytes)
+        if (obj instanceof ResponseBytes)
         {
             return (ResponseBytes)obj;
         }
-        else if (obj instanceof ASN1Sequence)
+        else if (obj != null)
         {
-            return new ResponseBytes((ASN1Sequence)obj);
+            return new ResponseBytes(ASN1Sequence.getInstance(obj));
         }
 
-        throw new IllegalArgumentException("unknown object in factory: " + obj.getClass().getName());
+        return null;
     }
 
     public ASN1ObjectIdentifier getResponseType()
@@ -72,7 +83,7 @@ public class ResponseBytes
      */
     public ASN1Primitive toASN1Primitive()
     {
-        ASN1EncodableVector    v = new ASN1EncodableVector();
+        ASN1EncodableVector v = new ASN1EncodableVector(2);
 
         v.add(responseType);
         v.add(response);

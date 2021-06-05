@@ -1,6 +1,7 @@
 package org.bouncycastle.asn1.x509;
 
 import java.util.Enumeration;
+import java.util.NoSuchElementException;
 
 import org.bouncycastle.asn1.ASN1EncodableVector;
 import org.bouncycastle.asn1.ASN1GeneralizedTime;
@@ -132,7 +133,7 @@ public class TBSCertList
 
         public Object nextElement()
         {
-            return null;   // TODO: check exception handling
+            throw new NoSuchElementException("Empty Enumeration");
         }
     }
 
@@ -198,13 +199,13 @@ public class TBSCertList
         }
 
         if (seqPos < seq.size()
-            && !(seq.getObjectAt(seqPos) instanceof DERTaggedObject))
+            && !(seq.getObjectAt(seqPos) instanceof ASN1TaggedObject))
         {
             revokedCertificates = ASN1Sequence.getInstance(seq.getObjectAt(seqPos++));
         }
 
         if (seqPos < seq.size()
-            && seq.getObjectAt(seqPos) instanceof DERTaggedObject)
+            && seq.getObjectAt(seqPos) instanceof ASN1TaggedObject)
         {
             crlExtensions = Extensions.getInstance(ASN1Sequence.getInstance((ASN1TaggedObject)seq.getObjectAt(seqPos), true));
         }
@@ -216,7 +217,7 @@ public class TBSCertList
         {
             return 1;
         }
-        return version.getValue().intValue() + 1;
+        return version.intValueExact() + 1;
     }
 
     public ASN1Integer getVersion()
@@ -278,7 +279,7 @@ public class TBSCertList
 
     public ASN1Primitive toASN1Primitive()
     {
-        ASN1EncodableVector v = new ASN1EncodableVector();
+        ASN1EncodableVector v = new ASN1EncodableVector(7);
 
         if (version != null)
         {

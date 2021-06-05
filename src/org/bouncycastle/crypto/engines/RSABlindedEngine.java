@@ -1,15 +1,16 @@
 package org.bouncycastle.crypto.engines;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
 import org.bouncycastle.crypto.AsymmetricBlockCipher;
 import org.bouncycastle.crypto.CipherParameters;
+import org.bouncycastle.crypto.CryptoServicesRegistrar;
 import org.bouncycastle.crypto.DataLengthException;
 import org.bouncycastle.crypto.params.ParametersWithRandom;
 import org.bouncycastle.crypto.params.RSAKeyParameters;
 import org.bouncycastle.crypto.params.RSAPrivateCrtKeyParameters;
 import org.bouncycastle.util.BigIntegers;
-
-import banki.java.security.SecureRandom;
-import banki.util.BigInteger;
 
 /**
  * this does your basic RSA algorithm with blinding
@@ -37,15 +38,31 @@ public class RSABlindedEngine
 
         if (param instanceof ParametersWithRandom)
         {
-            ParametersWithRandom    rParam = (ParametersWithRandom)param;
+            ParametersWithRandom rParam = (ParametersWithRandom)param;
 
-            key = (RSAKeyParameters)rParam.getParameters();
-            random = rParam.getRandom();
+            this.key = (RSAKeyParameters)rParam.getParameters();
+
+            if (key instanceof RSAPrivateCrtKeyParameters)
+            {
+                this.random = rParam.getRandom();
+            }
+            else
+            {
+                this.random = null;
+            }
         }
         else
         {
-            key = (RSAKeyParameters)param;
-            random = new SecureRandom();
+            this.key = (RSAKeyParameters)param;
+
+            if (key instanceof RSAPrivateCrtKeyParameters)
+            {
+                this.random = CryptoServicesRegistrar.getSecureRandom();
+            }
+            else
+            {
+                this.random = null;
+            }
         }
     }
 
@@ -108,8 +125,13 @@ public class RSABlindedEngine
                 BigInteger blindedInput = r.modPow(e, m).multiply(input).mod(m);
                 BigInteger blindedResult = core.processBlock(blindedInput);
 
-                BigInteger rInv = r.modInverse(m);
+                BigInteger rInv = BigIntegers.modOddInverse(m, r);
                 result = blindedResult.multiply(rInv).mod(m);
+                // defence against Arjen Lenstra’s CRT attack
+                if (!input.equals(result.modPow(e, m)))
+                {
+                    throw new IllegalStateException("RSA engine faulty decryption/signing detected");
+                }
             }
             else
             {

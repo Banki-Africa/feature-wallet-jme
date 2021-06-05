@@ -1,6 +1,6 @@
 package org.bouncycastle.crypto.params;
 
-import banki.util.BigInteger;
+import java.math.BigInteger;
 
 public class DHPrivateKeyParameters
     extends DHKeyParameters

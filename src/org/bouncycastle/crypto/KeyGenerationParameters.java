@@ -1,6 +1,6 @@
 package org.bouncycastle.crypto;
 
-import banki.java.security.SecureRandom;
+import java.security.SecureRandom;
 
 /**
  * The base class for parameters to key generators.
@@ -21,7 +21,7 @@ public class KeyGenerationParameters
         SecureRandom    random,
         int             strength)
     {
-        this.random = random;
+        this.random = CryptoServicesRegistrar.getSecureRandom(random);
         this.strength = strength;
     }
 

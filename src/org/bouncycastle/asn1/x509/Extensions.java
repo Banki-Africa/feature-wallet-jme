@@ -13,11 +13,31 @@ import org.bouncycastle.asn1.ASN1Sequence;
 import org.bouncycastle.asn1.ASN1TaggedObject;
 import org.bouncycastle.asn1.DERSequence;
 
+/**
+ * <pre>
+ *     Extensions        ::=   SEQUENCE SIZE (1..MAX) OF Extension
+ *
+ *     Extension         ::=   SEQUENCE {
+ *        extnId            EXTENSION.&amp;id ({ExtensionSet}),
+ *        critical          BOOLEAN DEFAULT FALSE,
+ *        extnValue         OCTET STRING }
+ * </pre>
+ */
 public class Extensions
     extends ASN1Object
 {
     private Hashtable extensions = new Hashtable();
     private Vector ordering = new Vector();
+
+    public static Extension getExtension(Extensions extensions, ASN1ObjectIdentifier oid)
+    {
+        return null == extensions ? null : extensions.getExtension(oid);
+    }
+
+    public static ASN1Encodable getExtensionParsedValue(Extensions extensions, ASN1ObjectIdentifier oid)
+    {
+        return null == extensions ? null : extensions.getExtensionParsedValue(oid);
+    }
 
     public static Extensions getInstance(
         ASN1TaggedObject obj,
@@ -43,8 +63,9 @@ public class Extensions
 
     /**
      * Constructor from ASN1Sequence.
-     * <p/>
-     * the extensions are a list of constructed sequences, either with (OID, OctetString) or (OID, Boolean, OctetString)
+     * <p>
+     * The extensions are a list of constructed sequences, either with (OID, OctetString) or (OID, Boolean, OctetString)
+     * </p>
      */
     private Extensions(
         ASN1Sequence seq)
@@ -55,6 +76,11 @@ public class Extensions
         {
             Extension ext = Extension.getInstance(e.nextElement());
 
+            if (extensions.containsKey(ext.getExtnId()))
+            {
+                throw new IllegalArgumentException("repeated extension found: " + ext.getExtnId());
+            }
+            
             extensions.put(ext.getExtnId(), ext);
             ordering.addElement(ext.getExtnId());
         }
@@ -139,9 +165,9 @@ public class Extensions
      */
     public ASN1Primitive toASN1Primitive()
     {
-        ASN1EncodableVector vec = new ASN1EncodableVector();
-        Enumeration e = ordering.elements();
+        ASN1EncodableVector vec = new ASN1EncodableVector(ordering.size());
 
+        Enumeration e = ordering.elements();
         while (e.hasMoreElements())
         {
             ASN1ObjectIdentifier oid = (ASN1ObjectIdentifier)e.nextElement();

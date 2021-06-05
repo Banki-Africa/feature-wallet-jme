@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.bouncycastle.util.Arrays;
+import org.bouncycastle.util.Strings;
 import org.bouncycastle.util.encoders.Hex;
 
 /**
@@ -15,7 +16,6 @@ import org.bouncycastle.util.encoders.Hex;
  * DER form is always primitive single OCTET STRING, while
  * BER support includes the constructed forms.
  * </p>
- * <hr>
  * <p><b>X.690</b></p>
  * <p><b>8: Basic encoding rules</b></p>
  * <p><b>8.7 Encoding of an octetstring value</b></p>
@@ -37,20 +37,19 @@ import org.bouncycastle.util.encoders.Hex;
  * <p>
  * <b>8.7.3</b> The contents octets for the constructed encoding shall consist
  * of zero, one, or more encodings.
+ * </p>
  * <blockquote>
  * NOTE &mdash; Each such encoding includes identifier, length, and contents octets,
  * and may include end-of-contents octets if it is constructed.
  * </blockquote>
- * </p>
  * <p>
  * <b>8.7.3.1</b> To encode an octetstring value in this way,
  * it is segmented. Each segment shall consist of a series of
  * consecutive octets of the value. There shall be no significance
- * placed on the segment boundaries.
+ * placed on the segment boundaries.</p>
  * <blockquote>
  * NOTE &mdash; A segment may be of size zero, i.e. contain no octets.
  * </blockquote>
- * </p>
  * <p>
  * <b>8.7.3.2</b> Each encoding in the contents octets shall represent
  * a segment of the overall octetstring, the encoding arising from
@@ -58,19 +57,20 @@ import org.bouncycastle.util.encoders.Hex;
  * In this recursive application, each segment is treated as if it were
  * a octetstring value. The encodings of the segments shall appear in the contents
  * octets in the order in which their octets appear in the overall value.
+ * </p>
  * <blockquote>
  * NOTE 1 &mdash; As a consequence of this recursion,
  * each encoding in the contents octets may itself
  * be primitive or constructed.
  * However, such encodings will usually be primitive.
- * </p><p>
+ * </blockquote>
+ * <blockquote>
  * NOTE 2 &mdash; In particular, the tags in the contents octets are always universal class, number 4.
  * </blockquote>
- * </p>
  * <p><b>9: Canonical encoding rules</b></p>
  * <p><b>9.1 Length forms</b></p>
  * <p>
- * If the encoding is constructed, it shall employ the indefinite length form.
+ * If the encoding is constructed, it shall employ the indefinite-length form.
  * If the encoding is primitive, it shall include the fewest length octets necessary.
  * [Contrast with 8.1.3.2 b).]
  * </p>
@@ -83,7 +83,7 @@ import org.bouncycastle.util.encoders.Hex;
  * the constructed encoding shall be encoded with a primitive encoding.
  * The encoding of each fragment, except possibly
  * the last, shall have 1000 contents octets. (Contrast with 8.21.6.)
- * </p>
+ * </p><p>
  * <b>10: Distinguished encoding rules</b>
  * </p><p>
  * <b>10.1 Length forms</b>
@@ -95,7 +95,6 @@ import org.bouncycastle.util.encoders.Hex;
  * For BIT STRING, OCTET STRING and restricted character string types,
  * the constructed form of encoding shall not be used.
  * (Contrast with 8.21.6.)
- * </p>
  */
 public abstract class ASN1OctetString
     extends ASN1Primitive
@@ -106,28 +105,78 @@ public abstract class ASN1OctetString
     /**
      * return an Octet String from a tagged object.
      *
-     * @param obj the tagged object holding the object we want.
+     * @param taggedObject the tagged object holding the object we want.
      * @param explicit true if the object is meant to be explicitly
      *              tagged false otherwise.
      * @exception IllegalArgumentException if the tagged object cannot
      *              be converted.
      */
     public static ASN1OctetString getInstance(
-        ASN1TaggedObject    obj,
+        ASN1TaggedObject    taggedObject,
         boolean             explicit)
     {
-        ASN1Primitive o = obj.getObject();
+        if (explicit)
+        {
+            if (!taggedObject.isExplicit())
+            {
+                throw new IllegalArgumentException("object implicit - explicit expected.");
+            }
 
-        if (explicit || o instanceof ASN1OctetString)
-        {
-            return getInstance(o);
+            return getInstance(taggedObject.getObject());
         }
-        else
+
+        ASN1Primitive o = taggedObject.getObject();
+
+        /*
+         * constructed object which appears to be explicitly tagged and it's really implicit means
+         * we have to add the surrounding octet string.
+         */
+        if (taggedObject.isExplicit())
         {
-            return BEROctetString.fromSequence(ASN1Sequence.getInstance(o));
+            ASN1OctetString singleSegment = getInstance(o);
+
+            if (taggedObject instanceof BERTaggedObject)
+            {
+                return new BEROctetString(new ASN1OctetString[]{ singleSegment });
+            }
+
+            // TODO Should really be similar to the BERTaggedObject case above:
+//            return new DLOctetString(new ASN1OctetString[]{ singleSegment });
+            return (ASN1OctetString)new BEROctetString(new ASN1OctetString[]{ singleSegment }).toDLObject();
         }
+
+        if (o instanceof ASN1OctetString)
+        {
+            ASN1OctetString s = (ASN1OctetString)o;
+
+            if (taggedObject instanceof BERTaggedObject)
+            {
+                return s;
+            }
+
+            return (ASN1OctetString)s.toDLObject();
+        }
+
+        /*
+         * in this case the parser returns a sequence, convert it into an octet string.
+         */
+        if (o instanceof ASN1Sequence)
+        {
+            ASN1Sequence s = (ASN1Sequence)o;
+
+            if (taggedObject instanceof BERTaggedObject)
+            {
+                return BEROctetString.fromSequence(s);
+            }
+
+            // TODO Should really be similar to the BERTaggedObject case above:
+//            return DLOctetString.fromSequence(s);
+            return (ASN1OctetString)BEROctetString.fromSequence(s).toDLObject();
+        }
+
+        throw new IllegalArgumentException("unknown object in getInstance: " + taggedObject.getClass().getName());
     }
-    
+
     /**
      * return an Octet String from the given object.
      *
@@ -145,7 +194,7 @@ public abstract class ASN1OctetString
         {
             try
             {
-                return ASN1OctetString.getInstance(ASN1Primitive.fromByteArray((byte[])obj));
+                return getInstance(fromByteArray((byte[])obj));
             }
             catch (IOException e)
             {
@@ -166,6 +215,8 @@ public abstract class ASN1OctetString
     }
 
     /**
+     * Base constructor.
+     *
      * @param string the octets making up the octet string.
      */
     public ASN1OctetString(
@@ -173,7 +224,7 @@ public abstract class ASN1OctetString
     {
         if (string == null)
         {
-            throw new NullPointerException("string cannot be null");
+            throw new NullPointerException("'string' cannot be null");
         }
         this.string = string;
     }
@@ -241,11 +292,10 @@ public abstract class ASN1OctetString
         return new DEROctetString(string);
     }
 
-    abstract void encode(ASN1OutputStream out)
-        throws IOException;
+    abstract void encode(ASN1OutputStream out, boolean withTag) throws IOException;
 
     public String toString()
     {
-      return "#"+new String(Hex.encode(string));
+      return "#" + Strings.fromByteArray(Hex.encode(string));
     }
 }

@@ -1,11 +1,11 @@
 package org.bouncycastle.crypto.generators;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
 import org.bouncycastle.crypto.params.DHParameters;
 import org.bouncycastle.math.ec.WNafUtil;
 import org.bouncycastle.util.BigIntegers;
-
-import banki.java.security.SecureRandom;
-import banki.util.BigInteger;
 
 class DHKeyGeneratorHelper
 {
@@ -27,7 +27,7 @@ class DHKeyGeneratorHelper
             int minWeight = limit >>> 2;
             for (;;)
             {
-                BigInteger x = new BigInteger(limit, random).setBit(limit - 1);
+                BigInteger x = BigIntegers.createRandomBigInteger(limit, random).setBit(limit - 1);
                 if (WNafUtil.getNafWeight(x) >= minWeight)
                 {
                     return x;

@@ -6,9 +6,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.List;
+import banki.io.IOException;
+import banki.lang.reflect.Type;
+import banki.util.List;
 
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;

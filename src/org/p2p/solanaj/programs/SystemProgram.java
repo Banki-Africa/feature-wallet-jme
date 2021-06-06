@@ -1,6 +1,6 @@
 package org.p2p.solanaj.programs;
 
-import java.util.ArrayList;
+import banki.util.ArrayList;
 
 import org.p2p.solanaj.core.PublicKey;
 import org.p2p.solanaj.core.TransactionInstruction;

@@ -1,9 +1,9 @@
 package org.p2p.solanaj.core;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
+import banki.util.ArrayList;
+import banki.util.Collection;
+import banki.util.Comparator;
+import banki.util.HashMap;
 
 public class AccountKeysList {
     private HashMap<String, AccountMeta> accounts;

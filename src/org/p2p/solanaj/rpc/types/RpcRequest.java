@@ -1,7 +1,7 @@
 package org.p2p.solanaj.rpc.types;
 
-import java.util.List;
-import java.util.UUID;
+import banki.util.List;
+import banki.util.UUID;
 
 import com.squareup.moshi.Json;
 

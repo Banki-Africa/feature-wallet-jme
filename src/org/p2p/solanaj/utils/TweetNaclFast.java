@@ -4,10 +4,10 @@ package org.p2p.solanaj.utils;
 
 // Copyright (c) 2014 Tom Zhou<appnet.link@gmail.com>
 
-import java.io.UnsupportedEncodingException;
-import java.security.SecureRandom;
-import java.lang.System;
-import java.util.concurrent.atomic.AtomicLong;
+import banki.io.UnsupportedEncodingException;
+import banki.security.SecureRandom;
+import banki.lang.System;
+import banki.util.concurrent.atomic.AtomicLong;
 
 /*
  * @description 
@@ -3404,7 +3404,7 @@ public final class TweetNaclFast {
     return b;
   }
 
-	// public static boolean java.util.Arrays.equals(array1, array2);
+	// public static boolean banki.util.Arrays.equals(array1, array2);
 
   // Check that a pubkey is on the curve.
   public static int is_on_curve(byte p[]) {

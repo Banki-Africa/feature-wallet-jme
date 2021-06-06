@@ -1,8 +1,8 @@
 package org.p2p.solanaj.rpc.types;
 
-import java.util.AbstractMap;
-import java.util.List;
-import java.util.Base64;
+import banki.util.AbstractMap;
+import banki.util.List;
+import banki.util.Base64;
 
 import com.squareup.moshi.Json;
 

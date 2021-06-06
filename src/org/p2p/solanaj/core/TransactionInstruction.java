@@ -1,6 +1,6 @@
 package org.p2p.solanaj.core;
 
-import java.util.List;
+import banki.util.List;
 
 public class TransactionInstruction {
 

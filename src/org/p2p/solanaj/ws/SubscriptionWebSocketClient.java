@@ -1,11 +1,11 @@
 package org.p2p.solanaj.ws;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import banki.net.URI;
+import banki.net.URISyntaxException;
+import banki.util.ArrayList;
+import banki.util.HashMap;
+import banki.util.List;
+import banki.util.Map;
 
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;

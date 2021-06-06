@@ -1,6 +1,6 @@
 package org.p2p.solanaj.rpc.types;
 
-import java.util.List;
+import banki.util.List;
 
 import com.squareup.moshi.Json;
 

@@ -1,6 +1,6 @@
 package org.p2p.solanaj.rpc.types;
 
-import java.util.AbstractMap;
+import banki.util.AbstractMap;
 
 import com.squareup.moshi.Json;
 

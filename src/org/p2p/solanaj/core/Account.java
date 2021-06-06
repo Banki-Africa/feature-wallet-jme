@@ -1,6 +1,6 @@
 package org.p2p.solanaj.core;
 
-import java.util.List;
+import banki.util.List;
 
 import org.bitcoinj.crypto.DeterministicHierarchy;
 import org.bitcoinj.crypto.DeterministicKey;

@@ -1,9 +1,9 @@
 package org.p2p.solanaj.core;
 
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import banki.nio.ByteBuffer;
+import banki.util.ArrayList;
+import banki.util.Arrays;
+import banki.util.List;
 
 import org.banki.util.Base58;
 import org.p2p.solanaj.utils.ShortvecEncoding;

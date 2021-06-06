@@ -2,9 +2,9 @@ package org.p2p.solanaj.utils;
 
 import static org.bitcoinj.core.Utils.*;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.math.BigInteger;
+import banki.io.IOException;
+import banki.io.OutputStream;
+import banki.math.BigInteger;
 
 public class ByteUtils {
     public static final int UINT_32_LENGTH = 4;

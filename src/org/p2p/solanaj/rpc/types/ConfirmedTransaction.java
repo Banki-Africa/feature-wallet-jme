@@ -92,60 +92,6 @@ public class ConfirmedTransaction {
 
     }
 
-    public static class TokenBalance {
-
-        public static class UiTokenAmount {
-            @Json(name = "amount")
-            private Long amount;
-
-            @Json(name = "decimals")
-            private Double decimals;
-
-            @Json(name = "uiAmount")
-            private Double uiAmount;
-
-            @Json(name = "uiAmountString")
-            private String uiAmountString;
-
-            public Long getAmount() {
-                return amount;
-            }
-
-            public Double getDecimals() {
-                return decimals;
-            }
-
-            public Double getUiAmount() {
-                return uiAmount;
-            }
-
-            public String getUiAmountString() {
-                return uiAmountString;
-            }
-        }
-
-        @Json(name = "accountIndex")
-        private Double accountIndex;
-
-        @Json(name = "mint")
-        private String mint;
-
-        @Json(name = "uiTokenAmount")
-        private UiTokenAmount uiTokenAmount;
-
-        public Double getAccountIndex() {
-            return accountIndex;
-        }
-
-        public String getMint() {
-            return mint;
-        }
-
-        public UiTokenAmount getUiTokenAmount() {
-            return uiTokenAmount;
-        }
-    }
-
     public static class Meta {
 
         @Json(name = "err")
@@ -154,10 +100,6 @@ public class ConfirmedTransaction {
         private long fee;
         @Json(name = "innerInstructions")
         private List<Object> innerInstructions = null;
-        @Json(name = "preTokenBalances")
-        private List<TokenBalance> preTokenBalances = null;
-        @Json(name = "postTokenBalances")
-        private List<TokenBalance> postTokenBalances = null;
         @Json(name = "postBalances")
         private List<Long> postBalances = null;
         @Json(name = "preBalances")
@@ -189,13 +131,6 @@ public class ConfirmedTransaction {
             return status;
         }
 
-        public List<TokenBalance> getPreTokenBalances() {
-            return preTokenBalances;
-        }
-
-        public List<TokenBalance> getPostTokenBalances() {
-            return postTokenBalances;
-        }
     }
 
     public static class Transaction {

@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bitcoinj.core.Base58;
+import org.banki.util.Base58;
 
 import org.p2p.solanaj.utils.ShortvecEncoding;
 

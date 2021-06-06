@@ -8,7 +8,7 @@ import com.squareup.moshi.Json;
 
 import org.p2p.solanaj.rpc.types.RpcSendTransactionConfig.Encoding;
 
-import org.bitcoinj.core.Base58;
+import org.banki.util.Base58;
 
 public class ProgramAccount {
 
@@ -51,7 +51,7 @@ public class ProgramAccount {
         }
 
         public byte[] getDecodedData() {
-            if (encoding != null && encoding.equals(Encoding.base64.toString())) {
+            if (encoding.equals(Encoding.base64.toString())) {
                 return Base64.getDecoder().decode(data);
             }
 

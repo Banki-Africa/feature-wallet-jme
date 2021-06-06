@@ -17,12 +17,11 @@ import com.squareup.moshi.Types;
 import org.p2p.solanaj.rpc.types.RpcRequest;
 import org.p2p.solanaj.rpc.types.RpcResponse;
 
-import javax.net.ssl.*;
-
 public class RpcClient {
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
     private String endpoint;
-    private OkHttpClient httpClient;
+    private OkHttpClient httpClient = new OkHttpClient();
     private RpcApi rpcApi;
 
     public RpcClient(Cluster endpoint) {
@@ -31,9 +30,6 @@ public class RpcClient {
 
     public RpcClient(String endpoint) {
         this.endpoint = endpoint;
-        this.httpClient = new OkHttpClient.Builder()
-                //.addInterceptor(new LoggingInterceptor())
-                .build();
         rpcApi = new RpcApi(this);
     }
 
@@ -49,18 +45,13 @@ public class RpcClient {
 
         try {
             Response response = httpClient.newCall(request).execute();
-            final String result = response.body().string();
-            // System.out.println("Response = " + result);
-            RpcResponse<T> rpcResult = resultAdapter.fromJson(result);
+            RpcResponse<T> rpcResult = resultAdapter.fromJson(response.body().string());
 
             if (rpcResult.getError() != null) {
                 throw new RpcException(rpcResult.getError().getMessage());
             }
 
             return (T) rpcResult.getResult();
-        } catch (SSLHandshakeException e) {
-            this.httpClient = new OkHttpClient.Builder().build();
-            throw new RpcException(e.getMessage());
         } catch (IOException e) {
             throw new RpcException(e.getMessage());
         }

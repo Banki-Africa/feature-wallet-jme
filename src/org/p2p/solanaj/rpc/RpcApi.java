@@ -1,12 +1,21 @@
 package org.p2p.solanaj.rpc;
 
-import banki.java.util.*;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.List;
 
 import org.p2p.solanaj.core.Account;
 import org.p2p.solanaj.core.PublicKey;
 import org.p2p.solanaj.core.Transaction;
-import org.p2p.solanaj.rpc.types.*;
 import org.p2p.solanaj.rpc.types.ConfigObjects.*;
+import org.p2p.solanaj.rpc.types.AccountInfo;
+import org.p2p.solanaj.rpc.types.ConfirmedTransaction;
+import org.p2p.solanaj.rpc.types.ProgramAccount;
+import org.p2p.solanaj.rpc.types.RecentBlockhash;
+import org.p2p.solanaj.rpc.types.RpcSendTransactionConfig;
+import org.p2p.solanaj.rpc.types.SignatureInformation;
 import org.p2p.solanaj.rpc.types.RpcResultTypes.ValueLong;
 import org.p2p.solanaj.rpc.types.RpcSendTransactionConfig.Encoding;
 import org.p2p.solanaj.ws.SubscriptionWebSocketClient;
@@ -20,27 +29,16 @@ public class RpcApi {
     }
 
     public String getRecentBlockhash() throws RpcException {
-        List<Object> params = new ArrayList<>();
-        Map<String, Object> parameterMap = new HashMap<>();
-        parameterMap.put("commitment", "processed");
-        params.add(parameterMap);
-
-        return client.call("getRecentBlockhash", params, RecentBlockhash.class).getRecentBlockhash();
-    }
-
-    public String sendTransaction(Transaction transaction, Account signer, String recentBlockHash) throws RpcException {
-        return sendTransaction(transaction, Collections.singletonList(signer), recentBlockHash);
+        return client.call("getRecentBlockhash", null, RecentBlockhash.class).getRecentBlockhash();
     }
 
     public String sendTransaction(Transaction transaction, Account signer) throws RpcException {
-        return sendTransaction(transaction, Collections.singletonList(signer), null);
+        return sendTransaction(transaction, Arrays.asList(signer));
     }
 
-    public String sendTransaction(Transaction transaction, List<Account> signers, String recentBlockHash) throws RpcException {
-        if (recentBlockHash == null) {
-            recentBlockHash = getRecentBlockhash();
-        }
-        transaction.setRecentBlockHash(recentBlockHash);
+    public String sendTransaction(Transaction transaction, List<Account> signers) throws RpcException {
+        String recentBlockhash = getRecentBlockhash();
+        transaction.setRecentBlockHash(recentBlockhash);
         transaction.sign(signers);
         byte[] serializedTransaction = transaction.serialize();
 
@@ -56,7 +54,7 @@ public class RpcApi {
 
     public void sendAndConfirmTransaction(Transaction transaction, List<Account> signers,
             NotificationEventListener listener) throws RpcException {
-        String signature = sendTransaction(transaction, signers, null);
+        String signature = sendTransaction(transaction, signers);
 
         SubscriptionWebSocketClient subClient = SubscriptionWebSocketClient.getInstance(client.getEndpoint());
         subClient.signatureSubscribe(signature, listener);
@@ -132,88 +130,13 @@ public class RpcApi {
         return result;
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public List<ProgramAccount> getProgramAccounts(PublicKey account, List<Memcmp> memcmpList, int dataSize) throws RpcException {
-        List<Object> params = new ArrayList<>();
-
-        params.add(account.toString());
-
-        List<Object> filters = new ArrayList<>();
-        memcmpList.forEach(memcmp -> {
-            filters.add(new Filter(memcmp));
-        });
-
-        filters.add(new DataSize(dataSize));
-
-        ProgramAccountConfig programAccountConfig = new ProgramAccountConfig(filters);
-        params.add(programAccountConfig);
-
-        List<AbstractMap> rawResult = client.call("getProgramAccounts", params, List.class);
-
-        List<ProgramAccount> result = new ArrayList<>();
-        for (AbstractMap item : rawResult) {
-            result.add(new ProgramAccount(item));
-        }
-
-        return result;
-    }
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public List<ProgramAccount> getProgramAccounts(PublicKey account, List<Memcmp> memcmpList) throws RpcException {
-        List<Object> params = new ArrayList<>();
-
-        params.add(account.toString());
-
-        List<Object> filters = new ArrayList<>();
-        memcmpList.forEach(memcmp -> {
-            filters.add(new Filter(memcmp));
-        });
-
-        ProgramAccountConfig programAccountConfig = new ProgramAccountConfig(filters);
-        params.add(programAccountConfig);
-
-        List<AbstractMap> rawResult = client.call("getProgramAccounts", params, List.class);
-
-        List<ProgramAccount> result = new ArrayList<>();
-        for (AbstractMap item : rawResult) {
-            result.add(new ProgramAccount(item));
-        }
-
-        return result;
-    }
-
     public AccountInfo getAccountInfo(PublicKey account) throws RpcException {
-        return getAccountInfo(account, new HashMap<>());
-    }
-
-    public AccountInfo getAccountInfo(PublicKey account, Map<String, Object> additionalParams) throws RpcException {
-        List<Object> params = new ArrayList<>();
-
-        Map<String, Object> parameterMap = new HashMap<>();
-
-        parameterMap.put("commitment", additionalParams.getOrDefault("commitment", "max"));
-        parameterMap.put("encoding", additionalParams.getOrDefault("encoding", "base64"));
-
-        // No default for dataSlice
-        if (additionalParams.containsKey("dataSlice")) {
-            parameterMap.put("dataSlice", additionalParams.get("dataSlice"));
-        }
+        List<Object> params = new ArrayList<Object>();
 
         params.add(account.toString());
-        params.add(parameterMap);
+        params.add(new RpcSendTransactionConfig());
 
         return client.call("getAccountInfo", params, AccountInfo.class);
-    }
-
-    public SplTokenAccountInfo getSplTokenAccountInfo(PublicKey account) throws RpcException {
-        List<Object> params = new ArrayList<>();
-        Map<String, Object> parameterMap = new HashMap<>();
-        parameterMap.put("encoding", "jsonParsed");
-
-        params.add(account.toString());
-        params.add(parameterMap);
-
-        return client.call("getAccountInfo", params, SplTokenAccountInfo.class);
     }
 
     public long getMinimumBalanceForRentExemption(long dataLength) throws RpcException {
@@ -240,80 +163,5 @@ public class RpcApi {
 
         return client.call("requestAirdrop", params, String.class);
     }
-
-    public BlockCommitment getBlockCommitment(long block) throws RpcException {
-        List<Object> params = new ArrayList<Object>();
-
-        params.add(block);
-
-        return client.call("getBlockCommitment", params, BlockCommitment.class);
-    }
-
-    public List<ClusterNode> getClusterNodes() throws RpcException {
-        List<Object> params = new ArrayList<Object>();
-
-        // TODO - fix uncasted type stuff
-        List<AbstractMap> rawResult = client.call("getClusterNodes", params, List.class);
-
-        List<ClusterNode> result = new ArrayList<>();
-        for (AbstractMap item : rawResult) {
-            result.add(new ClusterNode(item));
-        }
-
-        return result;
-    }
-
-    /**
-     * Returns identity and transaction information about a confirmed block in the ledger
-     * @return
-     * @throws RpcException
-     */
-    public Block getConfirmedBlock() throws RpcException {
-        // TODO
-        return null;
-    }
-
-
-    /**
-     * Returns information about the current epoch
-     * @return
-     * @throws RpcException
-     */
-    public EpochInfo getEpochInfo() throws RpcException {
-        List<Object> params = new ArrayList<Object>();
-
-        return client.call("getEpochInfo", params, EpochInfo.class);
-    }
-
-    public EpochSchedule getEpochSchedule() throws RpcException {
-        List<Object> params = new ArrayList<Object>();
-
-        return client.call("getEpochSchedule", params, EpochSchedule.class);
-    }
-
-    public PublicKey getTokenAccountsByOwner(PublicKey owner, PublicKey tokenMint) throws RpcException {
-        List<Object> params = new ArrayList<>();
-        params.add(owner.toBase58());
-
-        Map<String, Object> parameterMap = new HashMap<>();
-        parameterMap.put("mint", tokenMint.toBase58());
-        params.add(parameterMap);
-
-        Map<String, Object> rawResult = client.call("getTokenAccountsByOwner", params, Map.class);
-
-        PublicKey tokenAccountKey;
-
-        try {
-            String base58 = (String) ((Map) ((List) rawResult.get("value")).get(0)).get("pubkey");
-            tokenAccountKey = new PublicKey(base58);
-
-        } catch (Exception ex) {
-            throw new RpcException("unable to get token account by owner");
-        }
-
-        return tokenAccountKey;
-    }
-
-
 
 }

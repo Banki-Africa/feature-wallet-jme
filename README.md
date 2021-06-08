@@ -55,7 +55,7 @@ Our first goal was to find a local stablecoin so we formed a partnership with fi
 
 Initially, we worked on a dependency free version of the Banki feature wallet. Since we were developing on CLDC 1.1, [all signs](https://stackoverflow.com/a/10152212) pointed to us to calculating dependecy trees (we actually started doing this) and include sources into our project. Luckily, we have found a workaround on CLDC 1.8 which means we can include dependecies. 
 
-So far, we have 1 dendency: [Solanaj](https://github.com/skynetcapital/solanaj)
+So far, we have 1 dependency: [Solanaj](https://github.com/skynetcapital/solanaj)
 
 
 ## Installation + Emulation

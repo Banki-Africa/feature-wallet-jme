@@ -48,7 +48,7 @@ Highly secure
 
 ## Features
 
-<img src="res/features.png" width="200">
+<img src="res/features.png" width="600">
 
 
 ## Traction

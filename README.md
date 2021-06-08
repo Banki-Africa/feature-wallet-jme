@@ -3,9 +3,9 @@
 Solana feature phone client written for Java ME MIDP/CLDC. This client handles interactions between feature phone users and the [Solana RPC API.](https://docs.solana.com/developing/clients/jsonrpc-api) 
 
 <p align="center">
-  <img alt="auth" src="res/auth.png" width="45%">
+  <img alt="auth" src="res/auth.png" width="30%">
 &nbsp; &nbsp; &nbsp; &nbsp;
-  <img alt="menu" src="res/menu.png" width="45%">
+  <img alt="menu" src="res/menu.png" width="30%">
 </p>
 
 ## Background

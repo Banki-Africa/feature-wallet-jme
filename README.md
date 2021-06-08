@@ -1,27 +1,18 @@
 # Banki Wallet - Lightweight feature phone SPL Wallet
 
-Solana feature phone client written for Java ME MIDP/CLDC. This client handles interactions between feature phone users and the [Solana RPC API.](https://docs.solana.com/developing/clients/jsonrpc-api). 
+Solana feature phone client written for Java ME MIDP/CLDC. This client handles interactions between feature phone users and the [Solana RPC API.](https://docs.solana.com/developing/clients/jsonrpc-api) 
 
-
-## Table of contents
-
-- [Background](#background)
-    - [Problem](#problem)
-    - [Solution](#solution)
-- [Traction](#traction)
-    - [Extension](#extension)
-- [Features](#features)
-- [Competition](#competition)
-- [Roadmap](#roadmap)
-- [License](#license)
-- [Credits](#links)
-
+<p align="center">
+  <img alt="auth" src="res/auth.png" width="45%">
+&nbsp; &nbsp; &nbsp; &nbsp;
+  <img alt="menu" src="res/menu.png" width="45%">
+</p>
 
 ## Background
 
 ### Problem
 
-__African banks are taking advantage of the market__
+African banks are taking advantage of the market
 
 - Strict regulations and high costs have lead to an uncompetitive banking sector throughout Africa
 
@@ -33,7 +24,7 @@ __African banks are taking advantage of the market__
 
 ### Solution
 
-__Looks like a bank account, works like a crypto wallet__
+Looks like a bank account, works like a crypto wallet
 
 - Decentralized stablecoin centered mobile wallet
 
@@ -67,7 +58,7 @@ So far, we have 1 dendency: [Solanaj](https://github.com/skynetcapital/solanaj)
 
 ## Installation + Emulation
 
-To intall this on an emulator is pretty challenging. Most of Oracle's JME SDK's provide emulators but none of them seem to work. The only emulator we got working was [MicroEmulator.](https://microemulator.soft112.com/).
+To intall this on an emulator is pretty challenging. Most of Oracle's JME SDK's provide emulators but none of them seem to work. The only emulator we got working was [MicroEmulator.](https://microemulator.soft112.com/)
 
 To install and test our project, the easiest option would be to download the source code and compile either via command line or via Netbeans or Eclipse.
 

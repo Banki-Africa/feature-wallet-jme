@@ -1,6 +1,8 @@
 # Banki Wallet - Lightweight feature phone SPL Wallet
 
-Solana feature phone client written for Java ME MIDP/CLDC. This client handles interactions between feature phone users and the [Solana RPC API.](https://docs.solana.com/developing/clients/jsonrpc-api) 
+Solana feature phone client written for Java ME MIDP/CLDC. This client handles interactions between feature phone users and the [Solana RPC API.](https://docs.solana.com/developing/clients/jsonrpc-api)
+
+<br>
 
 <p align="center">
   <img alt="auth" src="res/auth.png" width="30%">
@@ -46,7 +48,7 @@ Highly secure
 
 To solve this problem we’ve decided to focus on the South African market first and eventually expand into the rest of Africa.
 
-Our first goal was to find a local stablecoin so we formed a partnership with fiat backed [zarp.cash(https://www.zarp.cash/), there are also algorithmic stablecoin providers such as [terra.money](https://www.terra.money/)
+Our first goal was to find a local stablecoin so we formed a partnership with fiat backed [zarp.cash](https://www.zarp.cash/), there are also algorithmic stablecoin providers such as [terra.money](https://www.terra.money/)
 
 
 ## Dependencies
